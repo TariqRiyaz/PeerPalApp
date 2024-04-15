@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
@@ -44,6 +46,7 @@ public class signUpActivity extends AppCompatActivity {
        password = findViewById(R.id.acc_Creation_Password);
        confirmPassword = findViewById(R.id.acc_Creation_Cofirm_Password);
        signupButton =findViewById(R.id.acc_Creation_signup_btn);
+       acc_Creation_loginRedirect = findViewById(R.id.acc_Creation_loginRedirect);
        mAuth =FirebaseAuth.getInstance();
 
        signupButton.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +78,7 @@ public class signUpActivity extends AppCompatActivity {
                }
            }
        });
-        signupButton.setOnClickListener(new View.OnClickListener() {
+        acc_Creation_loginRedirect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(signUpActivity.this, MainActivity.class));
@@ -99,7 +102,18 @@ public class signUpActivity extends AppCompatActivity {
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference reference =database.getReference("Users");
                     reference.child(uid).setValue(hashMap);
+                    Intent mainIntent = new Intent(signUpActivity.this, MainActivity.class);
+                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(mainIntent);
+                    finish();
+                } else {
+                    Toast.makeText(signUpActivity.this, "Error", Toast.LENGTH_LONG).show();
                 }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(signUpActivity.this, "Error Occurred", Toast.LENGTH_LONG).show();
             }
         });
     }
