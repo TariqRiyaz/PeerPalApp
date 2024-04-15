@@ -64,7 +64,7 @@
                 android:background="@drawable/red_border"
                 android:layout_marginTop="20dp"
                 android:padding="10dp"
-                android:hint="Email"
+                android:hint="Student Email"
                 android:textColor="@color/black"/>
 
             <EditText
@@ -75,6 +75,16 @@
                 android:layout_marginTop="20dp"
                 android:padding="10dp"
                 android:hint="Password"
+                android:textColor="@color/black"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/acc_Creation_Cofirm_Password"
+                android:background="@drawable/red_border"
+                android:layout_marginTop="20dp"
+                android:padding="10dp"
+                android:hint="Confirm Password"
                 android:textColor="@color/black"/>
             
             <Button
