@@ -52,6 +52,9 @@ public class signUpActivity extends AppCompatActivity {
        signupButton =findViewById(R.id.acc_Creation_signup_btn);
        acc_Creation_loginRedirect = findViewById(R.id.acc_Creation_loginRedirect);
        mAuth =FirebaseAuth.getInstance();
+       hobbies.add("gaming");
+       hobbies.add("Art");
+       hobbies.add("Hiking");
 
        signupButton.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -98,13 +101,14 @@ public class signUpActivity extends AppCompatActivity {
                     FirebaseUser currentUser = mAuth.getCurrentUser();
                     String email = currentUser.getEmail();
                     String uid = currentUser.getUid();
-                    HashMap<Object, String> hashMap =new HashMap<>();
+                    HashMap<String, Object> hashMap =new HashMap<>();
                     hashMap.put("email", email);
                     hashMap.put("uid", uid);
                     hashMap.put("firstName", firstName);
                     hashMap.put("Status", "online");
                     hashMap.put("image","");
                     hashMap.put("degree","");
+                    hashMap.put("hobbies",hobbies);
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference reference =database.getReference("Users");
                     reference.child(uid).setValue(hashMap);
