@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:id="@+id/peersCard"
+        app:cardElevation="8dp"
+        app:cardCornerRadius="16dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="5.5"
+            android:background="@drawable/card_border"
+            android:backgroundTint="@color/my_tertiary">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:weightSum="2"
+                android:layout_weight="1.5"
+                android:background="@drawable/card_border"
+                android:backgroundTint="@color/my_secondary">
+
+                <ImageView
+                    android:id="@+id/peersImage"
+                    android:layout_width="75dp"
+                    android:layout_height="match_parent"
+                    android:padding="15dp"
+                    app:srcCompat="@drawable/icon_peers" />
+
+                <TextView
+                    android:id="@+id/peersName"
+                    android:layout_width="191dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="User"
+                    android:textColor="@color/my_primary"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/peersConnect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/my_tertiary"
+                    android:text="Connect" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/peersDegree"
+                android:layout_width="match_parent"
+                android:layout_height="75px"
+                android:gravity="center_vertical"
+                android:textColor="@color/my_primary"
+                android:textSize="15dp"
+                android:paddingHorizontal="10dp"
+                android:text="Degree: "/>
+            
+            <TextView
+                android:id="@+id/peersHobbies"
+                android:layout_width="match_parent"
+                android:layout_height="75px"
+                android:gravity="center_vertical"
+                android:textColor="@color/my_primary"
+                android:textSize="15dp"
+                android:paddingHorizontal="10dp"
+                android:text="Hobbies:"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

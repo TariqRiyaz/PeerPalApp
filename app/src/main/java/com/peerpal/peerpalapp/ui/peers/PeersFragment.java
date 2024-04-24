@@ -24,10 +24,10 @@ public class PeersFragment extends Fragment {
         binding = FragmentPeersBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textPeers;
-        peersViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
+
+
 
     @Override
     public void onDestroyView() {
