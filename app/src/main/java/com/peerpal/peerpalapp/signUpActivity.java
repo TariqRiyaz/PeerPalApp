@@ -26,7 +26,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class signUpActivity extends AppCompatActivity {
 
@@ -35,6 +37,8 @@ public class signUpActivity extends AppCompatActivity {
     Button signupButton;
 
     private FirebaseAuth mAuth;
+
+    List<String> hobbies = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,10 +103,12 @@ public class signUpActivity extends AppCompatActivity {
                     hashMap.put("uid", uid);
                     hashMap.put("firstName", firstName);
                     hashMap.put("Status", "online");
+                    hashMap.put("image","");
+                    hashMap.put("degree","");
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference reference =database.getReference("Users");
                     reference.child(uid).setValue(hashMap);
-                    Intent mainIntent = new Intent(signUpActivity.this, MainActivity.class);
+                    Intent mainIntent = new Intent(signUpActivity.this, profileCreation.class);
                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
                     finish();
