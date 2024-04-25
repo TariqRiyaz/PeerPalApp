@@ -34,10 +34,16 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
     }
     @Override
     public void onBindViewHolder(@NonNull PeersViewHolder holder, int position) {
+        String hobbyString = peersList.get(position).getPeersHobbies()[0];
+
+        for (int i = 1; i < peersList.get(position).getPeersHobbies().length; i++) {
+            hobbyString += (", " + peersList.get(position).getPeersHobbies()[i]);
+        }
+
         //holder.peersImage.setImageResource(peersList.get(position).getPeersImage());
         holder.peersName.setText(peersList.get(position).getPeersName());
         holder.peersDegree.setText("Degree: " + peersList.get(position).getPeersDegree());
-        holder.peersHobbies.setText("Hobbies: " + peersList.get(position).getPeersHobbies().toString());
+        holder.peersHobbies.setText("Hobbies: " + hobbyString);
     }
     @Override
     public int getItemCount() {
