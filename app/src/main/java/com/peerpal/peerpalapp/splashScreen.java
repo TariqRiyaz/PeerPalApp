@@ -33,7 +33,7 @@ public class splashScreen extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else {
-                    Intent mainIntent = new Intent(splashScreen.this, MainActivity.class);
+                    Intent mainIntent = new Intent(splashScreen.this, profileCreation.class);
                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
                     finish();
