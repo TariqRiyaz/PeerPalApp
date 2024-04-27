@@ -94,6 +94,10 @@ public class profileCreation extends AppCompatActivity {
 
     String currentUserId;
 
+    String currentuserEmail;
+
+    String username;
+
     private String storagePath = "Users_Profile_Cover_image/";
 
     private String profileOrCoverPhoto;
@@ -128,9 +132,27 @@ public class profileCreation extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
         currentUserId = user.getUid();
+        currentuserEmail = user.getEmail();
         documentReference = db.collection("Users").document(currentUserId);
         storageReference = FirebaseStorage.getInstance().getReference("profile_Images");
-        databaseReference =  database.getReference("NewUsers");
+        databaseReference =  database.getReference("Users");
+
+        Query query = databaseReference.orderByChild("email").equalTo(firebaseUser.getEmail());
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    // Retrieving Data from firebase
+                    String name = "" + dataSnapshot1.child("firstName").getValue();
+                    username = name;
+
+            }
+                }  @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("Error nothing is there");
+            }
+        });
 
         saveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,14 +276,15 @@ public class profileCreation extends AppCompatActivity {
                         Log.d("completor", "onComplete: sucessful");
 
                         Map<String, Object> profile = new HashMap<>();
+                        profile.put("uid", currentUserId);
+                        profile.put("Name",username);
+                        profile.put("Email", currentuserEmail);
                         profile.put("degree", degreeInfo);
                         profile.put("image",downloadUri.toString());
                         profile.put("hobbies", selectedHobbies);
 
                         Map<String, Object> realtimeDbUpdate  = new HashMap<>();
                         realtimeDbUpdate.put("image", downloadUri.toString());
-
-                        databaseReference.child(currentUserId).setValue(profile);
 
                         documentReference.set(profile)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {

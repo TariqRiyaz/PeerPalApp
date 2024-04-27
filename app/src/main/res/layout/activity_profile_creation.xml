@@ -20,12 +20,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!--        <ImageView-->
-        <!--            android:id="@+id/imageViewEdit"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            android:clickable="true"-->
-        <!--            android:scaleType="fitCenter" />-->
+                <ImageView
+                    android:id="@+id/imageViewEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:scaleType="fitCenter" />
 
     </androidx.cardview.widget.CardView>
 
@@ -106,7 +106,7 @@
         android:layout_height="63dp"
         android:onClick="onHobbyClicked"
         android:padding="15dp"
-        android:text="gaming"
+        android:text="Gaming"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.117"
