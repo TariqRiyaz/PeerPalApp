@@ -296,7 +296,7 @@ public class profileCreation extends AppCompatActivity {
                                         handler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                Intent intent = new Intent(profileCreation.this, splashScreen.class);
+                                                Intent intent = new Intent(profileCreation.this, Login.class);
                                                 startActivity(intent);
                                             }
                                         }, 2000);

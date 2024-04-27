@@ -88,7 +88,7 @@ public class signUpActivity extends AppCompatActivity {
         acc_Creation_loginRedirect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(signUpActivity.this, MainActivity.class));
+                startActivity(new Intent(signUpActivity.this, Login.class));
             }
         });
     }
