@@ -95,8 +95,8 @@ public class Login extends AppCompatActivity {
                     FirebaseUser user = firebaseAuth.getCurrentUser();
 
                     if(task.getResult().getAdditionalUserInfo().isNewUser()){
-                        String email = currentUser.getEmail();
-                        String uid = currentUser.getUid();
+                        String email = user.getEmail();
+                        String uid = user.getUid();
                         HashMap<String, Object> hashMap =new HashMap<>();
                         hashMap.put("email", email);
                         hashMap.put("uid", uid);
@@ -112,6 +112,8 @@ public class Login extends AppCompatActivity {
                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
                     finish();
+                } else {
+                    Toast.makeText(Login.this, "Login Failed", Toast.LENGTH_LONG).show();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {

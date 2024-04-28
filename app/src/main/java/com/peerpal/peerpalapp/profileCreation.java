@@ -137,22 +137,22 @@ public class profileCreation extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference("profile_Images");
         databaseReference =  database.getReference("Users");
 
-        Query query = databaseReference.orderByChild("email").equalTo(firebaseUser.getEmail());
-
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    // Retrieving Data from firebase
-                    String name = "" + dataSnapshot1.child("firstName").getValue();
-                    username = name;
-
-            }
-                }  @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                System.out.println("Error nothing is there");
-            }
-        });
+//        Query query = databaseReference.orderByChild("email").equalTo(firebaseUser.getEmail());
+//
+//        query.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+//                    // Retrieving Data from firebase
+//                    String name = "" + dataSnapshot1.child("firstName").getValue();
+//                    username = name;
+//
+//            }
+//                }  @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                System.out.println("Error nothing is there");
+//            }
+//        });
 
         saveProfile.setOnClickListener(new View.OnClickListener() {
             @Override

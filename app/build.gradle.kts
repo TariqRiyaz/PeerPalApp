@@ -43,7 +43,6 @@ dependencies {
     implementation ("com.google.firebase:firebase-storage:16.0.1")
     implementation ("com.google.firebase:firebase-firestore:24.11.1")
     implementation ("com.squareup.picasso:picasso:2.8")
-    implementation ("com.github.TutorialsAndroid:GButton:v1.0.19")
     implementation(libs.constraintlayout)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
