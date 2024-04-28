@@ -12,10 +12,12 @@
         android:id="@+id/PeerPal_logo"
         android:layout_width="258dp"
         android:layout_height="119dp"
-        android:layout_marginTop="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/peerpal_logo_slogan"
-        tools:layout_editor_absoluteX="76dp" />
+        app:srcCompat="@drawable/peerpal_logo_slogan" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -48,7 +50,7 @@
 
 
             <EditText
-                android:id="@+id/acc_Creation_Email"
+                android:id="@+id/login_Email"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -58,17 +60,18 @@
                 android:textColor="@color/black" />
 
             <EditText
-                android:id="@+id/acc_Creation_Password"
+                android:id="@+id/login_Password"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/red_border"
                 android:hint="Password"
+                android:inputType="textPassword"
                 android:padding="10dp"
                 android:textColor="@color/black" />
 
             <Button
-                android:id="@+id/acc_Creation_signup_btn"
+                android:id="@+id/loginBtnAccept"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
