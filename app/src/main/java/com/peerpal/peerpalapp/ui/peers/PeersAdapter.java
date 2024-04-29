@@ -1,5 +1,6 @@
 package com.peerpal.peerpalapp.ui.peers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -34,21 +37,34 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
         return new PeersViewHolder(view);
     }
     @Override
-    public void onBindViewHolder(@NonNull PeersViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PeersViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String hobbyString = peersList.get(position).getPeersHobbies()[0];
 
         for (int i = 1; i < peersList.get(position).getPeersHobbies().length; i++) {
-            hobbyString += (", " + peersList.get(position).getPeersHobbies()[i]);
+            if (!peersList.get(position).getPeersHobbies()[i].equals("")) {
+                hobbyString += (", " + peersList.get(position).getPeersHobbies()[i]);
+            }
         }
 
         Picasso.get().load(peersList.get(position).getPeersImage()).into(holder.peersImage);
         holder.peersName.setText(peersList.get(position).getPeersName());
         holder.peersDegree.setText("Degree: " + peersList.get(position).getPeersDegree());
         holder.peersHobbies.setText("Hobbies: " + hobbyString);
+        holder.peersConnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                connectPeers(peersList.get(position).getPeersUID());
+            }
+        });
     }
     @Override
     public int getItemCount() {
         return peersList.size();
+    }
+
+    public void connectPeers(String uid) {
+
+        Toast.makeText(context, uid, Toast.LENGTH_SHORT).show();
     }
 }
 
@@ -56,6 +72,7 @@ class PeersViewHolder extends RecyclerView.ViewHolder {
     ImageView peersImage;
     TextView peersName, peersDegree, peersHobbies;
     CardView peersCard;
+    Button peersConnect;
 
     public PeersViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -65,5 +82,6 @@ class PeersViewHolder extends RecyclerView.ViewHolder {
         peersDegree = itemView.findViewById(R.id.peersDegree);
         peersHobbies = itemView.findViewById(R.id.peersHobbies);
         peersCard = itemView.findViewById(R.id.peersCard);
+        peersConnect = itemView.findViewById((R.id.peersConnect));
     }
 }
