@@ -1,8 +1,11 @@
 package com.peerpal.peerpalapp.ui.peers;
 
+import static android.content.ContentValues.TAG;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +18,20 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.peerpal.peerpalapp.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
 
 public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
     private Context context;
@@ -62,10 +75,62 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
         return peersList.size();
     }
 
-    public void connectPeers(String uid) {
+    public void connectPeers(String peerUID) {
+        String selfUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference selfDocRef = db.collection("peers").document(selfUID);
 
-        Toast.makeText(context, uid, Toast.LENGTH_SHORT).show();
-    }
+        selfDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+
+                    if (!((ArrayList<String>)document.get("connections")).contains(peerUID)) {
+                        ArrayList<String> selfArray = (ArrayList<String>)document.get("connections");
+                        selfArray.add(peerUID);
+                        selfDocRef.update("connections", selfArray);
+                    }
+
+                } else {
+                    Log.d(TAG, "Error getting user document: ", task.getException());
+                }
+            }
+        });
+
+        //Check to create chatroom (Move to messages fragment)
+        db.collection("peers")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        boolean selfUIDCheck = false;
+                        boolean peerUIDCheck = false;
+
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String,Object> documentData = document.getData();
+                                if (!documentData.get("uid").toString().equals(selfUID)) {
+                                    if (((ArrayList<String>)documentData.get("connections")).contains(selfUID) && (documentData.get("uid").equals(peerUID))) {
+                                        selfUIDCheck = true;
+                                    }
+                                } else {
+                                    if (((ArrayList<String>)documentData.get("connections")).contains(peerUID) && (documentData.get("uid").equals(selfUID))) {
+                                        peerUIDCheck = true;
+                                    }
+                                }
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+
+                        if (selfUIDCheck && peerUIDCheck) {
+                            //Opens chatroom
+                            Toast.makeText(context.getApplicationContext(), ("CHATROOM OPEN WITH: " + peerUID), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
 }
 
 class PeersViewHolder extends RecyclerView.ViewHolder {

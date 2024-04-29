@@ -171,8 +171,6 @@ public class profileCreation extends AppCompatActivity {
                 startActivityForResult(intent, PICK_IMAGE);
             }
         });
-
-
     }
 
     public void onHobbyClicked(View view) {

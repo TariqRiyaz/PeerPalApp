@@ -96,8 +96,6 @@ public class PeersFragment extends Fragment {
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                        Log.d("User Data: ", peersList.get(0).getPeersName());
-
 
                         DocumentReference docRef = db.collection("peers").document(peersUID);
                         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -105,6 +103,14 @@ public class PeersFragment extends Fragment {
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
+
+                                    for (int i = 0; i < ((ArrayList<String>)document.get("connections")).size(); i++) {
+                                        for (int j = 0; j < peersList.toArray().length; j++) {
+                                            if (peersList.get(j).getPeersUID().equals(((ArrayList<String>)document.get("connections")).get(i))) {
+                                                peersList.remove(j);
+                                            }
+                                        }
+                                    }
 
                                     for (int i = 0; i < ((ArrayList<String>)document.get("hobbies")).size(); i++) {
                                         peersSelfHobbies[i] = ((ArrayList<String>)document.get("hobbies")).get(i);
