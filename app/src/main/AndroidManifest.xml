@@ -13,17 +13,32 @@
         android:theme="@style/Theme.PeerPalApp"
         tools:targetApi="31">
         <activity
-            android:name=".profileCreation"
+            android:name=".annoucement"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity
+            android:name=".ViewProfile"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".profileCreation"
+            android:exported="true" />
         <activity
             android:name=".splashScreen"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".signUpActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -33,6 +48,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Login"
+            android:exported="true" />
     </application>
 
 </manifest>
