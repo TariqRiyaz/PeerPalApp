@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.collect.Comparators;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -45,11 +46,12 @@ public class PeersFragment extends Fragment {
 
     RecyclerView recyclerView;
     ArrayList<PeersClass> peersList;
-
     PeersClass peersClass;
     PeersAdapter adapter;
-    String[] peersSelfHobbies;
+    String[] peersSelfHobbies = new String[]{"", "", ""};
+    ;
     String peersUID;
+    private FirebaseAuth firebaseAuth;
 
     public PeersFragment() {
 
@@ -61,9 +63,9 @@ public class PeersFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_peers, container, false);
         peersList = new ArrayList<PeersClass>();
         recyclerView = view.findViewById(R.id.recyclerView);
-        peersUID = "LAA";
+        firebaseAuth = FirebaseAuth.getInstance();
+        peersUID = firebaseAuth.getCurrentUser().getUid();
         setupRecyclerView();
-
         return view;
     }
 
@@ -71,7 +73,7 @@ public class PeersFragment extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(PeersFragment.this.getContext(), 1);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        /*FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("peers")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -81,52 +83,43 @@ public class PeersFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String,Object> documentData = document.getData();
                                 if (!documentData.get("uid").toString().equals(peersUID)) {
-                                    peersClass = new PeersClass(documentData.get("uid").toString(), documentData.get("name").toString(), documentData.get("degree").toString(), (String[]) documentData.get("hobbies"), 1);
+                                    String[] peersHobbies = new String[]{"", "", ""};
+
+                                    for (int i = 0; i < ((ArrayList<String>)documentData.get("hobbies")).size(); i++) {
+                                        peersHobbies[i] = ((ArrayList<String>)documentData.get("hobbies")).get(i);
+                                    }
+
+                                    peersClass = new PeersClass(documentData.get("uid").toString(), documentData.get("name").toString(), documentData.get("degree").toString(), peersHobbies, documentData.get("image").toString());
                                     peersList.add(peersClass);
                                 }
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
+                        Log.d("User Data: ", peersList.get(0).getPeersName());
+
+
+                        DocumentReference docRef = db.collection("peers").document(peersUID);
+                        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+
+                                    for (int i = 0; i < ((ArrayList<String>)document.get("hobbies")).size(); i++) {
+                                        peersSelfHobbies[i] = ((ArrayList<String>)document.get("hobbies")).get(i);
+                                    }
+                                    Collections.sort(peersList, new HobbiesComparator(peersSelfHobbies));
+                                } else {
+                                    Log.d(TAG, "Error getting user document: ", task.getException());
+                                }
+                            }
+                        });
+
+                        adapter = new PeersAdapter(PeersFragment.this.getContext(), peersList);
+                        recyclerView.setAdapter(adapter);
                     }
                 });
-
-        DocumentReference docRef = db.collection("peers").document(peersUID);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    peersSelfHobbies = (String[]) document.get("hobbies");
-                }
-            }
-        });*/
-
-
-        //TEMP DATA, UNCOMMENT ABOVE CODE FOR FIRESTORE
-        peersSelfHobbies = new String[]{"JKD", "Soccer", "Tennis"};
-
-        peersClass = new PeersClass(peersUID, "Will", "Computer and Information Sciences", new String[]{"JKD", "Soccer", "Tennis"}, 1);
-        peersList.add(peersClass);
-
-        peersClass = new PeersClass("ABC", "Will", "Computer and Information Sciences", new String[]{"Soccer", "Tennis"}, 1);
-        peersList.add(peersClass);
-
-        peersClass = new PeersClass("BCD", "Will", "Computer and Information Sciences", new String[]{"Tennis"}, 1);
-        peersList.add(peersClass);
-
-        peersClass = new PeersClass("CDE", "Will", "Computer and Information Sciences", new String[]{"JKD", "Soccer", "Tennis"}, 1);
-        peersList.add(peersClass);
-
-        peersClass = new PeersClass("DEF", "Will", "Computer and Information Sciences", new String[]{"JKD", "Soccer"}, 1);
-        peersList.add(peersClass);
-
-
-
-        Collections.sort((List)peersList, new HobbiesComparator(peersSelfHobbies));
-
-        adapter = new PeersAdapter(PeersFragment.this.getContext(), peersList);
-        recyclerView.setAdapter(adapter);
     }
 }
 

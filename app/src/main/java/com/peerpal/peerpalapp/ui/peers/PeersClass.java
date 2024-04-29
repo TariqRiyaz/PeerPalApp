@@ -8,7 +8,7 @@ public class PeersClass {
     private String peersName;
     private String peersDegree;
     private String[] peersHobbies;
-    private int peersImage;
+    private String peersImage;
 
     public String getPeersUID() {
         return peersUID;
@@ -26,11 +26,11 @@ public class PeersClass {
         return peersHobbies;
     }
 
-    public int getPeersImage() {
+    public String getPeersImage() {
         return peersImage;
     }
 
-    public PeersClass(String peersUID, String peersName, String peersDegree, String[] peersHobbies, int peersImage) {
+    public PeersClass(String peersUID, String peersName, String peersDegree, String[] peersHobbies, String peersImage) {
         this.peersUID = peersUID;
         this.peersName = peersName;
         this.peersDegree = peersDegree;

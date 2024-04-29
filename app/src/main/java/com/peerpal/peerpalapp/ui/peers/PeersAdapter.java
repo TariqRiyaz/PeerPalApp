@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.peerpal.peerpalapp.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -40,7 +41,7 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
             hobbyString += (", " + peersList.get(position).getPeersHobbies()[i]);
         }
 
-        //holder.peersImage.setImageResource(peersList.get(position).getPeersImage());
+        Picasso.get().load(peersList.get(position).getPeersImage()).into(holder.peersImage);
         holder.peersName.setText(peersList.get(position).getPeersName());
         holder.peersDegree.setText("Degree: " + peersList.get(position).getPeersDegree());
         holder.peersHobbies.setText("Hobbies: " + hobbyString);
