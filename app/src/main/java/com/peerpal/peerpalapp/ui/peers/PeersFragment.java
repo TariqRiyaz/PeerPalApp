@@ -132,17 +132,18 @@ public class PeersFragment extends Fragment {
                                         peersSelfHobbies[i] = ((ArrayList<String>)document.get("hobbies")).get(i);
                                     }
                                     Collections.sort(peersList, new HobbiesComparator(peersSelfHobbies));
-                                } else {
-                                    Log.d(TAG, "Error getting user document: ", task.getException());
+                                    for (PeersClass peersClass : peersList) {
+                                        Log.d("PeersList", peersClass.getPeersUID());
+                                    }
+                                    adapter = new PeersAdapter(PeersFragment.this.getContext(), peersList);
+                                    recyclerView.setAdapter(adapter);
                                 }
                             }
                         });
-
-                        adapter = new PeersAdapter(PeersFragment.this.getContext(), peersList);
-                        recyclerView.setAdapter(adapter);
                     }
                 });
-
+        adapter = new PeersAdapter(PeersFragment.this.getContext(), peersList);
+        recyclerView.setAdapter(adapter);
     }
 }
 
