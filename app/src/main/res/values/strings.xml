@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">PeerPalApp</string>
+    <string name="app_name">PeerPal</string>
+    <string name="title_activity_main">PeerPal</string>
+    <string name="title_home">Home</string>
+    <string name="title_peers">Peers</string>
+    <string name="title_message">Messages</string>
 </resources>
