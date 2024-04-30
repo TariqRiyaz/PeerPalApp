@@ -245,7 +245,7 @@ public class profileCreation extends AppCompatActivity {
     private void uploadData() {
         String degreeInfo = degree.getText().toString();
 
-        if(degree != null && imageUri != null && selectedHobbies != null){
+        if (degree != null && imageUri != null && selectedHobbies != null) {
             final StorageReference reference = storageReference.child(System.currentTimeMillis()+"."+getFileExt(imageUri));
             Log.d("uploadtasks", "uploading file...");
             uploadtasks = reference.putFile(imageUri);
