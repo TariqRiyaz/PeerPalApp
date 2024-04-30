@@ -30,15 +30,25 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <EditText
-                android:id="@+id/acc_Creation_First_Name"
+            <TextView
+                android:id="@+id/view_profile_name"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/red_border"
                 android:hint="Name"
+                android:textSize="25dp"
                 android:padding="10dp"
                 android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/view_profile_degree"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="Degree"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textSize="25dp" />
 
             <EditText
                 android:id="@+id/User_bio"
@@ -69,16 +79,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.025">
+        
+        <ImageView
+             android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+    </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/Log out"
+        android:id="@+id/Log_out"
         android:layout_width="294dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="28dp"
         android:text="Log out"
         android:textSize="20dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="58dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
