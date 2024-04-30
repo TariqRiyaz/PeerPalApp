@@ -63,10 +63,11 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
         holder.peersName.setText(peersList.get(position).getPeersName());
         holder.peersDegree.setText("Degree: " + peersList.get(position).getPeersDegree());
         holder.peersHobbies.setText("Hobbies: " + hobbyString);
+
         holder.peersConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                connectPeers(peersList.get(position).getPeersUID());
+                connectPeers(peersList.get(position).getPeersUID(), position);
             }
         });
     }
@@ -75,7 +76,7 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
         return peersList.size();
     }
 
-    public void connectPeers(String peerUID) {
+    public void connectPeers(String peerUID, int position) {
         String selfUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference selfDocRef = db.collection("peers").document(selfUID);
@@ -130,7 +131,9 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
                         }
                     }
                 });
-            }
+        peersList.remove(position);
+        this.notifyItemChanged(position);
+    }
 }
 
 class PeersViewHolder extends RecyclerView.ViewHolder {

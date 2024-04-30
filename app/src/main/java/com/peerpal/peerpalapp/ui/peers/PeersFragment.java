@@ -46,6 +46,7 @@ public class PeersFragment extends Fragment {
 
     RecyclerView recyclerView;
     ArrayList<PeersClass> peersList;
+    ArrayList<String> connectionList;
     PeersClass peersClass;
     PeersAdapter adapter;
     String[] peersSelfHobbies = new String[]{"", "", ""};
@@ -62,6 +63,7 @@ public class PeersFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_peers, container, false);
         peersList = new ArrayList<PeersClass>();
+        connectionList = new ArrayList<String>();
         recyclerView = view.findViewById(R.id.recyclerView);
         firebaseAuth = FirebaseAuth.getInstance();
         peersUID = firebaseAuth.getCurrentUser().getUid();
@@ -74,15 +76,37 @@ public class PeersFragment extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("peers").document(peersUID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    connectionList = ((ArrayList<String>)document.get("connections"));
+                } else {
+                    Log.d(TAG, "Error getting user document: ", task.getException());
+                }
+            }
+        });
+
         db.collection("peers")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String,Object> documentData = document.getData();
-                                if (!documentData.get("uid").toString().equals(peersUID)) {
+                                boolean connectionExists = false;
+
+                                for (String connection : connectionList) {
+                                    if (documentData.get("uid").toString().equals(connection)) {
+                                        connectionExists = true;
+                                    }
+                                }
+
+                                if ((!documentData.get("uid").toString().equals(peersUID)) && (!connectionExists)) {
                                     String[] peersHobbies = new String[]{"", "", ""};
 
                                     for (int i = 0; i < ((ArrayList<String>)documentData.get("hobbies")).size(); i++) {
@@ -104,14 +128,6 @@ public class PeersFragment extends Fragment {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
 
-                                    for (int i = 0; i < ((ArrayList<String>)document.get("connections")).size(); i++) {
-                                        for (int j = 0; j < peersList.toArray().length; j++) {
-                                            if (peersList.get(j).getPeersUID().equals(((ArrayList<String>)document.get("connections")).get(i))) {
-                                                peersList.remove(j);
-                                            }
-                                        }
-                                    }
-
                                     for (int i = 0; i < ((ArrayList<String>)document.get("hobbies")).size(); i++) {
                                         peersSelfHobbies[i] = ((ArrayList<String>)document.get("hobbies")).get(i);
                                     }
@@ -126,6 +142,7 @@ public class PeersFragment extends Fragment {
                         recyclerView.setAdapter(adapter);
                     }
                 });
+
     }
 }
 
