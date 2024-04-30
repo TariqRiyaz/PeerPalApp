@@ -25,7 +25,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +42,7 @@ public class signUpActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     List<String> hobbies = new ArrayList<>();
+    List<String> connections = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,10 +55,11 @@ public class signUpActivity extends AppCompatActivity {
        confirmPassword = findViewById(R.id.acc_Creation_Cofirm_Password);
        signupButton =findViewById(R.id.acc_Creation_signup_btn);
        acc_Creation_loginRedirect = findViewById(R.id.acc_Creation_loginRedirect);
-       mAuth =FirebaseAuth.getInstance();
-       hobbies.add("gaming");
-       hobbies.add("Art");
-       hobbies.add("Hiking");
+       mAuth=FirebaseAuth.getInstance();
+       hobbies.add("");
+       hobbies.add("");
+       hobbies.add("");
+       connections.add("");
 
        signupButton.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -109,9 +114,10 @@ public class signUpActivity extends AppCompatActivity {
                     hashMap.put("image","");
                     hashMap.put("degree","");
                     hashMap.put("hobbies",hobbies);
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference reference =database.getReference("Users");
-                    reference.child(uid).setValue(hashMap);
+                    hashMap.put("connections",connections);
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    DocumentReference reference = db.collection("peers").document(uid);
+                    reference.set(hashMap);
                     Intent mainIntent = new Intent(signUpActivity.this, profileCreation.class);
                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);

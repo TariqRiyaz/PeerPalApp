@@ -45,6 +45,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
@@ -59,6 +60,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
+import java.util.Collections;
 import java.util.HashMap;
 
 import java.util.ArrayList;
@@ -70,6 +72,7 @@ public class profileCreation extends AppCompatActivity {
 
     private List<Button> hobbyButtons;
     private List<String> selectedHobbies;
+    private List<String> connections;
 
     EditText degree;
     ImageView imageProfileEdit;
@@ -79,8 +82,6 @@ public class profileCreation extends AppCompatActivity {
     Button saveProfile, update_image;
     UploadTask uploadtasks;
     StorageReference storageReference;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference  databaseReference;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     DocumentReference documentReference;
     private static final int PICK_IMAGE = 1;
@@ -114,6 +115,8 @@ public class profileCreation extends AppCompatActivity {
         setContentView(R.layout.activity_profile_creation);
         hobbyButtons = new ArrayList<>();
         selectedHobbies = new ArrayList<>();
+        connections = new ArrayList<>();
+        connections.add("");
 
         hobbyButtons.add(findViewById(R.id.HobbyButtonOne));
         hobbyButtons.add(findViewById(R.id.HobbyButtonTwo));
@@ -133,26 +136,16 @@ public class profileCreation extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
         currentUserId = user.getUid();
         currentuserEmail = user.getEmail();
-        documentReference = db.collection("Users").document(currentUserId);
+        documentReference = db.collection("peers").document(currentUserId);
         storageReference = FirebaseStorage.getInstance().getReference("profile_Images");
-        databaseReference =  database.getReference("Users");
 
-//        Query query = databaseReference.orderByChild("email").equalTo(firebaseUser.getEmail());
-//
-//        query.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-//                    // Retrieving Data from firebase
-//                    String name = "" + dataSnapshot1.child("firstName").getValue();
-//                    username = name;
-//
-//            }
-//                }  @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                System.out.println("Error nothing is there");
-//            }
-//        });
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
+                    username = document.get("firstName").toString();
+                }
+            });
 
         saveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,7 +245,7 @@ public class profileCreation extends AppCompatActivity {
     private void uploadData() {
         String degreeInfo = degree.getText().toString();
 
-        if(!TextUtils.isEmpty(degreeInfo) || imageUri != null || selectedHobbies != null){
+        if(degree != null && imageUri != null && selectedHobbies != null){
             final StorageReference reference = storageReference.child(System.currentTimeMillis()+"."+getFileExt(imageUri));
             Log.d("uploadtasks", "uploading file...");
             uploadtasks = reference.putFile(imageUri);
@@ -275,14 +268,12 @@ public class profileCreation extends AppCompatActivity {
 
                         Map<String, Object> profile = new HashMap<>();
                         profile.put("uid", currentUserId);
-                        profile.put("Name",username);
-                        profile.put("Email", currentuserEmail);
+                        profile.put("name",username);
+                        profile.put("email", currentuserEmail);
                         profile.put("degree", degreeInfo);
-                        profile.put("image",downloadUri.toString());
+                        profile.put("image", downloadUri.toString());
                         profile.put("hobbies", selectedHobbies);
-
-                        Map<String, Object> realtimeDbUpdate  = new HashMap<>();
-                        realtimeDbUpdate.put("image", downloadUri.toString());
+                        profile.put("connections", connections);
 
                         documentReference.set(profile)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -294,7 +285,7 @@ public class profileCreation extends AppCompatActivity {
                                         handler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                Intent intent = new Intent(profileCreation.this, Login.class);
+                                                Intent intent = new Intent(profileCreation.this, MainActivity.class);
                                                 startActivity(intent);
                                             }
                                         }, 2000);
