@@ -5,4 +5,5 @@
     <color name="Red">#AE2431</color>
     <color name="my_primary">#FFFFFF</color>
     <color name="my_secondary">#AE2431</color>
+    <color name="gray">#D3D3D3</color>
 </resources>
