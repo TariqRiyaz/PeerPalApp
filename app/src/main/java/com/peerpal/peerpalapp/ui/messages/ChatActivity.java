@@ -77,38 +77,6 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-    protected void onCreate(Bundle savedInstanceState, String peersUid) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_chat);
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
-        currentUserId = user.getUid();
-
-        chatRoomId = getChatroomId(currentUserId, "IvmNNuEZKIUkaxPf64Qga26aq9S2");
-        messageInput = findViewById(R.id.chat_message_input);
-        sendImageButton = findViewById(R.id.message_send_btn);
-        backBtn = findViewById(R.id.back_btn);
-        otherUsername = findViewById(R.id.other_username);
-        recyclerView = findViewById(R.id.chat_recycler_view);
-
-        backBtn.setOnClickListener((v) -> {
-            onBackPressed();
-        });
-
-        sendImageButton.setOnClickListener((v -> {
-            String message = messageInput.getText().toString().trim();
-            if(message.isEmpty())
-                return;
-            sendMessageToUSer(message);
-        }));
-
-        getOrCreateChatroomModel();
-        setupChatRecyclerView();
-
-    }
-
     void setupChatRecyclerView(){
         Log.d("OtherUserId", chatRoomId);
         Query query = getChatroomMessageReference(chatRoomId).orderBy("timestamp", Query.Direction.DESCENDING);

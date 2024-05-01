@@ -52,7 +52,6 @@ public class PeersFragment extends Fragment {
     String peersUID;
     ArrayList<String> selfHobbies;
     private FirebaseAuth firebaseAuth;
-
     public PeersFragment() {
 
     }

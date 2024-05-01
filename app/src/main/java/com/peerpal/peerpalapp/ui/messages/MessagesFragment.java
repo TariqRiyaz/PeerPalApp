@@ -76,7 +76,6 @@ public class MessagesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         adapter.startListening();
-
     }
 
     @Override
@@ -110,5 +109,4 @@ public class MessagesFragment extends Fragment {
     public static CollectionReference allChatroomCollectionReference(){
         return FirebaseFirestore.getInstance().collection("chatrooms");
     }
-
 }

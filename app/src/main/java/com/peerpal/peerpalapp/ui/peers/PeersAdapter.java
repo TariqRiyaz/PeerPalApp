@@ -20,7 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,6 +33,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
@@ -43,12 +46,14 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
         this.context = context;
         this.peersList = peersList;
     }
+
     @NonNull
     @Override
     public PeersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.peers_item, parent, false);
         return new PeersViewHolder(view);
     }
+
     @Override
     public void onBindViewHolder(@NonNull PeersViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String hobbyString = peersList.get(position).getPeersHobbies()[0];
@@ -106,7 +111,6 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         boolean selfUIDCheck = false;
-                        boolean peerUIDCheck = false;
 
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
@@ -115,23 +119,59 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
                                     if (((ArrayList<String>)documentData.get("connections")).contains(selfUID) && (documentData.get("uid").equals(peerUID))) {
                                         selfUIDCheck = true;
                                     }
-                                } else {
-                                    if (((ArrayList<String>)documentData.get("connections")).contains(peerUID) && (documentData.get("uid").equals(selfUID))) {
-                                        peerUIDCheck = true;
-                                    }
                                 }
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
+                        if (selfUIDCheck) {
+                            Task<QuerySnapshot> chatroomRef = db.collection("chatrooms")
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                String potentialIdentifier1 = (peerUID + "_" + selfUID);
+                                                String potentialIdentifier2 = (selfUID + "_" + peerUID);
+                                                boolean chatroomExist = false;
 
-                        if (selfUIDCheck && peerUIDCheck) {
-                            //Opens chatroom
-                            Toast.makeText(context.getApplicationContext(), ("CHATROOM OPEN WITH: " + peerUID), Toast.LENGTH_SHORT).show();
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    if ((document.get("chatRoomId").equals(potentialIdentifier1)) || (document.get("chatRoomId").equals(potentialIdentifier2))) {
+                                                        chatroomExist = true;
+                                                    }
+                                                }
+                                                if (!chatroomExist) {
+                                                    String customUID;
+                                                    Map<String, Object> chatroom = new HashMap<>();
+
+                                                    if(selfUID.hashCode()<peerUID.hashCode()){
+                                                        customUID = (selfUID+"_"+peerUID);
+                                                        chatroom.put("chatRoomId", (selfUID+"_"+peerUID));
+                                                    } else {
+                                                        customUID = (peerUID+"_"+selfUID);
+                                                        chatroom.put("chatRoomId", (peerUID+"_"+selfUID));
+                                                    }
+
+                                                    chatroom.put("lastMessage", "");
+                                                    chatroom.put("lastMessageSenderId", "");
+                                                    chatroom.put("lastMessageTimeStamp", Timestamp.now());
+                                                    ArrayList<String> userIds = new ArrayList<String>();
+                                                    userIds.add(selfUID);
+                                                    userIds.add(peerUID);
+                                                    chatroom.put("userIds", userIds);
+
+                                                    DocumentReference docRef = db.collection("chatrooms").document(customUID);
+                                                    docRef.set(chatroom);
+                                                    Toast.makeText(context.getApplicationContext(), ("CHATROOM OPEN WITH: " + peerUID), Toast.LENGTH_SHORT).show();
+                                                }
+                                            } else {
+                                                Log.d(TAG, "Error getting documents: ", task.getException());
+                                            }
+                                        }
+                                    });
                         }
                     }
                 });
-
         peersList.remove(position);
         this.notifyItemRemoved(position);
     }
