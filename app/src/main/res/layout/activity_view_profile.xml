@@ -9,94 +9,94 @@
     tools:context=".Login">
 
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        app:cardCornerRadius="30dp"
-        app:cardElevation="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.526"
-        tools:layout_editor_absoluteX="30dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="502dp"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="24dp">
-
-            <TextView
-                android:id="@+id/view_profile_name"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:hint="Name"
-                android:textSize="25dp"
-                android:padding="10dp"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/view_profile_degree"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:hint="Degree"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:textSize="25dp" />
-
-            <EditText
-                android:id="@+id/User_bio"
-                android:layout_width="299dp"
-                android:layout_height="174dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/red_border"
-                android:hint="Bio"
-                android:inputType="textPassword"
-                android:padding="10dp"
-                android:textColor="@color/black" />
-
-        </LinearLayout>
-
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-
-        android:id="@+id/cardView2"
-        android:layout_width="94dp"
-        android:layout_height="95dp"
-        app:cardCornerRadius="75dp"
-        app:cardPreventCornerOverlap="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.094"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.025">
-        
-        <ImageView
-             android:layout_height="match_parent"
-            android:layout_width="match_parent"/>
-    </androidx.cardview.widget.CardView>
-
     <Button
-        android:id="@+id/Log_out"
+        android:id="@+id/logoutButton"
         android:layout_width="294dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="28dp"
-        android:text="Log out"
+        android:layout_marginBottom="104dp"
+        android:textColor="@color/my_primary"
+        android:text="Log Out"
         android:textSize="20dp"
-        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/editprofileButton"
+        android:layout_width="294dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="176dp"
+        android:backgroundTint="@color/my_primary"
+        android:textColor="@color/my_secondary"
+        android:text="Edit Profile"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/peersImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="102dp"
+        android:layout_marginEnd="131dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/icon_peers" />
+
+    <TextView
+        android:id="@+id/peersDegree"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="101dp"
+        android:layout_marginEnd="102dp"
+        android:text="Degree"
+        android:textAlignment="center"
+        android:textColor="@color/my_primary"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/peersEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/peersName" />
+
+    <TextView
+        android:id="@+id/peersEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_marginStart="101dp"
+        android:layout_marginEnd="102dp"
+        android:layout_marginBottom="66dp"
+        android:text="Email"
+        android:textAlignment="center"
+        android:textColor="@color/my_primary"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/editprofileButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/peersDegree" />
+
+    <TextView
+        android:id="@+id/peersName"
+        android:layout_width="208dp"
+        android:layout_height="67dp"
+        android:layout_marginStart="101dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="102dp"
+        android:text="Name"
+        android:textAlignment="center"
+        android:textColor="@color/my_primary"
+        android:textSize="36dp"
+        app:layout_constraintBottom_toTopOf="@+id/peersDegree"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/peersImage" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

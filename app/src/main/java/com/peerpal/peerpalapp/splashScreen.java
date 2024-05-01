@@ -34,7 +34,7 @@ public class splashScreen extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else {
-                    Intent mainIntent = new Intent(splashScreen.this, ChatActivity.class);
+                    Intent mainIntent = new Intent(splashScreen.this, MainActivity.class);
                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
                     finish();

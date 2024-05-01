@@ -3,9 +3,18 @@
     <style name="Base.Theme.PeerPalApp" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/my_secondary</item>
-         <item name="colorPrimary">@color/Red</item>
+        <item name="colorPrimary">@color/Red</item>
         <item name="colorPrimaryVariant">@color/Red</item>
     </style>
 
     <style name="Theme.PeerPalApp" parent="Base.Theme.PeerPalApp" />
+
+    <style name="Theme.PeerPalApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.PeerPalApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.PeerPalApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

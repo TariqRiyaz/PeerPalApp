@@ -17,7 +17,7 @@
             android:exported="false" />
         <activity
             android:name=".profileCreation"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".splashScreen"
             android:exported="true"
@@ -29,14 +29,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".signUpActivity"
-            android:exported="true"></activity>
-        <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".Login"
-            android:exported="true"></activity>
+            android:exported="true" />
+        <activity
+            android:name=".ViewProfile"
+            android:exported="true" />
+        <activity
+            android:name=".signUpActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
