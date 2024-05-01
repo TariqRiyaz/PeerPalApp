@@ -17,7 +17,6 @@ import com.peerpal.peerpalapp.ui.messages.MessagesFragment;
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     ImageButton menuButton;
-
     HomeFragment homeFragment;
     PeersFragment peersFragment;
     MessagesFragment messagesFragment;

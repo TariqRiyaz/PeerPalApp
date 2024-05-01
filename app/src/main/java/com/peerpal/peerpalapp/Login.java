@@ -1,6 +1,5 @@
 package com.peerpal.peerpalapp;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -13,14 +12,10 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,14 +39,12 @@ public class Login extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-
         //initiating the layout items
         email = findViewById(R.id.login_Email);
         password = findViewById(R.id.login_Password);
         loginBtn = findViewById(R.id.loginBtnAccept);
         signupText = findViewById(R.id.login_signup_redirect);
-        firebaseAuth =FirebaseAuth.getInstance();
-
+        firebaseAuth = FirebaseAuth.getInstance();
         currentUser = firebaseAuth.getCurrentUser();
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -77,17 +70,12 @@ public class Login extends AppCompatActivity {
         signupText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login.this, signUpActivity.class));
+                startActivity(new Intent(Login.this, SignUpActivity.class));
             }
         });
-
-
     }
 
-
-
     private void loginUser(String email, String passwrd) {
-
         firebaseAuth.signInWithEmailAndPassword(email, passwrd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -123,5 +111,4 @@ public class Login extends AppCompatActivity {
             }
         });
     }
-
 }

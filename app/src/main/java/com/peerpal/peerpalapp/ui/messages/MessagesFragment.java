@@ -31,35 +31,22 @@ import com.peerpal.peerpalapp.databinding.FragmentMessagesBinding;
 import java.util.ArrayList;
 
 public class MessagesFragment extends Fragment {
-
     private FragmentMessagesBinding binding;
-
     RecyclerView recyclerView;
-
     RecentChatRecyclerAdapter adapter;
-
-     FirebaseAuth firebaseAuth;
-
-     String currentUserId;
-
-
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseAuth firebaseAuth;
+    String currentUserId;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
         binding = FragmentMessagesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
         View view = inflater.inflate(R.layout.fragment_messages, container, false);
-
         recyclerView = view.findViewById(R.id.messageRecyclerView);
-
         setupRecyclerView();
 
         return view;
     }
-
 
     void setupRecyclerView(){
         firebaseAuth = FirebaseAuth.getInstance();
@@ -98,7 +85,6 @@ public class MessagesFragment extends Fragment {
         if(adapter!=null)
             adapter.notifyDataSetChanged();
     }
-
 
     @Override
     public void onDestroyView() {

@@ -4,19 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.peerpal.peerpalapp.ui.messages.ChatActivity;
-import com.peerpal.peerpalapp.ui.messages.MessagesFragment;
 
-public class splashScreen extends AppCompatActivity {
-
+public class SplashScreen extends AppCompatActivity {
     FirebaseUser currentUser;
     private FirebaseAuth mAuth;
 
@@ -31,11 +24,11 @@ public class splashScreen extends AppCompatActivity {
             public void run() {
                 FirebaseUser user = mAuth.getCurrentUser();
                 if (user == null) {
-                    Intent intent = new Intent(splashScreen.this, Login.class);
+                    Intent intent = new Intent(SplashScreen.this, Login.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    Intent mainIntent = new Intent(splashScreen.this, MainActivity.class);
+                    Intent mainIntent = new Intent(SplashScreen.this, MainActivity.class);
                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
                     finish();

@@ -28,7 +28,6 @@ import com.peerpal.peerpalapp.R;
 import java.util.Arrays;
 
 public class ChatActivity extends AppCompatActivity {
-
     String chatRoomId;
     ChatRoomModel chatroomModel;
     ChatRecyclerAdapter adapter;
@@ -70,7 +69,6 @@ public class ChatActivity extends AppCompatActivity {
 
         getOrCreateChatroomModel();
         setupChatRecyclerView();
-
     }
 
     void setupChatRecyclerView(){
@@ -96,12 +94,9 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     void sendMessageToUSer(String message){
-
         chatroomModel.setLastMessageTimeStamp(Timestamp.now());
         chatroomModel.setLastMessageSenderId(currentUserId);
         getChatroomReference(chatRoomId).set(chatroomModel);
-
-
         ChatMessageModel chatMessageModel = new ChatMessageModel(message, currentUserId, Timestamp.now());
         getChatroomMessageReference(chatRoomId).add(chatMessageModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override

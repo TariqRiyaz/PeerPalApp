@@ -39,13 +39,9 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoomModel, RecentChatRecyclerAdapter.ChatroomModelViewHolder> {
-
     Context context;
-
     FirebaseAuth firebaseAuth;
-
     String currentUserId;
-
 
     public RecentChatRecyclerAdapter(@NonNull FirestoreRecyclerOptions<ChatRoomModel> options,Context context) {
         super(options);
@@ -62,13 +58,11 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
                     if(task.isSuccessful()){
                         boolean lastMessageSentByMe = model.getLastMessageSenderId().equals(currentUserId);
 
-
                         MessageUserModel otherUserModel = task.getResult().toObject(MessageUserModel.class);
                         Log.d("otherUserModel", otherUserModel.getName());
                         if (!otherUserModel.getUid().isEmpty()) {
                             Log.d("image", getOtherProfilePicStorageRef(otherUserModel));
                             String OtheruserImage = getOtherProfilePicStorageRef(otherUserModel);
-//                            Log.d("otherUserModel", OtheruserImage);
                             if (!OtheruserImage.isEmpty()) {
                                 Log.d("otherUserModel", OtheruserImage);
                                 Picasso.get().load(OtheruserImage).into(holder.profilePic);

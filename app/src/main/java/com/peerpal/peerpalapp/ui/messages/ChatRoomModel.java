@@ -5,17 +5,13 @@ import com.google.firebase.Timestamp;
 import java.util.List;
 
 public class ChatRoomModel {
-
     String chatRoomId;
     List<String> userIds;
     com.google.firebase.Timestamp lastMessageTimeStamp;
     String lastMessageSenderId;
-
     String lastMessage;
 
-    public ChatRoomModel(){
-
-
+    public ChatRoomModel() {
     }
 
     public ChatRoomModel(String chatRoomId, List<String> userIds, com.google.firebase.Timestamp lastMessageTimeStamp, String lastMessageSenderId) {
@@ -23,7 +19,6 @@ public class ChatRoomModel {
         this.userIds = userIds;
         this.lastMessageTimeStamp = lastMessageTimeStamp;
         this.lastMessageSenderId = lastMessageSenderId;
-
     }
 
     public String getLastMessage() {

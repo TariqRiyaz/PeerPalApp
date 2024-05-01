@@ -57,4 +57,22 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="log_out">Log Out</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="degree">Degree</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="firstname">FirstName</string>
+    <string name="user">User</string>
+    <string name="connect">Connect</string>
+    <string name="degreeStatement">Degree:</string>
+    <string name="hobbies">Hobbies:</string>
+    <string name="news_and_notices">News and Notices!</string>
+    <string name="patch_notes_1_0">Patch Notes 1.0</string>
+    <string name="description_this_is_a_description_of_a_security_notice_please_click_on_this_tab_to_expand_the_notice_this_is_a_description_of_a_security_notice_please_click_on_this_tab_to_expand_the_notice_this_is_a_description_of_a_security_notice_please_click_on_this_tab_to_expand_the_notice_this_is_a_description_of_a_security_notice_please_click_on_this_tab_to_expand_the_notice">Description: This is a description of a security notice, please click on this tab to expand the notice... This is a description of a security notice, please click on this tab to expand the notice... This is a description of a security notice, please click on this tab to expand the notice... This is a description of a security notice, please click on this tab to expand the notice...</string>
+    <string name="security_notice">Security Notice</string>
+    <string name="splash_screen_logo">splash screen logo</string>
+    <string name="account_creation">Account Creation</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
 </resources>
