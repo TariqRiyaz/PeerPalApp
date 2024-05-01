@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.peerpal.peerpalapp.ui.messages.ChatActivity;
+import com.peerpal.peerpalapp.ui.messages.MessagesFragment;
 
 public class splashScreen extends AppCompatActivity {
 

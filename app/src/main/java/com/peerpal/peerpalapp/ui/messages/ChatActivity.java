@@ -2,6 +2,7 @@ package com.peerpal.peerpalapp.ui.messages;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -53,7 +54,39 @@ public class ChatActivity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
         currentUserId = user.getUid();
 
-        chatRoomId = getChatroomId(currentUserId, "RANDOMID");
+        chatRoomId = getChatroomId(currentUserId, "IvmNNuEZKIUkaxPf64Qga26aq9S2");
+        messageInput = findViewById(R.id.chat_message_input);
+        sendImageButton = findViewById(R.id.message_send_btn);
+        backBtn = findViewById(R.id.back_btn);
+        otherUsername = findViewById(R.id.other_username);
+        recyclerView = findViewById(R.id.chat_recycler_view);
+
+        backBtn.setOnClickListener((v) -> {
+            onBackPressed();
+        });
+
+        sendImageButton.setOnClickListener((v -> {
+            String message = messageInput.getText().toString().trim();
+            if(message.isEmpty())
+                return;
+            sendMessageToUSer(message);
+        }));
+
+        getOrCreateChatroomModel();
+        setupChatRecyclerView();
+
+    }
+
+    protected void onCreate(Bundle savedInstanceState, String peersUid) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_chat);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
+        currentUserId = user.getUid();
+
+        chatRoomId = getChatroomId(currentUserId, "IvmNNuEZKIUkaxPf64Qga26aq9S2");
         messageInput = findViewById(R.id.chat_message_input);
         sendImageButton = findViewById(R.id.message_send_btn);
         backBtn = findViewById(R.id.back_btn);
@@ -77,6 +110,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     void setupChatRecyclerView(){
+        Log.d("OtherUserId", chatRoomId);
         Query query = getChatroomMessageReference(chatRoomId).orderBy("timestamp", Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<ChatMessageModel> options = new FirestoreRecyclerOptions.Builder<ChatMessageModel>()
@@ -88,6 +122,13 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         adapter.startListening();
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                recyclerView.smoothScrollToPosition(0);
+            }
+        });
     }
 
     void sendMessageToUSer(String message){
@@ -115,7 +156,7 @@ public class ChatActivity extends AppCompatActivity {
                 if(chatroomModel==null){
                     chatroomModel = new ChatRoomModel(
                             chatRoomId,
-                            Arrays.asList(currentUserId, "RANDOMID"),
+                            Arrays.asList(currentUserId, "IvmNNuEZKIUkaxPf64Qga26aq9S2"),
                             Timestamp.now(),
                             ""
                     );
