@@ -104,7 +104,7 @@ public class Login extends AppCompatActivity {
                         hashMap.put("image","");
                         hashMap.put("degree","");
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference reference =database.getReference("Users");
+                        DatabaseReference reference =database.getReference("NewUsers");
                         reference.child(uid).setValue(hashMap);
                     }
                     Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_LONG).show();
