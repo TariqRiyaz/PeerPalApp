@@ -131,6 +131,7 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
                         }
                     }
                 });
+
         peersList.remove(position);
         this.notifyItemRemoved(position);
     }

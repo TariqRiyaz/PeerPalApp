@@ -70,7 +70,7 @@ public class ViewProfile extends AppCompatActivity {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mainIntent = new Intent(ViewProfile.this, profileCreation.class);
+                Intent mainIntent = new Intent(ViewProfile.this, profileEdit.class);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(mainIntent);
                 finish();

@@ -49,9 +49,8 @@ public class PeersFragment extends Fragment {
     ArrayList<String> connectionList;
     PeersClass peersClass;
     PeersAdapter adapter;
-    String[] peersSelfHobbies = new String[]{"", "", ""};
-    ;
     String peersUID;
+    ArrayList<String> selfHobbies;
     private FirebaseAuth firebaseAuth;
 
     public PeersFragment() {
@@ -67,6 +66,19 @@ public class PeersFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         firebaseAuth = FirebaseAuth.getInstance();
         peersUID = firebaseAuth.getCurrentUser().getUid();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("peers").document(peersUID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    selfHobbies = (ArrayList<String>)document.get("hobbies");
+                }
+            }
+        });
+
         setupRecyclerView();
         return view;
     }
@@ -120,36 +132,17 @@ public class PeersFragment extends Fragment {
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-
-                        DocumentReference docRef = db.collection("peers").document(peersUID);
-                        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-
-                                    for (int i = 0; i < ((ArrayList<String>)document.get("hobbies")).size(); i++) {
-                                        peersSelfHobbies[i] = ((ArrayList<String>)document.get("hobbies")).get(i);
-                                    }
-                                    Collections.sort(peersList, new HobbiesComparator(peersSelfHobbies));
-                                    for (PeersClass peersClass : peersList) {
-                                        Log.d("PeersList", peersClass.getPeersUID());
-                                    }
-                                    adapter = new PeersAdapter(PeersFragment.this.getContext(), peersList);
-                                    recyclerView.setAdapter(adapter);
-                                }
-                            }
-                        });
+                        Collections.sort(peersList, new HobbiesComparator(selfHobbies));
+                        adapter = new PeersAdapter(PeersFragment.this.getContext(), peersList);
+                        recyclerView.setAdapter(adapter);
                     }
                 });
-        adapter = new PeersAdapter(PeersFragment.this.getContext(), peersList);
-        recyclerView.setAdapter(adapter);
     }
 }
 
 class HobbiesComparator implements Comparator<PeersClass> {
-    private String[] hobbyList;
-    HobbiesComparator(String[] hobbyList) {
+    private ArrayList<String> hobbyList;
+    HobbiesComparator(ArrayList<String> hobbyList) {
         this.hobbyList = hobbyList;
     }
 
@@ -164,9 +157,9 @@ class HobbiesComparator implements Comparator<PeersClass> {
     int hobbyCount(PeersClass p) {
         int totalCount = 0;
 
-        for (String hobby : hobbyList) {
+        for (int i = 0; i < hobbyList.size(); i++) {
             for (String peerHobby : p.getPeersHobbies()) {
-                if (hobby.equals(peerHobby)) {
+                if (hobbyList.get(i).equals(peerHobby)) {
                     totalCount++;
                 }
             }

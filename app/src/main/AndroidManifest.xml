@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <application
         android:allowBackup="true"
@@ -11,17 +11,20 @@
         android:roundIcon="@mipmap/ic_peerpal_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PeerPalApp"
-        tools:targetApi="31">
+        tools:targetApi="31" >
+        <activity
+            android:name=".profileEdit"
+            android:exported="true" />
         <activity
             android:name=".ui.messages.ChatActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".profileCreation"
             android:exported="true" />
         <activity
             android:name=".splashScreen"
             android:exported="true"
-            android:label="@string/title_activity_main">
+            android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
