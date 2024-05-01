@@ -32,17 +32,13 @@ public class ChatActivity extends AppCompatActivity {
     String chatRoomId;
     ChatRoomModel chatroomModel;
     ChatRecyclerAdapter adapter;
-
     EditText messageInput;
     ImageButton sendImageButton;
     ImageButton backBtn;
     TextView otherUsername;
     RecyclerView recyclerView;
-
     FirebaseAuth firebaseAuth;
-
     String currentUserId;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +129,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
-
 
     public static  void passUserModelAsIntent(Intent intent, MessageUserModel model){
         intent.putExtra("name", model.getName());
