@@ -11,6 +11,8 @@ public class ChatRoomModel {
     com.google.firebase.Timestamp lastMessageTimeStamp;
     String lastMessageSenderId;
 
+    String lastMessage;
+
     public ChatRoomModel(){
 
 
@@ -22,6 +24,14 @@ public class ChatRoomModel {
         this.lastMessageTimeStamp = lastMessageTimeStamp;
         this.lastMessageSenderId = lastMessageSenderId;
 
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
     }
 
     public String getChatRoomId() {
