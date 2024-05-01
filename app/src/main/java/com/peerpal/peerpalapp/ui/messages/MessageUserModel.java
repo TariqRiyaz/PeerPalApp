@@ -6,6 +6,8 @@ public class MessageUserModel {
     private String image;
     private String uid;
 
+
+
     public MessageUserModel(){
 
     }

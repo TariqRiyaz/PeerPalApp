@@ -64,27 +64,32 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
 
 
                         MessageUserModel otherUserModel = task.getResult().toObject(MessageUserModel.class);
-
-                        String OtheruserImage  = getOtherProfilePicStorageRef(otherUserModel);
-                        Log.d("otherUserModel", OtheruserImage);
-                        if(OtheruserImage != null){
-                            Picasso.get().load(OtheruserImage).into(holder.profilePic);
+                        Log.d("otherUserModel", otherUserModel.getName());
+                        if (!otherUserModel.getUid().isEmpty()) {
+                            Log.d("image", getOtherProfilePicStorageRef(otherUserModel));
+                            String OtheruserImage = getOtherProfilePicStorageRef(otherUserModel);
+//                            Log.d("otherUserModel", OtheruserImage);
+                            if (!OtheruserImage.isEmpty()) {
+                                Log.d("otherUserModel", OtheruserImage);
+                                Picasso.get().load(OtheruserImage).into(holder.profilePic);
+                            }
+                            holder.usernameText.setText(otherUserModel.getName());
+                        } else {
+                            Log.e("RecentChatRecyclerAdapter", "Other user model is null");
                         }
-
-
-                        holder.usernameText.setText(otherUserModel.getName());
-                        if(lastMessageSentByMe)
-                            holder.lastMessageText.setText("You : "+model.getLastMessage());
-                        else
+                        if(lastMessageSentByMe) {
+                            holder.lastMessageText.setText("You : " + model.getLastMessage());
+                        } else {
                             holder.lastMessageText.setText(model.getLastMessage());
-                        holder.lastMessageTime.setText(timestampToString(model.getLastMessageTimeStamp()));
+                            holder.lastMessageTime.setText(timestampToString(model.getLastMessageTimeStamp()));
 
-                        holder.itemView.setOnClickListener(v -> {
-                            //navigate to chat activity
-                            Intent intent = new Intent(context, ChatActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        });
+                            holder.itemView.setOnClickListener(v -> {
+                                //navigate to chat activity
+                                Intent intent = new Intent(context, ChatActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            });
+                        }
 
                     }
                 });
@@ -105,7 +110,7 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
         return new SimpleDateFormat("HH:MM").format(timestamp.toDate());
     }
 
-    class ChatroomModelViewHolder extends RecyclerView.ViewHolder{
+    public class ChatroomModelViewHolder extends RecyclerView.ViewHolder{
         TextView usernameText;
         TextView lastMessageText;
         TextView lastMessageTime;
@@ -124,9 +129,12 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
         currentUserId = user.getUid();
+
         if(userIds.get(0).equals(currentUserId)){
+            Log.d("userIds", userIds.get(1));
             return allUserCollectionReference().document(userIds.get(1));
         }else{
+            Log.d("userIds", userIds.get(0));
             return allUserCollectionReference().document(userIds.get(0));
         }
     }
