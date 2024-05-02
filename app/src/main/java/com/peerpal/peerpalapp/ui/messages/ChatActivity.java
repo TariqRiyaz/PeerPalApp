@@ -29,6 +29,7 @@ import com.squareup.picasso.Picasso;
 
 public class ChatActivity extends AppCompatActivity {
 
+    // Declare variables
     String chatRoomId;
     ChatRecyclerAdapter adapter;
     EditText messageInput;
@@ -43,10 +44,12 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
+        // Set up the layout
         setContentView(R.layout.activity_chat);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
+        // Initialize views
         messageInput = findViewById(R.id.chat_message_input);
         sendImageButton = findViewById(R.id.message_send_btn);
         backBtn = findViewById(R.id.back_btn);
@@ -54,31 +57,37 @@ public class ChatActivity extends AppCompatActivity {
         otherImage = findViewById(R.id.other_image);
         recyclerView = findViewById(R.id.chat_recycler_view);
 
+        // Initialize Firebase authentication
         firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
         currentUserId = user.getUid();
+
+        // Retrieve data from intent
         String selfUID;
         String peerUID;
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             selfUID = extras.getString("selfUID");
             peerUID = extras.getString("peerUID");
 
+            // Generate chat room ID
             if (selfUID.hashCode() < peerUID.hashCode()) {
                 chatRoomId = (selfUID + "_" + peerUID);
             } else {
                 chatRoomId = (peerUID + "_" + selfUID);
             }
 
+            // Set other user's information
             otherUsername.setText(extras.getString("peerName"));
             Picasso.get().load(extras.getString("peerImage")).into(otherImage);
         }
 
+        // Set onClickListener for back button
         backBtn.setOnClickListener((v) -> {
             onBackPressed();
         });
 
+        // Set onClickListener for send button
         sendImageButton.setOnClickListener((v -> {
             String message = messageInput.getText().toString().trim();
             if(message.isEmpty())
@@ -86,9 +95,11 @@ public class ChatActivity extends AppCompatActivity {
             sendMessageToUSer(message);
         }));
 
+        // Set up RecyclerView for chat messages
         setupChatRecyclerView();
     }
 
+    // Method to set up RecyclerView for chat messages
     void setupChatRecyclerView(){
         Query query = getChatroomMessageReference(chatRoomId).orderBy("timestamp", Query.Direction.DESCENDING);
 
@@ -110,6 +121,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    // Method to send message to user
     void sendMessageToUSer(String message){
 
         ChatMessageModel chatMessageModel = new ChatMessageModel(message, currentUserId, Timestamp.now());
@@ -117,12 +129,13 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
                 if(task.isSuccessful()){
-                    messageInput.setText("");
+                    messageInput.setText(""); // Clear input field after sending message
                 }
             }
         });
     }
 
+    // Method to pass user model as intent
     public static  void passUserModelAsIntent(Intent intent, MessageUserModel model){
         intent.putExtra("name", model.getName());
         intent.putExtra("email", model.getEmail());
@@ -130,14 +143,17 @@ public class ChatActivity extends AppCompatActivity {
         intent.putExtra("uid", model.getUid());
     }
 
+    // Method to get chatroom reference
     public static DocumentReference getChatroomReference(String chatroomId){
         return FirebaseFirestore.getInstance().collection("chatrooms").document(chatroomId);
     }
 
+    // Method to get chatroom message reference
     public static CollectionReference getChatroomMessageReference(String chatRoomId){
         return getChatroomReference(chatRoomId).collection("chats");
     }
 
+    // Method to generate chatroom ID
     public static String getChatroomId(String userId1, String userId2){
         if(userId1.hashCode()<userId2.hashCode()){
             return userId1+"_"+userId2;

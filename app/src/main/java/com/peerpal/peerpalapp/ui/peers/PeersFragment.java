@@ -129,7 +129,7 @@ public class PeersFragment extends Fragment {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
 
-                    if (selfHobbies != null) {
+                    if (selfHobbies != null && peersList != null) {
                         // Sort peersList based on selfHobbies
                         peersList.sort(new HobbiesComparator(selfHobbies));
                         // Initialize and set adapter for RecyclerView

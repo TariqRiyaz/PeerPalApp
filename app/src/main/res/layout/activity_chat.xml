@@ -12,7 +12,7 @@
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:padding="8dp"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="0dp">
 
         <EditText
             android:id="@+id/chat_message_input"
@@ -54,9 +54,9 @@
     <RelativeLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:background="@color/Red"
-        android:paddingTop="30dp">
+        android:paddingTop="0dp">
 
         <RelativeLayout
             android:id="@+id/inner_toolbar"
