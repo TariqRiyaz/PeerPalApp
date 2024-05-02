@@ -128,11 +128,14 @@ public class PeersFragment extends Fragment {
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
-                    // Sort peersList based on selfHobbies
-                    peersList.sort(new HobbiesComparator(selfHobbies));
-                    // Initialize and set adapter for RecyclerView
-                    adapter = new PeersAdapter(PeersFragment.this.getContext(), peersList);
-                    recyclerView.setAdapter(adapter);
+
+                    if (!(peersList == null)) {
+                        // Sort peersList based on selfHobbies
+                        peersList.sort(new HobbiesComparator(selfHobbies));
+                        // Initialize and set adapter for RecyclerView
+                        adapter = new PeersAdapter(PeersFragment.this.getContext(), peersList);
+                        recyclerView.setAdapter(adapter);
+                    }
                 });
     }
 }
