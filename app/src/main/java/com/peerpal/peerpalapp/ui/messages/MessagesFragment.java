@@ -31,31 +31,40 @@ import com.peerpal.peerpalapp.databinding.FragmentMessagesBinding;
 import java.util.ArrayList;
 
 public class MessagesFragment extends Fragment {
+
     private FragmentMessagesBinding binding;
+
     RecyclerView recyclerView;
+
     RecentChatRecyclerAdapter adapter;
-    FirebaseAuth firebaseAuth;
-    String currentUserId;
+
+     FirebaseAuth firebaseAuth;
+
+     String currentUserId;
+
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentMessagesBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+
         View view = inflater.inflate(R.layout.fragment_messages, container, false);
+
         recyclerView = view.findViewById(R.id.messageRecyclerView);
+
         setupRecyclerView();
 
         return view;
     }
+
 
     void setupRecyclerView(){
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
         currentUserId = user.getUid();
         Query query = allChatroomCollectionReference()
-                .whereArrayContains("userIds",currentUserId)
-                .orderBy("lastMessageTimeStamp",Query.Direction.DESCENDING);
-
+                .whereArrayContains("userIds",currentUserId);
+        Log.d("query", query.toString());
         FirestoreRecyclerOptions<ChatRoomModel> options = new FirestoreRecyclerOptions.Builder<ChatRoomModel>()
                 .setQuery(query,ChatRoomModel.class).build();
 
@@ -85,6 +94,7 @@ public class MessagesFragment extends Fragment {
         if(adapter!=null)
             adapter.notifyDataSetChanged();
     }
+
 
     @Override
     public void onDestroyView() {
