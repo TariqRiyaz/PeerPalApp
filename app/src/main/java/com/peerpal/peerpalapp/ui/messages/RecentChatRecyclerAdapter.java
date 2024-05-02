@@ -60,9 +60,6 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
         getOtherUserFromChatroom(model.getUserIds())
                 .get().addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
-                        boolean lastMessageSentByMe = model.getLastMessageSenderId().equals(currentUserId);
-
-
                         MessageUserModel otherUserModel = task.getResult().toObject(MessageUserModel.class);
                         Log.d("otherUserModel", otherUserModel.getName());
                         if (!otherUserModel.getUid().isEmpty()) {
@@ -77,19 +74,12 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
                         } else {
                             Log.e("RecentChatRecyclerAdapter", "Other user model is null");
                         }
-                        if(lastMessageSentByMe) {
-                            holder.lastMessageText.setText("You : " + model.getLastMessage());
-                        } else {
-                            holder.lastMessageText.setText(model.getLastMessage());
-                            holder.lastMessageTime.setText(timestampToString(model.getLastMessageTimeStamp()));
-
                             holder.itemView.setOnClickListener(v -> {
                                 //navigate to chat activity
                                 Intent intent = new Intent(context, ChatActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 context.startActivity(intent);
                             });
-                        }
 
                     }
                 });
@@ -124,7 +114,6 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
             profilePic = itemView.findViewById(R.id.profile_pic_image_view);
         }
     }
-
     private DocumentReference getOtherUserFromChatroom(List<String> userIds){
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();

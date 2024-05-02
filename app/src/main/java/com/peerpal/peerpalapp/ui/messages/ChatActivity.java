@@ -50,7 +50,8 @@ public class ChatActivity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
         currentUserId = user.getUid();
 
-        chatRoomId = getChatroomId(currentUserId, "IvmNNuEZKIUkaxPf64Qga26aq9S2");
+
+        chatRoomId = "IvmNNuEZKIUkaxPf64Qga26aq9S2_M47rmpT9MvR13MneP7DMUi2fViD2";
         messageInput = findViewById(R.id.chat_message_input);
         sendImageButton = findViewById(R.id.message_send_btn);
         backBtn = findViewById(R.id.back_btn);
@@ -68,7 +69,6 @@ public class ChatActivity extends AppCompatActivity {
             sendMessageToUSer(message);
         }));
 
-        getOrCreateChatroomModel();
         setupChatRecyclerView();
 
     }
@@ -97,11 +97,6 @@ public class ChatActivity extends AppCompatActivity {
 
     void sendMessageToUSer(String message){
 
-        chatroomModel.setLastMessageTimeStamp(Timestamp.now());
-        chatroomModel.setLastMessageSenderId(currentUserId);
-        getChatroomReference(chatRoomId).set(chatroomModel);
-
-
         ChatMessageModel chatMessageModel = new ChatMessageModel(message, currentUserId, Timestamp.now());
         getChatroomMessageReference(chatRoomId).add(chatMessageModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
@@ -113,22 +108,22 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    void getOrCreateChatroomModel(){
-        getChatroomReference(chatRoomId).get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                chatroomModel = task.getResult().toObject(ChatRoomModel.class);
-                if(chatroomModel==null){
-                    chatroomModel = new ChatRoomModel(
-                            chatRoomId,
-                            Arrays.asList(currentUserId, "IvmNNuEZKIUkaxPf64Qga26aq9S2"),
-                            Timestamp.now(),
-                            ""
-                    );
-                    getChatroomReference(chatRoomId).set(chatroomModel);
-                }
-            }
-        });
-    }
+//    void getChatRoomModel(){
+//        getChatroomReference(chatRoomId).get().addOnCompleteListener(task -> {
+//            if(task.isSuccessful()){
+//                chatroomModel = task.getResult().toObject(ChatRoomModel.class);
+//                if(chatroomModel==null){
+//                    chatroomModel = new ChatRoomModel(
+//                            chatRoomId,
+//                            Arrays.asList(currentUserId, "IvmNNuEZKIUkaxPf64Qga26aq9S2"),
+//                            Timestamp.now(),
+//                            ""
+//                    );
+//                    getChatroomReference(chatRoomId).set(chatroomModel);
+//                }
+//            }
+//        });
+//    }
 
     public static  void passUserModelAsIntent(Intent intent, MessageUserModel model){
         intent.putExtra("name", model.getName());

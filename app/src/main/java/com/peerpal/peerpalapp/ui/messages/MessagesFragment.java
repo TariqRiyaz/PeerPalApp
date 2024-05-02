@@ -48,9 +48,6 @@ public class MessagesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentMessagesBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
         View view = inflater.inflate(R.layout.fragment_messages, container, false);
 
         recyclerView = view.findViewById(R.id.messageRecyclerView);
@@ -66,9 +63,8 @@ public class MessagesFragment extends Fragment {
         FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
         currentUserId = user.getUid();
         Query query = allChatroomCollectionReference()
-                .whereArrayContains("userIds",currentUserId)
-                .orderBy("lastMessageTimeStamp",Query.Direction.DESCENDING);
-
+                .whereArrayContains("userIds",currentUserId);
+        Log.d("query", query.toString());
         FirestoreRecyclerOptions<ChatRoomModel> options = new FirestoreRecyclerOptions.Builder<ChatRoomModel>()
                 .setQuery(query,ChatRoomModel.class).build();
 
