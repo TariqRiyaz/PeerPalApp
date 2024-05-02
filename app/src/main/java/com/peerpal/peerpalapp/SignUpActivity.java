@@ -12,37 +12,28 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class signUpActivity extends AppCompatActivity {
-
+public class SignUpActivity extends AppCompatActivity {
     EditText firstName,lastname, email, password, confirmPassword;
     TextView acc_Creation_loginRedirect;
     Button signupButton;
-
-    private FirebaseAuth mAuth;
-
+    FirebaseAuth mAuth;
     List<String> hobbies = new ArrayList<>();
     List<String> connections = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +84,7 @@ public class signUpActivity extends AppCompatActivity {
         acc_Creation_loginRedirect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(signUpActivity.this, Login.class));
+                startActivity(new Intent(SignUpActivity.this, Login.class));
             }
         });
     }
@@ -118,18 +109,18 @@ public class signUpActivity extends AppCompatActivity {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     DocumentReference reference = db.collection("peers").document(uid);
                     reference.set(hashMap);
-                    Intent mainIntent = new Intent(signUpActivity.this, profileCreation.class);
+                    Intent mainIntent = new Intent(SignUpActivity.this, ProfileCreation.class);
                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
                     finish();
                 } else {
-                    Toast.makeText(signUpActivity.this, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignUpActivity.this, "Error", Toast.LENGTH_LONG).show();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(signUpActivity.this, "Error Occurred", Toast.LENGTH_LONG).show();
+                Toast.makeText(SignUpActivity.this, "Error Occurred", Toast.LENGTH_LONG).show();
             }
         });
     }

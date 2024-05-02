@@ -1,19 +1,12 @@
 package com.peerpal.peerpalapp;
 
-import static android.content.ContentValues.TAG;
-
-import android.Manifest;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -24,51 +17,32 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import com.google.firebase.firestore.CollectionReference;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
-import java.util.Collections;
 import java.util.HashMap;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-public class profileEdit extends AppCompatActivity {
+public class ProfileCreation extends AppCompatActivity {
 
     private List<Button> hobbyButtons;
     private List<String> selectedHobbies;
@@ -107,7 +81,6 @@ public class profileEdit extends AppCompatActivity {
     private static final int STORAGE_REQUEST = 200;
     private static final int IMAGEPICK_GALLERY_REQUEST = 300;
     private static final int IMAGE_PICKCAMERA_REQUEST = 400;
-    boolean newImage = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,31 +107,19 @@ public class profileEdit extends AppCompatActivity {
         saveProfile = findViewById(R.id.saveProfileBtn);
         update_image = findViewById(R.id.update_image_button);
         firebaseAuth = FirebaseAuth.getInstance();
-
         FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
-        String peerUID = user.getUid();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference selfDocRef = db.collection("peers").document(peerUID);
-
-        selfDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-
-                    imageUri = Uri.parse((String)document.get("image"));
-                    Picasso.get().load((String)document.get("image")).into(imageProfileEdit);
-                    degree.setText((String)document.get("degree"));
-                } else {
-                    Log.d(TAG, "Error getting user document: ", task.getException());
-                }
-            }
-        });
-
         currentUserId = user.getUid();
         currentuserEmail = user.getEmail();
         documentReference = db.collection("peers").document(currentUserId);
         storageReference = FirebaseStorage.getInstance().getReference("profile_Images");
+
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
+                    username = document.get("firstName").toString();
+                }
+            });
 
         saveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,7 +136,6 @@ public class profileEdit extends AppCompatActivity {
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 startActivityForResult(intent, PICK_IMAGE);
-                newImage = true;
             }
         });
     }
@@ -239,15 +199,13 @@ public class profileEdit extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         try{
-            if(requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null){
+            if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null){
                 imageUri = data.getData();
-
                 Picasso.get().load(imageUri).into(imageProfileEdit);
             }
-        }catch (Exception e){
+        } catch (Exception e){
             Toast.makeText(this, "Error"+e, Toast.LENGTH_SHORT).show();
         }
-
     }
 
     private String getFileExt(Uri uri){
@@ -257,90 +215,60 @@ public class profileEdit extends AppCompatActivity {
     }
 
     private void uploadData() {
-        if (newImage) {
-            String degreeInfo = degree.getText().toString();
+        String degreeInfo = degree.getText().toString();
 
-            if (degree.getText().length() > 0 && imageUri != null && !selectedHobbies.isEmpty()) {
-                final StorageReference reference = storageReference.child(System.currentTimeMillis() + "." + getFileExt(imageUri));
-                Log.d("uploadtasks", "uploading file...");
-                uploadtasks = reference.putFile(imageUri);
+        if (degree != null && imageUri != null && selectedHobbies != null) {
+            final StorageReference reference = storageReference.child(System.currentTimeMillis()+"."+getFileExt(imageUri));
+            Log.d("uploadtasks", "uploading file...");
+            uploadtasks = reference.putFile(imageUri);
 
-                Task<Uri> urlTask = uploadtasks.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (!task.isSuccessful()) {
-                            throw task.getException();
-                        }
-                        return reference.getDownloadUrl();
+            Task<Uri> urlTask = uploadtasks.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if(!task.isSuccessful()){
+                        throw task.getException();
                     }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
+                    return reference.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
 
-                        if (task.isSuccessful()) {
-                            Uri downloadUri = task.getResult();
-                            Log.d("completor", "onComplete: sucessful");
+                    if(task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+                        Log.d("completor", "onComplete: sucessful");
 
-                            documentReference.update("degree", degreeInfo);
-                            documentReference.update("image", downloadUri.toString());
-                            documentReference.update("hobbies", selectedHobbies);
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Intent intent = new Intent(profileEdit.this, ViewProfile.class);
-                                    startActivity(intent);
-                                }
-                            }, 2000);
-                        }
+                        Map<String, Object> profile = new HashMap<>();
+                        profile.put("uid", currentUserId);
+                        profile.put("name",username);
+                        profile.put("email", currentuserEmail);
+                        profile.put("degree", degreeInfo);
+                        profile.put("image", downloadUri.toString());
+                        profile.put("hobbies", selectedHobbies);
+                        profile.put("connections", connections);
+
+                        documentReference.set(profile)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(ProfileCreation.this, "Profile Created", Toast.LENGTH_SHORT).show();
+
+                                        Handler handler = new Handler();
+                                        handler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Intent intent = new Intent(ProfileCreation.this, MainActivity.class);
+                                                startActivity(intent);
+                                            }
+                                        }, 2000);
+                                    }
+                                });
                     }
-                });
+                }
+            });
 
-            } else {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            String degreeInfo = degree.getText().toString();
-
-            if (degree.getText().length() > 0 && imageUri != null && !selectedHobbies.isEmpty()) {
-                FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
-                String peerUID = user.getUid();
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                DocumentReference selfDocRef = db.collection("peers").document(peerUID);
-                selfDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-
-                            documentReference.update("degree", degreeInfo);
-                            documentReference.update("image", imageUri.toString());
-                            documentReference.update("hobbies", selectedHobbies);
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Intent intent = new Intent(profileEdit.this, ViewProfile.class);
-                                    startActivity(intent);
-                                }
-                            }, 2000);
-                        } else {
-                            Log.d(TAG, "Error getting user document: ", task.getException());
-                        }
-                    }
-                });
-            } else {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-            }
+        } else{
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent mainIntent = new Intent(profileEdit.this, ViewProfile.class);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(mainIntent);
-        finish();
     }
 }

@@ -1,12 +1,11 @@
 package com.peerpal.peerpalapp;
 
-public class studentCredentialsClass {
+public class StudentCredentialsClass {
     String firstName, lastName, email, password, confirmPassword;
-
-    public studentCredentialsClass() {
+    public StudentCredentialsClass() {
     }
 
-    public studentCredentialsClass(String firstName, String lastName, String email, String password, String confirmPassword) {
+    public StudentCredentialsClass(String firstName, String lastName, String email, String password, String confirmPassword) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

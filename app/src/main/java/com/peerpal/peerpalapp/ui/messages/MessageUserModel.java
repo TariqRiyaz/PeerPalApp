@@ -6,10 +6,7 @@ public class MessageUserModel {
     private String image;
     private String uid;
 
-
-
     public MessageUserModel(){
-
     }
 
     public MessageUserModel(String name, String email, String image, String uid) {

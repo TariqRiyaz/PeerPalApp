@@ -10,7 +10,6 @@ public class ChatMessageModel {
 
 
     public ChatMessageModel(){
-
     }
 
     public ChatMessageModel(String message, String senderId, Timestamp timestamp) {

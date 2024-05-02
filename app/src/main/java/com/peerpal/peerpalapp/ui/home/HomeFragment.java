@@ -13,12 +13,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.peerpal.peerpalapp.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
-
     private FragmentHomeBinding binding;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 

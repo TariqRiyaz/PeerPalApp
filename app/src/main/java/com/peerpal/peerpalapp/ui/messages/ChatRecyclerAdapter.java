@@ -20,13 +20,8 @@ import com.peerpal.peerpalapp.R;
 
     public class ChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatMessageModel, ChatRecyclerAdapter.ChatModelViewHolder> {
         FirebaseAuth firebaseAuth;
-
         String currentUserId;
-
-
         Context context;
-
-
 
         public ChatRecyclerAdapter(@NonNull FirestoreRecyclerOptions<ChatMessageModel> options, Context context) {
             super(options);
@@ -58,13 +53,11 @@ import com.peerpal.peerpalapp.R;
         }
 
         class ChatModelViewHolder extends RecyclerView.ViewHolder{
-
             LinearLayout leftChatLayout,rightChatLayout;
             TextView leftChatTextview,rightChatTextview;
 
             public ChatModelViewHolder(@NonNull View itemView) {
                 super(itemView);
-
                 leftChatLayout = itemView.findViewById(R.id.left_chat_layout);
                 rightChatLayout = itemView.findViewById(R.id.right_chat_layout);
                 leftChatTextview = itemView.findViewById(R.id.left_chat_textview);
