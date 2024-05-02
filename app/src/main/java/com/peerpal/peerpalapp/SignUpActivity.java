@@ -96,8 +96,7 @@ public class SignUpActivity extends AppCompatActivity {
                 HashMap<String, Object> hashMap = new HashMap<>();
                 hashMap.put("email", email1);
                 hashMap.put("uid", uid);
-                hashMap.put("firstName", firstName);
-                hashMap.put("Status", "online");
+                hashMap.put("name", firstName);
                 hashMap.put("image", "");
                 hashMap.put("degree", "");
                 hashMap.put("hobbies", hobbies);
