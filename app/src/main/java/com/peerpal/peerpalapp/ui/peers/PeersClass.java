@@ -1,15 +1,24 @@
 package com.peerpal.peerpalapp.ui.peers;
 
 
-import java.lang.reflect.Array;
-
+// Model class to represent a peer
 public class PeersClass {
-    private String peersUID;
-    private String peersName;
-    private String peersDegree;
-    private String[] peersHobbies;
-    private String peersImage;
+    private final String peersUID;
+    private final String peersName;
+    private final String peersDegree;
+    private final String[] peersHobbies;
+    private final String peersImage;
 
+    // Constructor to initialize a PeersClass object
+    public PeersClass(String peersUID, String peersName, String peersDegree, String[] peersHobbies, String peersImage) {
+        this.peersUID = peersUID;
+        this.peersName = peersName;
+        this.peersDegree = peersDegree;
+        this.peersHobbies = peersHobbies;
+        this.peersImage = peersImage;
+    }
+
+    // Getter methods for accessing private member variables
     public String getPeersUID() {
         return peersUID;
     }
@@ -28,13 +37,5 @@ public class PeersClass {
 
     public String getPeersImage() {
         return peersImage;
-    }
-
-    public PeersClass(String peersUID, String peersName, String peersDegree, String[] peersHobbies, String peersImage) {
-        this.peersUID = peersUID;
-        this.peersName = peersName;
-        this.peersDegree = peersDegree;
-        this.peersHobbies = peersHobbies;
-        this.peersImage = peersImage;
     }
 }

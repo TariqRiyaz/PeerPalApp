@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.peerpal.peerpalapp.databinding.FragmentHomeBinding;
 
@@ -16,14 +14,16 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        // Inflating the layout for the fragment using FragmentHomeBinding
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
 
-        return root;
+        // Getting and returning the root view of the fragment
+        return binding.getRoot();
     }
 
     @Override
     public void onDestroyView() {
+        // Destroys this view and sets binding to null
         super.onDestroyView();
         binding = null;
     }

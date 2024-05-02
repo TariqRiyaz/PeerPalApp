@@ -2,7 +2,6 @@ package com.peerpal.peerpalapp;
 
 import static android.content.ContentValues.TAG;
 
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,67 +17,40 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+// Activity responsible for editing user profiles
 public class ProfileEdit extends AppCompatActivity {
 
+    // Declaration of variables
     private List<Button> hobbyButtons;
     private List<String> selectedHobbies;
-    private List<String> connections;
-
     EditText degree;
     ImageView imageProfileEdit;
-
-    private ProgressDialog pd;
     private Uri imageUri;
     Button saveProfile, update_image;
     UploadTask uploadtasks;
     StorageReference storageReference;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
     DocumentReference documentReference;
     private static final int PICK_IMAGE = 1;
-
-
-    String cameraPermission[];
-    String storagePermission[];
-
     FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
-
     String currentUserId;
-
     String currentuserEmail;
-
-    String username;
-
-    private String storagePath = "Users_Profile_Cover_image/";
-
-    private String profileOrCoverPhoto;
-
-    private static final int CAMERA_REQUEST = 100;
-    private static final int STORAGE_REQUEST = 200;
-    private static final int IMAGEPICK_GALLERY_REQUEST = 300;
-    private static final int IMAGE_PICKCAMERA_REQUEST = 400;
     boolean newImage = false;
 
     @Override
@@ -86,11 +58,12 @@ public class ProfileEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_profile_creation);
+
+        // Initialize lists and views
         hobbyButtons = new ArrayList<>();
         selectedHobbies = new ArrayList<>();
-        connections = new ArrayList<>();
-        connections.add("");
 
+        // Initialize hobby buttons
         hobbyButtons.add(findViewById(R.id.HobbyButtonOne));
         hobbyButtons.add(findViewById(R.id.HobbyButtonTwo));
         hobbyButtons.add(findViewById(R.id.HobbyButtonThree));
@@ -107,51 +80,49 @@ public class ProfileEdit extends AppCompatActivity {
         update_image = findViewById(R.id.update_image_button);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
+        // Get current user and Firestore reference
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        assert user != null;
         String peerUID = user.getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference selfDocRef = db.collection("peers").document(peerUID);
 
-        selfDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
+        // Retrieve user data from Firestore
+        selfDocRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
 
-                    imageUri = Uri.parse((String)document.get("image"));
-                    Picasso.get().load((String)document.get("image")).into(imageProfileEdit);
-                    degree.setText((String)document.get("degree"));
-                } else {
-                    Log.d(TAG, "Error getting user document: ", task.getException());
-                }
+                // Load profile image and degree
+                imageUri = Uri.parse((String)document.get("image"));
+                Picasso.get().load((String)document.get("image")).into(imageProfileEdit);
+                degree.setText((String)document.get("degree"));
+            } else {
+                Log.d(TAG, "Error getting user document: ", task.getException());
             }
         });
 
+        // Set current user information
         currentUserId = user.getUid();
         currentuserEmail = user.getEmail();
         documentReference = db.collection("peers").document(currentUserId);
         storageReference = FirebaseStorage.getInstance().getReference("profile_Images");
 
-        saveProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uploadData();
-            }
-        });
+        // Handle save profile button click
+        saveProfile.setOnClickListener(v -> uploadData());
 
-        update_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(intent, PICK_IMAGE);
-                newImage = true;
-            }
+        // Handle update image button click
+        update_image.setOnClickListener(v -> {
+            // Launch image picker
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(intent, PICK_IMAGE);
+            newImage = true;
         });
     }
 
+    // Handle hobby button click
     public void onHobbyClicked(View view) {
         Button button = (Button) view;
         String hobby = button.getText().toString();
@@ -177,6 +148,7 @@ public class ProfileEdit extends AppCompatActivity {
         updateButtonStates();
     }
 
+    // Update button states based on selected hobbies
     private void updateButtonStates() {
         // Enable all buttons
         for (Button button : hobbyButtons) {
@@ -206,6 +178,7 @@ public class ProfileEdit extends AppCompatActivity {
         }
     }
 
+    // Handle result from image picker
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -222,83 +195,62 @@ public class ProfileEdit extends AppCompatActivity {
 
     }
 
+    // Get file extension from URI
     private String getFileExt(Uri uri){
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType((contentResolver.getType(uri)));
     }
 
+    // Upload data to Firestore
     private void uploadData() {
+        String degreeInfo = degree.getText().toString();
         if (newImage) {
-            String degreeInfo = degree.getText().toString();
-
+            // Uploading new image
             if (degree.getText().length() > 0 && imageUri != null && !selectedHobbies.isEmpty()) {
                 final StorageReference reference = storageReference.child(System.currentTimeMillis() + "." + getFileExt(imageUri));
-                Log.d("uploadtasks", "uploading file...");
                 uploadtasks = reference.putFile(imageUri);
-
-                Task<Uri> urlTask = uploadtasks.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (!task.isSuccessful()) {
-                            throw task.getException();
-                        }
-                        return reference.getDownloadUrl();
+                uploadtasks.continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        throw Objects.requireNonNull(task.getException());
                     }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-
-                        if (task.isSuccessful()) {
-                            Uri downloadUri = task.getResult();
-                            Log.d("completor", "onComplete: sucessful");
-
-                            documentReference.update("degree", degreeInfo);
-                            documentReference.update("image", downloadUri.toString());
-                            documentReference.update("hobbies", selectedHobbies);
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Intent intent = new Intent(ProfileEdit.this, ViewProfile.class);
-                                    startActivity(intent);
-                                }
-                            }, 2000);
-                        }
+                    return reference.getDownloadUrl();
+                }).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+                        documentReference.update("degree", degreeInfo);
+                        documentReference.update("image", downloadUri.toString());
+                        documentReference.update("hobbies", selectedHobbies);
+                        Handler handler = new Handler();
+                        handler.postDelayed(() -> {
+                            Intent intent = new Intent(ProfileEdit.this, ViewProfile.class);
+                            startActivity(intent);
+                        }, 2000);
                     }
                 });
-
             } else {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             }
         } else {
-            String degreeInfo = degree.getText().toString();
-
+            // Updating existing data
             if (degree.getText().length() > 0 && imageUri != null && !selectedHobbies.isEmpty()) {
-                FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                assert user != null;
                 String peerUID = user.getUid();
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 DocumentReference selfDocRef = db.collection("peers").document(peerUID);
-                selfDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-
-                            documentReference.update("degree", degreeInfo);
-                            documentReference.update("image", imageUri.toString());
-                            documentReference.update("hobbies", selectedHobbies);
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Intent intent = new Intent(ProfileEdit.this, ViewProfile.class);
-                                    startActivity(intent);
-                                }
-                            }, 2000);
-                        } else {
-                            Log.d(TAG, "Error getting user document: ", task.getException());
-                        }
+                selfDocRef.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        documentReference.update("degree", degreeInfo);
+                        documentReference.update("image", imageUri.toString());
+                        documentReference.update("hobbies", selectedHobbies);
+                        Handler handler = new Handler();
+                        handler.postDelayed(() -> {
+                            Intent intent = new Intent(ProfileEdit.this, ViewProfile.class);
+                            startActivity(intent);
+                        }, 2000);
+                    } else {
+                        Log.d(TAG, "Error getting user document: ", task.getException());
                     }
                 });
             } else {
@@ -307,6 +259,7 @@ public class ProfileEdit extends AppCompatActivity {
         }
     }
 
+    // Handle back button press
     @Override
     public void onBackPressed() {
         super.onBackPressed();
