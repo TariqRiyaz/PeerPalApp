@@ -4,44 +4,52 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/edit_text_rounded_corner"
+    android:backgroundTint="@color/my_secondary"
     android:layout_margin="10dp"
     android:elevation="2dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="10dp"
-        android:src="@drawable/peerpal_icon"
-        android:id="@+id/profile_pic_image_view"/>
+        android:id="@+id/profile_pic_image_view"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/peerpal_icon" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center">
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:background="@color/my_secondary"
+        android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
+                android:id="@+id/last_message_time_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="User name"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:id="@+id/user_name_text"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="10:00"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="10dp"
-                android:id="@+id/last_message_time_text"/>
+                android:textColor="@color/my_primary"
+                tools:text="10:00" />
         </RelativeLayout>
+
         <TextView
+            android:id="@+id/user_name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Recent Message"
-            android:id="@+id/last_message_text"/>
+            android:textColor="@color/my_primary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="User name" />
+
+        <TextView
+            android:id="@+id/last_message_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Recent Message" />
+
     </LinearLayout>
 </LinearLayout>

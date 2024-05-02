@@ -41,11 +41,10 @@ public class PeersFragment extends Fragment {
     // UID of the current user
     String peersUID;
     // List of hobbies of the current user
-    ArrayList<String> selfHobbies;
+    ArrayList<String> selfHobbies = new ArrayList<>();
 
     // Default constructor
     public PeersFragment() {
-
     }
 
     // Called to create the view hierarchy associated with the fragment
@@ -71,7 +70,8 @@ public class PeersFragment extends Fragment {
         docRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
-                selfHobbies = (ArrayList<String>)document.get("hobbies");
+                ArrayList<String> tempSelfHobbiesArray = ((ArrayList<String>) Objects.requireNonNull(document.get("hobbies")));
+                selfHobbies.addAll(tempSelfHobbiesArray);
             }
         });
 
@@ -129,7 +129,7 @@ public class PeersFragment extends Fragment {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
 
-                    if (!(peersList == null)) {
+                    if (selfHobbies != null) {
                         // Sort peersList based on selfHobbies
                         peersList.sort(new HobbiesComparator(selfHobbies));
                         // Initialize and set adapter for RecyclerView

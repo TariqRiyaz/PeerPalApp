@@ -42,7 +42,6 @@ public class MessagesFragment extends Fragment {
 
      String currentUserId;
 
-
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -56,7 +55,6 @@ public class MessagesFragment extends Fragment {
 
         return view;
     }
-
 
     void setupRecyclerView(){
         firebaseAuth = FirebaseAuth.getInstance();

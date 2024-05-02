@@ -33,7 +33,6 @@ import com.peerpal.peerpalapp.R;
             firebaseAuth = FirebaseAuth.getInstance();
             FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
             currentUserId = user.getUid();
-            Log.i("haushd","asjd");
             if(model.getSenderId().equals((currentUserId))){
                 holder.leftChatLayout.setVisibility(View.GONE);
                 holder.rightChatLayout.setVisibility(View.VISIBLE);

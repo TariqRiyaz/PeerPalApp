@@ -3,6 +3,7 @@ package com.peerpal.peerpalapp.ui.messages;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,11 @@ import com.google.firebase.storage.StorageReference;
 import com.peerpal.peerpalapp.ui.messages.MessageUserModel;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoomModel, RecentChatRecyclerAdapter.ChatroomModelViewHolder> {
@@ -45,7 +50,7 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
     FirebaseAuth firebaseAuth;
 
     String currentUserId;
-
+    String chatroomId;
 
     public RecentChatRecyclerAdapter(@NonNull FirestoreRecyclerOptions<ChatRoomModel> options,Context context) {
         super(options);
@@ -56,21 +61,25 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
     protected void onBindViewHolder(@NonNull ChatroomModelViewHolder holder, int position, @NonNull ChatRoomModel model) {
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
-        currentUserId = user.getUid();
+        chatroomId = model.chatRoomId;
+        ArrayList<String> allUID = (ArrayList<String>)model.getUserIds();
+
         getOtherUserFromChatroom(model.getUserIds())
                 .get().addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
                         MessageUserModel otherUserModel = task.getResult().toObject(MessageUserModel.class);
                         Log.d("otherUserModel", otherUserModel.getName());
                         if (!otherUserModel.getUid().isEmpty()) {
+                            currentUserId = otherUserModel.getUid();
                             Log.d("image", getOtherProfilePicStorageRef(otherUserModel));
                             String OtheruserImage = getOtherProfilePicStorageRef(otherUserModel);
-//                            Log.d("otherUserModel", OtheruserImage);
                             if (!OtheruserImage.isEmpty()) {
                                 Log.d("otherUserModel", OtheruserImage);
                                 Picasso.get().load(OtheruserImage).into(holder.profilePic);
                             }
                             holder.usernameText.setText(otherUserModel.getName());
+                            allUID.add(otherUserModel.getName());
+                            allUID.add(otherUserModel.getImage());
                         } else {
                             Log.e("RecentChatRecyclerAdapter", "Other user model is null");
                         }
@@ -78,6 +87,11 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
                                 //navigate to chat activity
                                 Intent intent = new Intent(context, ChatActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("selfUID", allUID.get(0));
+                                intent.putExtra("peerUID", allUID.get(1));
+                                intent.putExtra("peerName", allUID.get(2));
+                                intent.putExtra("peerImage", allUID.get(3));
+
                                 context.startActivity(intent);
                             });
 

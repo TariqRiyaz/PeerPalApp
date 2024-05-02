@@ -2,9 +2,10 @@ package com.peerpal.peerpalapp.ui.messages;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -24,18 +25,17 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.peerpal.peerpalapp.R;
-
-import java.util.Arrays;
+import com.squareup.picasso.Picasso;
 
 public class ChatActivity extends AppCompatActivity {
 
     String chatRoomId;
-    ChatRoomModel chatroomModel;
     ChatRecyclerAdapter adapter;
     EditText messageInput;
     ImageButton sendImageButton;
     ImageButton backBtn;
     TextView otherUsername;
+    ImageView otherImage;
     RecyclerView recyclerView;
     FirebaseAuth firebaseAuth;
     String currentUserId;
@@ -45,18 +45,35 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_chat);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
-        currentUserId = user.getUid();
-
-
-        chatRoomId = "IvmNNuEZKIUkaxPf64Qga26aq9S2_M47rmpT9MvR13MneP7DMUi2fViD2";
         messageInput = findViewById(R.id.chat_message_input);
         sendImageButton = findViewById(R.id.message_send_btn);
         backBtn = findViewById(R.id.back_btn);
         otherUsername = findViewById(R.id.other_username);
+        otherImage = findViewById(R.id.other_image);
         recyclerView = findViewById(R.id.chat_recycler_view);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
+        currentUserId = user.getUid();
+        String selfUID;
+        String peerUID;
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            selfUID = extras.getString("selfUID");
+            peerUID = extras.getString("peerUID");
+
+            if (selfUID.hashCode() < peerUID.hashCode()) {
+                chatRoomId = (selfUID + "_" + peerUID);
+            } else {
+                chatRoomId = (peerUID + "_" + selfUID);
+            }
+
+            otherUsername.setText(extras.getString("peerName"));
+            Picasso.get().load(extras.getString("peerImage")).into(otherImage);
+        }
 
         backBtn.setOnClickListener((v) -> {
             onBackPressed();
@@ -70,11 +87,9 @@ public class ChatActivity extends AppCompatActivity {
         }));
 
         setupChatRecyclerView();
-
     }
 
     void setupChatRecyclerView(){
-        Log.d("OtherUserId", chatRoomId);
         Query query = getChatroomMessageReference(chatRoomId).orderBy("timestamp", Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<ChatMessageModel> options = new FirestoreRecyclerOptions.Builder<ChatMessageModel>()
@@ -108,29 +123,11 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-//    void getChatRoomModel(){
-//        getChatroomReference(chatRoomId).get().addOnCompleteListener(task -> {
-//            if(task.isSuccessful()){
-//                chatroomModel = task.getResult().toObject(ChatRoomModel.class);
-//                if(chatroomModel==null){
-//                    chatroomModel = new ChatRoomModel(
-//                            chatRoomId,
-//                            Arrays.asList(currentUserId, "IvmNNuEZKIUkaxPf64Qga26aq9S2"),
-//                            Timestamp.now(),
-//                            ""
-//                    );
-//                    getChatroomReference(chatRoomId).set(chatroomModel);
-//                }
-//            }
-//        });
-//    }
-
     public static  void passUserModelAsIntent(Intent intent, MessageUserModel model){
         intent.putExtra("name", model.getName());
         intent.putExtra("email", model.getEmail());
         intent.putExtra("image", model.getImage());
         intent.putExtra("uid", model.getUid());
-
     }
 
     public static DocumentReference getChatroomReference(String chatroomId){
