@@ -8,6 +8,7 @@ public class MessageUserModel {
     private String email; // User's email
     private String image; // URL of user's profile image
     private String uid; // User's unique ID
+    private String phone; // User's unique phone
 
     // Default constructor (required by Firestore)
     public MessageUserModel() {
@@ -19,6 +20,7 @@ public class MessageUserModel {
         this.email = email;
         this.image = image;
         this.uid = uid;
+        this.phone = phone;
     }
 
     // Getter for name
@@ -59,5 +61,15 @@ public class MessageUserModel {
     // Setter for uid
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    // Getter for name
+    public String getPhone() {
+        return phone;
+    }
+
+    // Setter for name
+    public void getPhone(String phone) {
+        this.phone = phone;
     }
 }

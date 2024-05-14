@@ -80,7 +80,7 @@
                 android:id="@+id/other_image"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginLeft="40dp"
+                android:layout_marginHorizontal="40dp"
                 android:src="@drawable/peerpal_icon" />
 
             <ImageButton
@@ -89,7 +89,16 @@
                 android:layout_height="32dp"
                 android:layout_centerVertical="true"
                 android:background="@drawable/back_arrow_messaging" />
+
+            <ImageButton
+                android:id="@+id/call_btn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/icon_call" />
+
         </RelativeLayout>
 
     </RelativeLayout>
+
 </RelativeLayout>

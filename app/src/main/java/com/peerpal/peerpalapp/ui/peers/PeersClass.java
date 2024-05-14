@@ -8,14 +8,16 @@ public class PeersClass {
     private final String peersDegree;
     private final String[] peersHobbies;
     private final String peersImage;
+    private final String peersPhone;
 
     // Constructor to initialize a PeersClass object
-    public PeersClass(String peersUID, String peersName, String peersDegree, String[] peersHobbies, String peersImage) {
+    public PeersClass(String peersUID, String peersName, String peersDegree, String[] peersHobbies, String peersImage, String peersPhone) {
         this.peersUID = peersUID;
         this.peersName = peersName;
         this.peersDegree = peersDegree;
         this.peersHobbies = peersHobbies;
         this.peersImage = peersImage;
+        this.peersPhone = peersPhone;
     }
 
     // Getter methods for accessing private member variables
@@ -37,5 +39,9 @@ public class PeersClass {
 
     public String getPeersImage() {
         return peersImage;
+    }
+
+    public String getPeersPhone() {
+        return peersPhone;
     }
 }

@@ -63,6 +63,7 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
                     // Add other user's name and image URL to the list for passing to ChatActivity
                     allUID.add(otherUserModel.getName());
                     allUID.add(otherUserModel.getImage());
+                    allUID.add(otherUserModel.getPhone());
                 } else {
                     Log.e("RecentChatRecyclerAdapter", "Other user model is null");
                 }
@@ -75,6 +76,7 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
                     intent.putExtra("peerUID", allUID.get(1));
                     intent.putExtra("peerName", allUID.get(2));
                     intent.putExtra("peerImage", allUID.get(3));
+                    intent.putExtra("peerPhone", allUID.get(4));
                     context.startActivity(intent);
                 });
             }

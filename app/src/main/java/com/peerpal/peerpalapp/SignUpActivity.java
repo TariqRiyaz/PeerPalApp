@@ -83,7 +83,7 @@ public class SignUpActivity extends AppCompatActivity {
                 confirmPassword.requestFocus(); // Request focus to highlight the confirm password field
             } else {
                 // Passwords match, proceed with registration
-                userRegister(trimFirstName, trimEmail, trimPassword);
+                userRegister(trimFirstName, trimEmail, trimPassword, trimPhone);
             }
         });
 
@@ -94,7 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     // Method to register a new user
-    private void userRegister(String firstName, String email, final String password) {
+    private void userRegister(String firstName, String email, final String password, String phone) {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 // Registration successful

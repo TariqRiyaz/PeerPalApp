@@ -1,6 +1,9 @@
 package com.peerpal.peerpalapp.ui.messages;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -8,9 +11,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,11 +39,13 @@ public class ChatActivity extends AppCompatActivity {
     EditText messageInput;
     ImageButton sendImageButton;
     ImageButton backBtn;
+    ImageButton callBtn;
     TextView otherUsername;
     ImageView otherImage;
     RecyclerView recyclerView;
     FirebaseAuth firebaseAuth;
     String currentUserId;
+    String peerPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,7 @@ public class ChatActivity extends AppCompatActivity {
         messageInput = findViewById(R.id.chat_message_input);
         sendImageButton = findViewById(R.id.message_send_btn);
         backBtn = findViewById(R.id.back_btn);
+        callBtn = findViewById(R.id.call_btn);
         otherUsername = findViewById(R.id.other_username);
         otherImage = findViewById(R.id.other_image);
         recyclerView = findViewById(R.id.chat_recycler_view);
@@ -69,6 +76,7 @@ public class ChatActivity extends AppCompatActivity {
         if (extras != null) {
             selfUID = extras.getString("selfUID");
             peerUID = extras.getString("peerUID");
+            peerPhone = extras.getString("peerPhone");
 
             // Generate chat room ID
             if (selfUID.hashCode() < peerUID.hashCode()) {
@@ -85,6 +93,18 @@ public class ChatActivity extends AppCompatActivity {
         // Set onClickListener for back button
         backBtn.setOnClickListener((v) -> {
             onBackPressed();
+        });
+
+        // Set onClickListener for back button
+        callBtn.setOnClickListener((v) -> {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE},
+                        1);
+            } else {
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + peerPhone));
+                startActivity(intent);
+            }
         });
 
         // Set onClickListener for send button

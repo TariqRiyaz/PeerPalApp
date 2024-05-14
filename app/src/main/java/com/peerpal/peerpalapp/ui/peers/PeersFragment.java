@@ -121,7 +121,7 @@ public class PeersFragment extends Fragment {
                                     peersHobbies[i] = ((ArrayList<String>) Objects.requireNonNull(documentData.get("hobbies"))).get(i);
                                 }
 
-                                peersClass = new PeersClass(Objects.requireNonNull(documentData.get("uid")).toString(), Objects.requireNonNull(documentData.get("name")).toString(), Objects.requireNonNull(documentData.get("degree")).toString(), peersHobbies, Objects.requireNonNull(documentData.get("image")).toString());
+                                peersClass = new PeersClass(Objects.requireNonNull(documentData.get("uid")).toString(), Objects.requireNonNull(documentData.get("name")).toString(), Objects.requireNonNull(documentData.get("degree")).toString(), peersHobbies, Objects.requireNonNull(documentData.get("image")).toString(), Objects.requireNonNull(documentData.get("phone")).toString());
                                 peersList.add(peersClass);
                             }
                         }
