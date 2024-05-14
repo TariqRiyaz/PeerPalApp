@@ -19,10 +19,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 // Activity responsible for creating user account
 public class SignUpActivity extends AppCompatActivity {
-    EditText firstName, lastname, email, password, confirmPassword;
+    EditText firstName, lastname, email, phone, password, confirmPassword;
     TextView acc_Creation_loginRedirect;
     Button signupButton;
     FirebaseAuth mAuth;
@@ -38,6 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
         firstName = findViewById(R.id.acc_Creation_First_Name);
         lastname = findViewById(R.id.acc_Creation_Last_Name);
         email = findViewById(R.id.acc_Creation_Email);
+        phone = findViewById(R.id.acc_Creation_Phone);
         password = findViewById(R.id.acc_Creation_Password);
         confirmPassword = findViewById(R.id.acc_Creation_Cofirm_Password);
         signupButton = findViewById(R.id.acc_Creation_signup_btn);
@@ -53,6 +55,7 @@ public class SignUpActivity extends AppCompatActivity {
             // Get input values
             String trimFirstName = firstName.getText().toString().trim();
             String trimEmail = email.getText().toString().trim();
+            String trimPhone = phone.getText().toString().trim();
             String trimPassword = password.getText().toString().trim();
             String trimConfirmPassword = confirmPassword.getText().toString().trim();
             // Validate email format
@@ -65,6 +68,13 @@ public class SignUpActivity extends AppCompatActivity {
                     email.setError("Invalid domain. Use your AUT student domain");
                     email.requestFocus(); // Request focus to highlight the email field
                 }
+            }
+            // Validate phone format
+            try {
+                int i = Integer.parseInt(trimPhone);
+            } catch (NumberFormatException e) {
+                phone.setError("Phone number format is not correct");
+                phone.requestFocus(); // Request focus to highlight the phone field
             }
             // Validate password match
             if (!trimPassword.equals(trimConfirmPassword)) {
@@ -95,6 +105,7 @@ public class SignUpActivity extends AppCompatActivity {
                 // Create user data hashmap
                 HashMap<String, Object> hashMap = new HashMap<>();
                 hashMap.put("email", email1);
+                hashMap.put("phone", phone);
                 hashMap.put("uid", uid);
                 hashMap.put("name", firstName);
                 hashMap.put("image", "");
