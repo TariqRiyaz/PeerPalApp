@@ -11,15 +11,19 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
@@ -81,12 +85,22 @@ public class ViewProfile extends AppCompatActivity {
         });
 
         logoutButton.setOnClickListener(v -> {
-            // Sign out current user and redirect to splash screen
-            firebaseAuth.signOut();
-            Intent mainIntent = new Intent(ViewProfile.this, SplashScreen.class);
-            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(mainIntent);
-            finish();
+            FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                  if(task.isSuccessful())
+                  {
+                      // Sign out current user and redirect to splash screen
+                      firebaseAuth.signOut();
+                      Intent mainIntent = new Intent(ViewProfile.this, SplashScreen.class);
+                      mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                      startActivity(mainIntent);
+                      finish();
+                  }
+                }
+            });
+
+
         });
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {

@@ -32,7 +32,7 @@ public class SplashScreen extends AppCompatActivity {
         // Get the current user
         currentUser = mAuth.getCurrentUser();
 
-        if(getIntent().getExtras() != null)
+        if(FirebaseAuth.getInstance().getUid() != null && getIntent().getExtras() != null)
         {
             //from notification
             String userId = getIntent().getExtras().getString("userId");
@@ -41,12 +41,21 @@ public class SplashScreen extends AppCompatActivity {
                         if(task.isSuccessful())
                         {
                             //More work here!
+                            PeersClass peer =  task.getResult().toObject(PeersClass.class);
+
+                            Intent mainIntent = new Intent(this,MainActivity.class);
+                            mainIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(mainIntent);
+
 
                             Intent intent = new Intent(this, ChatActivity.class);
-
+                            intent.putExtra("peersName",peer.getPeersName());
+                            intent.putExtra("peersUID",peer.getPeersUID());
+                            intent.putExtra("fcmToken",peer.getFcmToken());
 
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
+                            finish();
 
 
                         }
