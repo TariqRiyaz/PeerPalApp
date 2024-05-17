@@ -35,7 +35,7 @@ public class SplashScreen extends AppCompatActivity {
         if(FirebaseAuth.getInstance().getUid() != null && getIntent().getExtras() != null)
         {
             //from notification
-            String userId = getIntent().getExtras().getString("userId");
+            String userId = getIntent().getExtras().getString("uid");
             FirebaseFirestore.getInstance().collection("peers").document(userId).get()
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful())

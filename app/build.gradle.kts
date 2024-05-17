@@ -54,6 +54,7 @@ dependencies {
     implementation ("com.google.firebase:firebase-storage:16.0.1")
     implementation ("com.google.firebase:firebase-firestore:24.11.1")
     implementation ("com.firebaseui:firebase-ui-firestore:8.0.2")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation ("com.google.firebase:firebase-messaging:23.0.0")
     implementation ("com.squareup.picasso:picasso:2.8")
     implementation ("de.hdodenhof:circleimageview:3.1.0")

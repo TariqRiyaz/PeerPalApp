@@ -18,14 +18,18 @@ public class PeersClass {
         this.peersImage = peersImage;
     }
 
+
     // Getter methods for accessing private member variables
     public String getPeersUID() {
         return peersUID;
     }
 
+
     public String getPeersName() {
         return peersName;
     }
+
+
 
     public String getPeersDegree() {
         return peersDegree;
@@ -47,5 +51,7 @@ public class PeersClass {
     public void setFcmToken(String fcmToken) {
         this.fcmToken = fcmToken;
     }
+
+
 
 }
