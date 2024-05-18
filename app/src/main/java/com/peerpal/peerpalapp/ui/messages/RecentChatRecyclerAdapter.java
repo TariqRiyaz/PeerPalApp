@@ -1,14 +1,21 @@
 package com.peerpal.peerpalapp.ui.messages;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,13 +27,21 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.peerpal.peerpalapp.ProfileEdit;
 import com.peerpal.peerpalapp.R;
+import com.peerpal.peerpalapp.SplashScreen;
+import com.peerpal.peerpalapp.ViewProfile;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Document;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 // Adapter for recentchatrecycler
 public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoomModel, RecentChatRecyclerAdapter.ChatroomModelViewHolder> {
@@ -35,6 +50,7 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
     FirebaseAuth firebaseAuth;
     String currentUserId;
     String chatroomId;
+    ImageButton deleteConnectionButton;
 
     // Constructor
     public RecentChatRecyclerAdapter(@NonNull FirestoreRecyclerOptions<ChatRoomModel> options, Context context) {
@@ -47,6 +63,8 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         chatroomId = model.getChatRoomId();
+        deleteConnectionButton = holder.deleteConnectionButton;
+
         ArrayList<String> allUID = new ArrayList<>(model.getUserIds()); // Copying user IDs to an ArrayList
 
         // Get the other user's information from Firestore
@@ -107,6 +125,7 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
         TextView lastMessageText;
         TextView lastMessageTime;
         ImageView profilePic;
+        ImageButton deleteConnectionButton;
 
         public ChatroomModelViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -115,6 +134,7 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
             lastMessageText = itemView.findViewById(R.id.last_message_text);
             lastMessageTime = itemView.findViewById(R.id.last_message_time_text);
             profilePic = itemView.findViewById(R.id.profile_pic_image_view);
+            deleteConnectionButton = itemView.findViewById(R.id.deleteConnectionButton);
         }
     }
 
@@ -128,6 +148,55 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
         // Check which user ID is not the current user's ID
         String otherUserId = userIds.get(0).equals(currentUserId) ? userIds.get(1) : userIds.get(0);
         Log.d("otherUserId", otherUserId);
+
+        // Sets button to delete user connection and chatroom
+        deleteConnectionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Alerts user to confirm deletion of connection
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                builder.setTitle("Confirmation");
+                builder.setMessage("Are you sure you want to delete connection?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Removing peer connection from connections list in Firestore
+                        String existingUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        DocumentReference peerRef = db.collection("peers").document(existingUser);
+                        peerRef.get().addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot doc = task.getResult();
+                                ArrayList<String> connectionArray = ((ArrayList<String>) Objects.requireNonNull(doc.get("connections")));
+                                connectionArray.remove(otherUserId);
+                                peerRef.update("connections", connectionArray);
+                            }
+                        });
+
+                        //Removing chatroom from chatrooms collection
+                        DocumentReference chatroomRef = db.collection("chatrooms").document(chatroomId);
+                        chatroomRef.get().addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                chatroomRef.delete();
+                            }
+                        });
+
+                        //Updates chatroom recycler view
+                        notifyDataSetChanged();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
 
         // Return DocumentReference to the other user
         return allUserCollectionReference().document(otherUserId);
