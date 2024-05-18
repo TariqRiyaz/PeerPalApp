@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -42,6 +43,8 @@ public class PeersFragment extends Fragment {
     String peersUID;
     // List of hobbies of the current user
     ArrayList<String> selfHobbies = new ArrayList<>();
+    // Progress bar
+    ProgressBar progressBar;
 
     // Default constructor
     public PeersFragment() {
@@ -63,6 +66,8 @@ public class PeersFragment extends Fragment {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         // Get UID of the current user
         peersUID = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
+        progressBar = view.findViewById(R.id.progressBar);
+        showLoading(true);
 
         // Retrieve hobbies of the current user from Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -72,11 +77,13 @@ public class PeersFragment extends Fragment {
                 DocumentSnapshot document = task.getResult();
                 ArrayList<String> tempSelfHobbiesArray = ((ArrayList<String>) Objects.requireNonNull(document.get("hobbies")));
                 selfHobbies.addAll(tempSelfHobbiesArray);
+                showLoading(false);
             }
         });
 
         // Setup RecyclerView
         setupRecyclerView();
+
         return view;
     }
 
@@ -137,6 +144,15 @@ public class PeersFragment extends Fragment {
                         recyclerView.setAdapter(adapter);
                     }
                 });
+    }
+
+    // Function to toggle loading wheel on/off
+    private void showLoading(boolean isLoading) {
+        if (isLoading) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }
 

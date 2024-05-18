@@ -3,10 +3,12 @@ package com.peerpal.peerpalapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +21,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Pattern;
 
 // Activity responsible for creating user account
 public class SignUpActivity extends AppCompatActivity {
@@ -29,6 +30,7 @@ public class SignUpActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     List<String> hobbies = new ArrayList<>();
     List<String> connections = new ArrayList<>();
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +52,11 @@ public class SignUpActivity extends AppCompatActivity {
         hobbies.add("");
         hobbies.add("");
         connections.add("");
+        progressBar = findViewById(R.id.progressBar);
 
         signupButton.setOnClickListener(v -> {
+            // Show loading wheel
+            showLoading(true);
             // Get input values
             String trimFirstName = firstName.getText().toString().trim();
             String trimEmail = email.getText().toString().trim();
@@ -62,11 +67,13 @@ public class SignUpActivity extends AppCompatActivity {
             if (!Patterns.EMAIL_ADDRESS.matcher(trimEmail).matches()) {
                 email.setError("Invalid Email");
                 email.requestFocus(); // Request focus to highlight the email field
+                showLoading(false);
             } else {
                 // Check if the email belongs to the specified domain
                 if (!trimEmail.endsWith("@autuni.ac.nz")) {
                     email.setError("Invalid domain. Use your AUT student domain");
                     email.requestFocus(); // Request focus to highlight the email field
+                    showLoading(false);
                 }
             }
             // Validate phone format
@@ -75,12 +82,14 @@ public class SignUpActivity extends AppCompatActivity {
             } catch (NumberFormatException e) {
                 phone.setError("Phone number format is not correct");
                 phone.requestFocus(); // Request focus to highlight the phone field
+                showLoading(false);
             }
             // Validate password match
             if (!trimPassword.equals(trimConfirmPassword)) {
                 // Passwords do not match
                 confirmPassword.setError("Passwords do not match");
                 confirmPassword.requestFocus(); // Request focus to highlight the confirm password field
+                showLoading(false);
             } else {
                 // Passwords match, proceed with registration
                 userRegister(trimFirstName, trimEmail, trimPassword, trimPhone);
@@ -88,6 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         acc_Creation_loginRedirect.setOnClickListener(v -> {
+
             // Redirect to login activity
             startActivity(new Intent(SignUpActivity.this, Login.class));
         });
@@ -120,6 +130,7 @@ public class SignUpActivity extends AppCompatActivity {
                 Intent mainIntent = new Intent(SignUpActivity.this, ProfileCreation.class);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(mainIntent);
+                showLoading(false);
                 finish();
             } else {
                 // Registration failed
@@ -129,5 +140,14 @@ public class SignUpActivity extends AppCompatActivity {
             // Failure in user registration
             Toast.makeText(SignUpActivity.this, "Error Occurred", Toast.LENGTH_LONG).show();
         });
+    }
+
+    // Function to toggle loading wheel on/off
+    private void showLoading(boolean isLoading) {
+        if (isLoading) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }
