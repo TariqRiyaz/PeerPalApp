@@ -187,9 +187,15 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
                 });
             }
         });
+
+        removeItem(position);
+    }
+
+    public void removeItem(int position) {
         // Remove the peer from the peersList and notify the adapter
         peersList.remove(position);
-        this.notifyItemRemoved(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, getItemCount());
     }
 }
 
