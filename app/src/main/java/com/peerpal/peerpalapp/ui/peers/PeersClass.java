@@ -3,12 +3,17 @@ package com.peerpal.peerpalapp.ui.peers;
 
 // Model class to represent a peer
 public class PeersClass {
-    private final String peersUID;
-    private final String peersName;
-    private final String peersDegree;
-    private final String[] peersHobbies;
-    private final String peersImage;
+
+
+    private  String peersUID;
+    private  String peersName;
+    private  String peersDegree;
+    private  String[] peersHobbies;
+    private  String peersImage;
     private String fcmToken; // User's FCM Token
+
+    public PeersClass(){}
+
     // Constructor to initialize a PeersClass object
     public PeersClass(String peersUID, String peersName, String peersDegree, String[] peersHobbies, String peersImage) {
         this.peersUID = peersUID;
@@ -47,6 +52,28 @@ public class PeersClass {
     public String getFcmToken() {
         return fcmToken;
     }
+
+    public void setPeersUID(String peersUID) {
+        this.peersUID = peersUID;
+    }
+
+    public void setPeersName(String peersName) {
+        this.peersName = peersName;
+    }
+
+    public void setPeersDegree(String peersDegree) {
+        this.peersDegree = peersDegree;
+    }
+
+    public void setPeersHobbies(String[] peersHobbies) {
+        this.peersHobbies = peersHobbies;
+    }
+
+    public void setPeersImage(String peersImage) {
+        this.peersImage = peersImage;
+    }
+
+
     // Setter for FcmToken
     public void setFcmToken(String fcmToken) {
         this.fcmToken = fcmToken;
