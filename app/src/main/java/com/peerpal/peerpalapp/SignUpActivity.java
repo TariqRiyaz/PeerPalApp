@@ -48,9 +48,7 @@ public class SignUpActivity extends AppCompatActivity {
         acc_Creation_loginRedirect = findViewById(R.id.acc_Creation_loginRedirect);
         mAuth = FirebaseAuth.getInstance();
         // Add default values to lists
-        hobbies.add("");
-        hobbies.add("");
-        hobbies.add("");
+        hobbies.add("No Hobbies");
         connections.add("");
         progressBar = findViewById(R.id.progressBar);
 
@@ -118,8 +116,8 @@ public class SignUpActivity extends AppCompatActivity {
                 hashMap.put("phone", phone);
                 hashMap.put("uid", uid);
                 hashMap.put("name", firstName);
-                hashMap.put("image", "");
-                hashMap.put("degree", "");
+                hashMap.put("image", "https://firebasestorage.googleapis.com/v0/b/peerpalapp.appspot.com/o/profile_Images%2F1756.png?alt=media&token=3dd4d143-5635-4924-b598-c9138eb37e8c");
+                hashMap.put("degree", "No Degree");
                 hashMap.put("hobbies", hobbies);
                 hashMap.put("connections", connections);
                 // Add user data to Firestore
