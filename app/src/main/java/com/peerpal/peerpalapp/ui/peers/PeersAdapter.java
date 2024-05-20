@@ -178,7 +178,7 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
                             DocumentReference docRef = db.collection("chatrooms").document(customUID);
                             docRef.set(chatroom);
                             // Show a toast indicating that the chatroom is opened with the peer
-                            Toast.makeText(context.getApplicationContext(), ("CHATROOM OPEN WITH: " + peerUID), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context.getApplicationContext(), ("Peer connection open!"), Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         // Log an error if there's an issue getting documents
@@ -187,9 +187,15 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
                 });
             }
         });
+
+        removeItem(position);
+    }
+
+    public void removeItem(int position) {
         // Remove the peer from the peersList and notify the adapter
         peersList.remove(position);
-        this.notifyItemRemoved(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, getItemCount());
     }
 }
 

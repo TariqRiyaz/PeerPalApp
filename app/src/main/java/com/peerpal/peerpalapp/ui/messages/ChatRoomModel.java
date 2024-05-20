@@ -1,5 +1,8 @@
 package com.peerpal.peerpalapp.ui.messages;
 
+import android.media.Image;
+import android.widget.ImageButton;
+
 import com.google.firebase.Timestamp;
 
 import java.util.List;
@@ -13,17 +16,19 @@ public class ChatRoomModel {
     Timestamp lastMessageTimeStamp; // Timestamp of the last message in the chat room
     String lastMessageSenderId; // ID of the user who sent the last message
     String lastMessage; // Content of the last message
+    ImageButton deleteConnectionButton; // Button to delete chatroom and connection
 
     // Default constructor (required by Firestore)
     public ChatRoomModel() {
     }
 
     // Parameterized constructor
-    public ChatRoomModel(String chatRoomId, List<String> userIds, Timestamp lastMessageTimeStamp, String lastMessageSenderId) {
+    public ChatRoomModel(String chatRoomId, List<String> userIds, Timestamp lastMessageTimeStamp, String lastMessageSenderId, ImageButton deleteConnectionButton) {
         this.chatRoomId = chatRoomId;
         this.userIds = userIds;
         this.lastMessageTimeStamp = lastMessageTimeStamp;
         this.lastMessageSenderId = lastMessageSenderId;
+        this.deleteConnectionButton = deleteConnectionButton;
     }
 
     // Getter for lastMessage
@@ -74,5 +79,15 @@ public class ChatRoomModel {
     // Setter for lastMessageSenderId
     public void setLastMessageSenderId(String lastMessageSenderId) {
         this.lastMessageSenderId = lastMessageSenderId;
+    }
+
+    // Getter for deleteConnectionButton
+    public ImageButton getDeleteConnectionButton() {
+        return deleteConnectionButton;
+    }
+
+    // Setter for deleteConnectionButton
+    public void setDeleteConnectionButton(ImageButton deleteConnectionButton) {
+        this.deleteConnectionButton = deleteConnectionButton;
     }
 }

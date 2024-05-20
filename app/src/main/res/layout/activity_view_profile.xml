@@ -8,6 +8,18 @@
     android:background="#AE2431"
     tools:context=".Login">
 
+    <Button
+        android:id="@+id/deleteAccountButton"
+        android:layout_width="294dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="32dp"
+        android:textColor="@color/my_primary"
+        android:text="Delete Account"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/logoutButton"

@@ -14,6 +14,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -52,6 +53,7 @@ public class ProfileEdit extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     String currentUserId;
     String currentuserEmail;
+    ProgressBar progressBar;
     boolean newImage = false;
 
     @Override
@@ -80,6 +82,7 @@ public class ProfileEdit extends AppCompatActivity {
         saveProfile = findViewById(R.id.saveProfileBtn);
         update_image = findViewById(R.id.update_image_button);
         firebaseAuth = FirebaseAuth.getInstance();
+        progressBar = findViewById(R.id.progressBar);
 
         // Get current user and Firestore reference
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -217,6 +220,7 @@ public class ProfileEdit extends AppCompatActivity {
 
     // Upload data to Firestore
     private void uploadData() {
+        showLoading(true);
         String degreeInfo = degree.getText().toString();
         if (newImage) {
             // Uploading new image
@@ -243,6 +247,7 @@ public class ProfileEdit extends AppCompatActivity {
                 });
             } else {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                showLoading(false);
             }
         } else {
             // Updating existing data
@@ -268,7 +273,17 @@ public class ProfileEdit extends AppCompatActivity {
                 });
             } else {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                showLoading(false);
             }
+        }
+    }
+
+    // Function to toggle loading wheel on/off
+    private void showLoading(boolean isLoading) {
+        if (isLoading) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
         }
     }
 }
