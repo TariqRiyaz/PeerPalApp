@@ -38,8 +38,6 @@ import java.util.Objects;
 
 // Activity responsible for editing user profiles
 public class ProfileEdit extends AppCompatActivity {
-
-    // Declaration of variables
     private List<Button> hobbyButtons;
     private List<String> selectedHobbies;
     EditText degree;

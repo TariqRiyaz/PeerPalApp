@@ -4,11 +4,9 @@ import com.google.firebase.Timestamp;
 
 // Model class for chat message
 public class ChatMessageModel {
-
-    // Declare variables
-    private String message; // Message content
-    private String senderId; // ID of the message sender
-    private Timestamp timestamp; // Timestamp of when the message was sent
+    private String message;
+    private String senderId;
+    private Timestamp timestamp;
 
     // Default constructor (required by Firestore)
     public ChatMessageModel(){

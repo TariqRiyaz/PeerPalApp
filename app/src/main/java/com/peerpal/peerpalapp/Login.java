@@ -21,11 +21,7 @@ import java.util.Objects;
 
 // Activity for user login
 public class Login extends AppCompatActivity {
-
-    // UI elements
     private EditText email, password;
-
-    // Firebase authentication
     private FirebaseAuth firebaseAuth;
 
     // Called when the activity is created

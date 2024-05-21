@@ -9,14 +9,12 @@ import java.util.List;
 
 // Model for chatroom
 public class ChatRoomModel {
-
-    // Declare variables
-    String chatRoomId; // Unique ID for the chat room
-    List<String> userIds; // IDs of users in the chat room
-    Timestamp lastMessageTimeStamp; // Timestamp of the last message in the chat room
-    String lastMessageSenderId; // ID of the user who sent the last message
-    String lastMessage; // Content of the last message
-    ImageButton deleteConnectionButton; // Button to delete chatroom and connection
+    String chatRoomId;
+    List<String> userIds;
+    Timestamp lastMessageTimeStamp;
+    String lastMessageSenderId;
+    String lastMessage;
+    ImageButton deleteConnectionButton;
 
     // Default constructor (required by Firestore)
     public ChatRoomModel() {

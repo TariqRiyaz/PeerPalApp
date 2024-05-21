@@ -28,22 +28,13 @@ import java.util.Objects;
 
 // Fragment for displaying a list of peers
 public class PeersFragment extends Fragment {
-
-    // RecyclerView to display peers
     RecyclerView recyclerView;
-    // List of peers
     ArrayList<PeersClass> peersList;
-    // List of connections
     ArrayList<String> connectionList;
-    // Instance of PeersClass
     PeersClass peersClass;
-    // Adapter for RecyclerView
     PeersAdapter adapter;
-    // UID of the current user
     String peersUID;
-    // List of hobbies of the current user
     ArrayList<String> selfHobbies = new ArrayList<>();
-    // Progress bar
     ProgressBar progressBar;
 
     // Default constructor

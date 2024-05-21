@@ -45,7 +45,6 @@ import java.util.Objects;
 
 // Adapter for recentchatrecycler
 public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoomModel, RecentChatRecyclerAdapter.ChatroomModelViewHolder> {
-
     Context context;
     FirebaseAuth firebaseAuth;
     String currentUserId;

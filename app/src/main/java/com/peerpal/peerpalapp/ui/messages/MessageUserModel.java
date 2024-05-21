@@ -2,13 +2,11 @@ package com.peerpal.peerpalapp.ui.messages;
 
 // Model for message user
 public class MessageUserModel {
-
-    // Declare variables
-    private String name; // User's name
-    private String email; // User's email
-    private String image; // URL of user's profile image
-    private String uid; // User's unique ID
-    private String phone; // User's unique phone
+    private String name;
+    private String email;
+    private String image;
+    private String uid;
+    private String phone;
 
     // Default constructor (required by Firestore)
     public MessageUserModel() {

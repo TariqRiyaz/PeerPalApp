@@ -32,8 +32,6 @@ import com.peerpal.peerpalapp.R;
 import com.squareup.picasso.Picasso;
 
 public class ChatActivity extends AppCompatActivity {
-
-    // Declare variables
     String chatRoomId;
     ChatRecyclerAdapter adapter;
     EditText messageInput;

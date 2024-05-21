@@ -55,7 +55,7 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
         // Extracting the first hobby from the peers' hobbies array
         StringBuilder hobbyString = getStringBuilder(position);
 
-        // Loading peer's image into the ImageView using Picasso
+        // Loading data into the ImageView using Picasso
         Picasso.get().load(peersList.get(position).getPeersImage()).into(holder.peersImage);
         // Setting peer's name
         holder.peersName.setText(peersList.get(position).getPeersName());
@@ -187,7 +187,6 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
                 });
             }
         });
-
         removeItem(position);
     }
 

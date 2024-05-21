@@ -18,8 +18,6 @@ import com.peerpal.peerpalapp.R;
 
 // Adapter class for chat recycler
 public class ChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatMessageModel, ChatRecyclerAdapter.ChatModelViewHolder> {
-
-    // Firebase authentication
     FirebaseAuth firebaseAuth;
     String currentUserId;
     Context context;

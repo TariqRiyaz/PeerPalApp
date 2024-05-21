@@ -40,8 +40,6 @@ import java.util.Objects;
 
 // Activity responsible for creating user profiles
 public class ProfileCreation extends AppCompatActivity {
-
-    // Declaration of variables
     private List<Button> hobbyButtons;
     private List<String> selectedHobbies;
     EditText degree;

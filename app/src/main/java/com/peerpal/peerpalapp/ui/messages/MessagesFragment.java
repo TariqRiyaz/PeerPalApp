@@ -38,7 +38,6 @@ import java.util.Objects;
 
 // Fragment for messages
 public class MessagesFragment extends Fragment {
-
     private FragmentMessagesBinding binding;
     RecyclerView recyclerView;
     RecentChatRecyclerAdapter adapter;

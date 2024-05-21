@@ -13,12 +13,8 @@ import com.peerpal.peerpalapp.ui.peers.PeersFragment;
 
 // Main activity of the application, responsible for managing navigation and fragments
 public class MainActivity extends AppCompatActivity {
-
-    // UI elements
     BottomNavigationView bottomNavigationView;
     ImageButton menuButton;
-
-    // Fragments
     HomeFragment homeFragment;
     PeersFragment peersFragment;
     MessagesFragment messagesFragment;
