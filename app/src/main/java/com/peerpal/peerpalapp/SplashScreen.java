@@ -51,7 +51,7 @@ public class SplashScreen extends AppCompatActivity {
                             Intent intent = new Intent(this, ChatActivity.class);
                             intent.putExtra("peersName",peer.getPeersName());
                             intent.putExtra("peersUID",peer.getPeersUID());
-                            intent.putExtra("fcmToken",peer.getFcmToken());
+                            //intent.putExtra("fcmToken",peer.getFcmToken());
 
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);

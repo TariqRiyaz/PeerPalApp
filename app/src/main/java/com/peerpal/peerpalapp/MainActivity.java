@@ -73,21 +73,7 @@ public class MainActivity extends AppCompatActivity {
         // Set default selected item in bottom navigation view
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
 
-        getFCMToken();
+
     }
 
-    void getFCMToken()
-    {
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-
-            if (task.isSuccessful())
-            {
-                String token = task.getResult();
-                //Log.i("My token", token);
-                FirebaseFirestore.getInstance().collection("peers").document(FirebaseAuth.getInstance().getUid()).update("fcmtoken", token);
-
-            }
-
-        });
-    }
 }
