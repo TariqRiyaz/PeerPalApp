@@ -2,6 +2,7 @@ package com.peerpal.peerpalapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -11,8 +12,11 @@ import android.widget.Toast;
 import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -126,12 +130,25 @@ public class SignUpActivity extends AppCompatActivity {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 DocumentReference reference = db.collection("peers").document(uid);
                 reference.set(hashMap);
-                // Redirect to profile creation activity
-                Intent mainIntent = new Intent(SignUpActivity.this, ProfileCreation.class);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(mainIntent);
-                showLoading(false);
-                finish();
+
+                //sending verification link
+                FirebaseUser currentUserverify = mAuth.getCurrentUser();
+                currentUserverify.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(SignUpActivity.this, "Verification Email Has been sent", Toast.LENGTH_LONG).show();
+                        Intent mainIntent = new Intent(SignUpActivity.this, VerifyuserActivity.class);
+                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(mainIntent);
+                        showLoading(false);
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("verifyuser", "Verification link failed");
+                    }
+                });
             } else {
                 // Registration failed
                 Toast.makeText(SignUpActivity.this, "Error", Toast.LENGTH_LONG).show();
