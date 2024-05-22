@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import android.view.animation.Animation;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,10 +27,35 @@ public class SplashScreen extends AppCompatActivity {
     FirebaseUser currentUser;
     private FirebaseAuth mAuth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        ImageView logo = findViewById(R.id.logo);
+        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        logo.startAnimation(fadeIn);
+
+        fadeIn.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                finish();
+            }
+        });
+
+
         // Initialize FirebaseAuth instance
         mAuth = FirebaseAuth.getInstance();
         // Get the current user
