@@ -50,6 +50,7 @@ public class VerifyuserActivity extends AppCompatActivity {
         verifyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                user.reload();
                 if(!user.isEmailVerified()){
                     verificationMsg.setText("Not verfied, Please try again!");
                 } else if (user.isEmailVerified()) {
