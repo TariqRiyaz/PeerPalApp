@@ -60,6 +60,7 @@ dependencies {
     implementation ("com.squareup.picasso:picasso:2.8")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation ("androidx.cardview:cardview:1.0.0")
+    implementation ("androidx.core:core-ktx:1.10.0")
     implementation(libs.constraintlayout)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
