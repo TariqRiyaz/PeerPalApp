@@ -12,22 +12,22 @@
         android:id="@+id/deleteAccountButton"
         android:layout_width="294dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="32dp"
-        android:textColor="@color/my_primary"
+        android:layout_marginBottom="30dp"
         android:text="Delete Account"
+        android:textColor="@color/my_primary"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="294dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="104dp"
-        android:textColor="@color/my_primary"
+        android:layout_marginBottom="100dp"
         android:text="@string/log_out"
+        android:textColor="@color/my_primary"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,10 +38,10 @@
         android:id="@+id/editprofileButton"
         android:layout_width="294dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="176dp"
+        android:layout_marginBottom="160dp"
         android:backgroundTint="@color/my_primary"
-        android:textColor="@color/my_secondary"
         android:text="@string/edit_profile"
+        android:textColor="@color/my_secondary"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,7 +53,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginStart="130dp"
-        android:layout_marginTop="102dp"
+        android:layout_marginTop="95dp"
         android:layout_marginEnd="131dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -99,7 +99,7 @@
         android:layout_width="208dp"
         android:layout_height="67dp"
         android:layout_marginStart="101dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="102dp"
         android:text="@string/name"
         android:textAlignment="center"
@@ -109,4 +109,51 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/peersImage" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="235dp"
+
+
+        android:layout_height="47dp"
+        android:layout_marginEnd="72dp"
+        android:progressBackgroundTint="@color/cardview_dark_background"
+        android:progressTint="@color/white"
+        android:rating="2.5"
+        app:layout_constraintBottom_toTopOf="@+id/editprofileButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/peersEmail"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/rating"
+        android:layout_width="87dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="5dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Rate App"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/editprofileButton"
+        app:layout_constraintEnd_toStartOf="@+id/ratingBar"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/peersEmail"
+        app:layout_constraintVertical_bias="0.107" />
+
+    <Button
+        android:id="@+id/submit_rating"
+        android:layout_width="294dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="160dp"
+        android:backgroundTint="@color/my_primary"
+        android:text="@string/edit_profile"
+        android:textColor="@color/my_secondary"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

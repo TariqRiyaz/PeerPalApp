@@ -63,6 +63,7 @@ public class ChatActivity extends AppCompatActivity {
     String currentUserId;
     String peerPhone;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -225,7 +226,7 @@ public class ChatActivity extends AppCompatActivity {
 
                             jsonObject.put("notification", notificationObj);
                             jsonObject.put("data", dataObj);
-                            jsonObject.put("to", otherUser.getFcmToken());
+                            //jsonObject.put("to", otherUser.getFcmToken());
 
                             callApi(jsonObject);
 

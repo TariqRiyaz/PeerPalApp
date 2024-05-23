@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (task.isSuccessful()) {
                 String token = task.getResult();
-                //Log.i("My token", token);
+                Log.i("My token", token);
                 FirebaseFirestore.getInstance().collection("peers").document(FirebaseAuth.getInstance().getUid()).update("fcmtoken", token);
 
             }
