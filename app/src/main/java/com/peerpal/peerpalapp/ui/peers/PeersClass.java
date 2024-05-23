@@ -4,11 +4,15 @@ package com.peerpal.peerpalapp.ui.peers;
 // Model class to represent a peer
 public class PeersClass {
     private final String peersUID;
-    private final String peersName;
+    private String peersName;
     private final String peersDegree;
     private final String[] peersHobbies;
     private final String peersImage;
     private final String peersPhone;
+
+
+
+    private String fcmToken;
 
     // Constructor to initialize a PeersClass object
     public PeersClass(String peersUID, String peersName, String peersDegree, String[] peersHobbies, String peersImage, String peersPhone) {
@@ -45,9 +49,15 @@ public class PeersClass {
         return peersPhone;
     }
 
+    public String getFcmToken() {
+        return fcmToken;
+    }
 
+    public void setFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
+    }
 
-
-
-
+    public void setPeersName(String peersName) {
+        this.peersName = peersName;
+    }
 }

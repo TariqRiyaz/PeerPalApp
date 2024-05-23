@@ -2,6 +2,7 @@ package com.peerpal.peerpalapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.ImageButton;
 
@@ -85,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 String token = task.getResult();
                 Log.i("My token", token);
-                FirebaseFirestore.getInstance().collection("peers").document(FirebaseAuth.getInstance().getUid()).update("fcmtoken", token);
+                System.out.println("My Token: "+token);
+                //FirebaseFirestore.getInstance().collection("peers").document(FirebaseAuth.getInstance().getUid()).update("fcmtoken", token);
 
             }
 
