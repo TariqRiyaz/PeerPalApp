@@ -12,7 +12,7 @@
         android:id="@+id/deleteAccountButton"
         android:layout_width="294dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="24dp"
         android:text="Delete Account"
         android:textColor="@color/my_primary"
         android:textSize="20dp"
@@ -25,7 +25,7 @@
         android:id="@+id/logoutButton"
         android:layout_width="294dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="88dp"
         android:text="@string/log_out"
         android:textColor="@color/my_primary"
         android:textSize="20dp"
@@ -38,7 +38,7 @@
         android:id="@+id/editprofileButton"
         android:layout_width="294dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="160dp"
+        android:layout_marginBottom="152dp"
         android:backgroundTint="@color/my_primary"
         android:text="@string/edit_profile"
         android:textColor="@color/my_secondary"
@@ -111,49 +111,32 @@
         app:layout_constraintTop_toBottomOf="@+id/peersImage" />
 
     <RatingBar
-        android:id="@+id/ratingBar"
-        android:layout_width="235dp"
+        android:id="@+id/Star_rating"
+        android:layout_width="240dp"
 
 
-        android:layout_height="47dp"
-        android:layout_marginEnd="72dp"
+        android:layout_height="43dp"
+        android:layout_marginEnd="168dp"
         android:progressBackgroundTint="@color/cardview_dark_background"
         android:progressTint="@color/white"
         android:rating="2.5"
         app:layout_constraintBottom_toTopOf="@+id/editprofileButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/peersEmail"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/rating"
-        android:layout_width="87dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="5dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Rate App"
-        android:textColor="@color/white"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/editprofileButton"
-        app:layout_constraintEnd_toStartOf="@+id/ratingBar"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/peersEmail"
-        app:layout_constraintVertical_bias="0.107" />
+        app:layout_constraintVertical_bias="0.161" />
 
     <Button
         android:id="@+id/submit_rating"
-        android:layout_width="294dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="160dp"
+        android:layout_width="159dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="20dp"
         android:backgroundTint="@color/my_primary"
-        android:text="@string/edit_profile"
+        android:text=" submit rate"
         android:textColor="@color/my_secondary"
         android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/editprofileButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/Star_rating" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

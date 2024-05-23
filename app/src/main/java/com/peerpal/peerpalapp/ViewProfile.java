@@ -7,10 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +48,11 @@ import java.util.Objects;
 
 // Activity responsible for displaying user profile and displaying edit and logout options
 public class ViewProfile extends AppCompatActivity {
+
+
+    Button Submit_button;
+    RatingBar RatingStars;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +98,7 @@ public class ViewProfile extends AppCompatActivity {
         Button editProfileButton = findViewById(R.id.editprofileButton);
         Button logoutButton = findViewById(R.id.logoutButton);
         Button deleteAccountButton = findViewById(R.id.deleteAccountButton);
+
 
         // Set click listeners for buttons
         editProfileButton.setOnClickListener(v -> {
@@ -197,5 +205,34 @@ public class ViewProfile extends AppCompatActivity {
             }
         };
         this.getOnBackPressedDispatcher().addCallback(this, callback);
+
+        Submit_button = findViewById(R.id.submit_rating);
+        RatingStars = findViewById(R.id.Star_rating);
+
+        RatingStars.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                float rate = rating;
+            }
+
+        });
+
+
+        Submit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String respond = "Thanks for rating!";
+
+                Toast.makeText(ViewProfile.this, respond, Toast.LENGTH_SHORT).show();
+
+                RatingStars.setVisibility(View.GONE);
+                Submit_button.setVisibility(View.GONE);
+            }
+        });
+
+
     }
+
+
 }
