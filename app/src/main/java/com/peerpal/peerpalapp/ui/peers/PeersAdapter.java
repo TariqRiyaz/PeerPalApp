@@ -35,9 +35,11 @@ import java.util.Objects;
 public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
     private final Context context;
     private final ArrayList<PeersClass> peersList;
-    public PeersAdapter(Context context, ArrayList<PeersClass> peersList){
+    private final ArrayList<String> selfHobbies;
+    public PeersAdapter(Context context, ArrayList<PeersClass> peersList, ArrayList<String> selfHobbies){
         this.context = context;
         this.peersList = peersList;
+        this.selfHobbies = selfHobbies;
     }
 
     @NonNull
@@ -52,8 +54,8 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull PeersViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        // Extracting the first hobby from the peers' hobbies array
-        StringBuilder hobbyString = getStringBuilder(position);
+        // Extracting the hobbies from the peers' hobbies array
+        ArrayList<String> hobbyList = getHobbyList(position);
 
         // Loading data into the ImageView using Picasso
         Picasso.get().load(peersList.get(position).getPeersImage()).into(holder.peersImage);
@@ -62,7 +64,39 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
         // Setting peer's degree
         holder.peersDegree.setText("Degree: " + peersList.get(position).getPeersDegree());
         // Setting peer's hobbies
-        holder.peersHobbies.setText("Hobbies: " + hobbyString);
+        holder.hobby1.setText("");
+        holder.hobby2.setText("");
+        holder.hobby3.setText("");
+
+        holder.hobby1.setVisibility(View.GONE);
+        holder.hobby2.setVisibility(View.GONE);
+        holder.hobby3.setVisibility(View.GONE);
+
+        //Sets button values and highlights matching hobbies
+        for (int i = 0; i < hobbyList.size(); i++) {
+            if (i == 0) {
+                holder.hobby1.setText(hobbyList.get(i));
+                holder.hobby1.setVisibility(View.VISIBLE);
+                if (selfHobbies.contains(hobbyList.get(i))) {
+                    holder.hobby1.setTextColor(Integer.parseInt("AE2431", 16)+0xFF000000);
+                    holder.hobby1.setBackgroundColor(Integer.parseInt("FFFFFF", 16)+0xFF000000);
+                }
+            } else if (i == 1) {
+                holder.hobby2.setText(hobbyList.get(i));
+                holder.hobby2.setVisibility(View.VISIBLE);
+                if (selfHobbies.contains(hobbyList.get(i))) {
+                    holder.hobby2.setTextColor(Integer.parseInt("AE2431", 16)+0xFF000000);
+                    holder.hobby2.setBackgroundColor(Integer.parseInt("FFFFFF", 16)+0xFF000000);
+                }
+            } else if (i == 2) {
+                holder.hobby3.setText(hobbyList.get(i));
+                holder.hobby3.setVisibility(View.VISIBLE);
+                if (selfHobbies.contains(hobbyList.get(i))) {
+                    holder.hobby3.setTextColor(Integer.parseInt("AE2431", 16)+0xFF000000);
+                    holder.hobby3.setBackgroundColor(Integer.parseInt("FFFFFF", 16)+0xFF000000);
+                }
+            }
+        }
 
         // Setting onClickListener for connecting with the peer
         holder.peersConnect.setOnClickListener(v -> {
@@ -72,16 +106,16 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
     }
 
     @NonNull
-    private StringBuilder getStringBuilder(int position) {
-        StringBuilder hobbyString = new StringBuilder(peersList.get(position).getPeersHobbies()[0]);
+    private ArrayList<String> getHobbyList(int position) {
+        ArrayList<String> hobbyList = new ArrayList<>();
 
-        // Concatenating non-empty hobbies into the hobbyString
-        for (int i = 1; i < peersList.get(position).getPeersHobbies().length; i++) {
+        // Adding non-empty hobbies into the hobbyList
+        for (int i = 0; i < peersList.get(position).getPeersHobbies().length; i++) {
             if (!peersList.get(position).getPeersHobbies()[i].isEmpty()) {
-                hobbyString.append(", ").append(peersList.get(position).getPeersHobbies()[i]);
+                hobbyList.add(peersList.get(position).getPeersHobbies()[i]);
             }
         }
-        return hobbyString;
+        return hobbyList;
     }
 
     @Override
@@ -202,7 +236,7 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
 class PeersViewHolder extends RecyclerView.ViewHolder {
     // Views to be held in the ViewHolder
     ImageView peersImage;
-    TextView peersName, peersDegree, peersHobbies;
+    TextView peersName, peersDegree, hobby1, hobby2, hobby3;
     CardView peersCard;
     Button peersConnect;
 
@@ -214,7 +248,9 @@ class PeersViewHolder extends RecyclerView.ViewHolder {
         peersImage = itemView.findViewById(R.id.peersImage);
         peersName = itemView.findViewById(R.id.peersName);
         peersDegree = itemView.findViewById(R.id.peersDegree);
-        peersHobbies = itemView.findViewById(R.id.peersHobbies);
+        hobby1 = itemView.findViewById(R.id.HobbyButton1);
+        hobby2 = itemView.findViewById(R.id.HobbyButton2);
+        hobby3 = itemView.findViewById(R.id.HobbyButton3);
         peersCard = itemView.findViewById(R.id.peersCard);
         peersConnect = itemView.findViewById((R.id.peersConnect));
     }
