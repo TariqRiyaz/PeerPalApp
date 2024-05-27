@@ -47,7 +47,6 @@ public class Login extends AppCompatActivity {
         Button loginBtn = findViewById(R.id.loginBtnAccept);
         TextView signupText = findViewById(R.id.login_signup_redirect);
         firebaseAuth = FirebaseAuth.getInstance();
-        Button MsButtonAuthenticator = findViewById(R.id.MsButtonAuthenticator);
 
         // Set onClickListener for login button
         loginBtn.setOnClickListener(v -> {
