@@ -2,6 +2,7 @@ package com.peerpal.peerpalapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -85,10 +86,21 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 // Validate phone format
                 try {
-                    int i = Integer.parseInt(trimPhone);
+                    Integer.parseInt(trimPhone);
+
+                    if ((phone.getText() == null) || (phone.getText().equals(""))) {
+                        phone.setError("Invalid Phone Format");
+                        phone.requestFocus(); // Request focus to highlight the phone field
+                        showLoading(false);
+                    }
                 } catch (NumberFormatException e) {
-                    phone.setError("Phone number format is not correct");
+                    phone.setError("Invalid Phone Format");
                     phone.requestFocus(); // Request focus to highlight the phone field
+                    showLoading(false);
+                }
+                if ((password.getText().toString().equals(""))) {
+                    password.setError("Password Field Cannot be Empty");
+                    password.requestFocus(); // Request focus to highlight the phone field
                     showLoading(false);
                 }
                 // Validate password match
@@ -98,12 +110,11 @@ public class SignUpActivity extends AppCompatActivity {
                     confirmPassword.requestFocus(); // Request focus to highlight the confirm password field
                     showLoading(false);
                 } else {
-                    if(firstName.getText().toString().equals("") || !Patterns.EMAIL_ADDRESS.matcher(trimEmail).matches() || !trimEmail.endsWith("@autuni.ac.nz")){
-                        throw new RuntimeException();
+                    if (!firstName.getText().toString().equals("") && Patterns.EMAIL_ADDRESS.matcher(trimEmail).matches() && trimEmail.endsWith("@autuni.ac.nz") && !phone.getText().toString().equals("") && !password.getText().toString().equals("")) {
+                        empty = false;
+                        // Passwords match, proceed with registration
+                        userRegister(trimFirstName, trimEmail, trimPassword, trimPhone);
                     }
-                    empty = false;
-                    // Passwords match, proceed with registration
-                    userRegister(trimFirstName, trimEmail, trimPassword, trimPhone);
                 }
             });
         } catch (Exception e){
