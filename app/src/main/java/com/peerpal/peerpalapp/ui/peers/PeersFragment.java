@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -36,6 +37,7 @@ public class PeersFragment extends Fragment {
     String peersUID;
     ArrayList<String> selfHobbies = new ArrayList<>();
     ProgressBar progressBar;
+    TextView noPeersTextView;
 
     // Default constructor
     public PeersFragment() {
@@ -57,6 +59,7 @@ public class PeersFragment extends Fragment {
         // Get UID of the current user
         peersUID = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
         progressBar = view.findViewById(R.id.progressBar);
+        noPeersTextView = view.findViewById(R.id.noPeersTextView);
         showLoading(true);
 
         // Retrieve hobbies and connections of the current user from Firestore
@@ -120,12 +123,27 @@ public class PeersFragment extends Fragment {
                             }
                         }
 
+                        // Show noPeersTextView if peersList is empty
+                        if (peersList.isEmpty()) {
+                            noPeersTextView.setVisibility(View.VISIBLE);
+                        } else {
+                            noPeersTextView.setVisibility(View.GONE);
+                            // Sort peersList based on selfHobbies
+                            if (selfHobbies != null && peersList != null) {
+                                peersList.sort(new HobbiesComparator(selfHobbies));
+                                // Initialize and set adapter for RecyclerView
+                                adapter = new PeersAdapter(PeersFragment.this.getContext(), peersList, selfHobbies, this::checkPeersList);
+                                recyclerView.setAdapter(adapter);
+                            }
+                        }
+
                         // Sort peersList based on selfHobbies
                         if (selfHobbies != null && peersList != null) {
                             peersList.sort(new HobbiesComparator(selfHobbies));
                             // Initialize and set adapter for RecyclerView
-                            adapter = new PeersAdapter(PeersFragment.this.getContext(), peersList, selfHobbies);
+                            adapter = new PeersAdapter(PeersFragment.this.getContext(), peersList, selfHobbies, this::checkPeersList);
                             recyclerView.setAdapter(adapter);
+                            checkPeersList();
                         }
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
@@ -141,6 +159,17 @@ public class PeersFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
         } else {
             progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    // Function for checking whether peersList is empty or not to update TextView
+    public void checkPeersList() {
+        if (peersList.isEmpty()) {
+            noPeersTextView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            noPeersTextView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
         }
     }
 }

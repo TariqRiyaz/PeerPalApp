@@ -76,10 +76,10 @@ public class MessagesFragment extends Fragment {
                     if (!task.getResult().getDocuments().isEmpty()) {
                         setupRecyclerView();
                     } else {
-                        setupTextView();
+                        showTextView();
                     }
                 } else {
-                    setupTextView();
+                    showTextView();
                 }
             }
         });
@@ -96,15 +96,48 @@ public class MessagesFragment extends Fragment {
         // Initialize and set up the adapter
         showLoading(false);
         adapter = new RecentChatRecyclerAdapter(options, getContext());
+
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                updateUIBasedOnData();
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                updateUIBasedOnData();
+            }
+        });
+
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+        messagePlaceholder.setVisibility(View.GONE);
         adapter.startListening();
     }
 
-    void setupTextView(){
+    void updateUIBasedOnData() {
+        if (adapter != null && adapter.getItemCount() == 0) {
+            showTextView();
+        } else {
+            showRecyclerView();
+        }
+    }
+
+    // Hides recycler view and updates test view
+    void showTextView(){
         showLoading(false);
         messagePlaceholder.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+
+    // Hides test view and updates recycler view
+    void showRecyclerView(){
+        showLoading(false);
+        messagePlaceholder.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     // Start listening for changes when the fragment starts

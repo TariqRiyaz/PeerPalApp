@@ -23,8 +23,6 @@
         android:layout_marginBottom="300dp"
         android:text="No connections exist yet, go to the peers tab and start connecting!"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -36,10 +36,13 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
     private final Context context;
     private final ArrayList<PeersClass> peersList;
     private final ArrayList<String> selfHobbies;
-    public PeersAdapter(Context context, ArrayList<PeersClass> peersList, ArrayList<String> selfHobbies){
+    private final Runnable checkPeersListCallback;
+
+    public PeersAdapter(Context context, ArrayList<PeersClass> peersList, ArrayList<String> selfHobbies, Runnable checkPeersListCallback){
         this.context = context;
         this.peersList = peersList;
         this.selfHobbies = selfHobbies;
+        this.checkPeersListCallback = checkPeersListCallback;
     }
 
     @NonNull
@@ -229,6 +232,7 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
         peersList.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, getItemCount());
+        checkPeersListCallback.run();
     }
 }
 
