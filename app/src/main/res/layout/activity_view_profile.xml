@@ -110,33 +110,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/peersImage" />
 
-    <RatingBar
-        android:id="@+id/Star_rating"
-        android:layout_width="240dp"
 
-
-        android:layout_height="43dp"
-        android:layout_marginEnd="168dp"
-        android:progressBackgroundTint="@color/cardview_dark_background"
-        android:progressTint="@color/white"
-        android:rating="2.5"
-        app:layout_constraintBottom_toTopOf="@+id/editprofileButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/peersEmail"
-        app:layout_constraintVertical_bias="0.161" />
-
-    <Button
-        android:id="@+id/submit_rating"
-        android:layout_width="159dp"
-        android:layout_height="51dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/my_primary"
-        android:text=" submit rate"
-        android:textColor="@color/my_secondary"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/editprofileButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/Star_rating" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

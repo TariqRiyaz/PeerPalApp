@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     ImageButton menuButton;
 
+    ImageButton reviewButton;
+
     // Fragments
     HomeFragment homeFragment;
     PeersFragment peersFragment;
@@ -45,9 +47,15 @@ public class MainActivity extends AppCompatActivity {
         peersFragment = new PeersFragment();
         messagesFragment = new MessagesFragment();
 
+
+
+
         // Initialize UI elements
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         menuButton = findViewById(R.id.main_menu);
+        reviewButton = findViewById(R.id.review_button);
+
+
 
         // Set onClickListener for menu button
         menuButton.setOnClickListener(v -> {
@@ -57,6 +65,16 @@ public class MainActivity extends AppCompatActivity {
             startActivity(mainIntent);
             finish();
         });
+
+
+        reviewButton.setOnClickListener(v -> {
+            Intent mainIntent = new Intent(MainActivity.this, review.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(mainIntent);
+            finish();
+        });
+
+
 
         // Set listener for bottom navigation view
         bottomNavigationView.setOnItemSelectedListener(item -> {

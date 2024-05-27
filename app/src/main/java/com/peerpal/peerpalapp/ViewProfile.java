@@ -50,8 +50,6 @@ import java.util.Objects;
 public class ViewProfile extends AppCompatActivity {
 
 
-    Button Submit_button;
-    RatingBar RatingStars;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,30 +204,6 @@ public class ViewProfile extends AppCompatActivity {
         };
         this.getOnBackPressedDispatcher().addCallback(this, callback);
 
-        Submit_button = findViewById(R.id.submit_rating);
-        RatingStars = findViewById(R.id.Star_rating);
-
-        RatingStars.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                float rate = rating;
-            }
-
-        });
-
-
-        Submit_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String respond = "Thanks for rating!";
-
-                Toast.makeText(ViewProfile.this, respond, Toast.LENGTH_SHORT).show();
-
-                RatingStars.setVisibility(View.GONE);
-                Submit_button.setVisibility(View.GONE);
-            }
-        });
 
 
     }

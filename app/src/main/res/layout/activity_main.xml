@@ -33,14 +33,27 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:id="@+id/main_menu"/>
+
+        <ImageButton
+            android:id="@+id/review_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="65dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/icon_settings"
+            app:tint="@color/white"
+            tools:src="@drawable/rating_icon" />
     </RelativeLayout>
 
     <FrameLayout
+        android:id="@+id/main_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/main_toolbar"
         android:layout_above="@id/divider"
-        android:id="@+id/main_frame_layout"/>
+        android:layout_below="@id/main_toolbar"
+        android:layout_marginTop="-14dp"
+        android:layout_marginBottom="14dp" />
 
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
