@@ -2,6 +2,7 @@ package com.peerpal.peerpalapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,10 +10,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.OAuthCredential;
+import com.google.firebase.auth.OAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -31,12 +39,15 @@ public class Login extends AppCompatActivity {
         EdgeToEdge.enable(this); // Enable edge-to-edge display
         setContentView(R.layout.activity_login); // Set the layout for this activity
 
+
+
         // Initialize layout items
         email = findViewById(R.id.login_Email);
         password = findViewById(R.id.login_Password);
         Button loginBtn = findViewById(R.id.loginBtnAccept);
         TextView signupText = findViewById(R.id.login_signup_redirect);
         firebaseAuth = FirebaseAuth.getInstance();
+        Button MsButtonAuthenticator = findViewById(R.id.MsButtonAuthenticator);
 
         // Set onClickListener for login button
         loginBtn.setOnClickListener(v -> {

@@ -32,12 +32,15 @@ public class SignUpActivity extends AppCompatActivity {
     List<String> connections = new ArrayList<>();
     ProgressBar progressBar;
 
+    Boolean empty;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_up);
         // Initialize views
+        empty = true;
         firstName = findViewById(R.id.acc_Creation_First_Name);
         lastname = findViewById(R.id.acc_Creation_Last_Name);
         email = findViewById(R.id.acc_Creation_Email);
@@ -52,47 +55,60 @@ public class SignUpActivity extends AppCompatActivity {
         connections.add("");
         progressBar = findViewById(R.id.progressBar);
 
-        signupButton.setOnClickListener(v -> {
-            // Show loading wheel
-            showLoading(true);
-            // Get input values
-            String trimFirstName = firstName.getText().toString().trim();
-            String trimEmail = email.getText().toString().trim();
-            String trimPhone = phone.getText().toString().trim();
-            String trimPassword = password.getText().toString().trim();
-            String trimConfirmPassword = confirmPassword.getText().toString().trim();
-            // Validate email format
-            if (!Patterns.EMAIL_ADDRESS.matcher(trimEmail).matches()) {
-                email.setError("Invalid Email");
-                email.requestFocus(); // Request focus to highlight the email field
-                showLoading(false);
-            } else {
-                // Check if the email belongs to the specified domain
-                if (!trimEmail.endsWith("@autuni.ac.nz")) {
-                    email.setError("Invalid domain. Use your AUT student domain");
+
+        try {
+            signupButton.setOnClickListener(v -> {
+                // Show loading wheel
+                showLoading(true);
+                // Get input values
+                String trimFirstName = firstName.getText().toString().trim();
+                String trimEmail = email.getText().toString().trim();
+                String trimPhone = phone.getText().toString().trim();
+                String trimPassword = password.getText().toString().trim();
+                String trimConfirmPassword = confirmPassword.getText().toString().trim();
+                if (firstName.getText().toString().equals("")) {
+                    firstName.setError("Enter a First name");
+                    firstName.requestFocus();
+                }
+                // Validate email format
+                if (!Patterns.EMAIL_ADDRESS.matcher(trimEmail).matches()) {
+                    email.setError("Invalid Email");
                     email.requestFocus(); // Request focus to highlight the email field
                     showLoading(false);
+                } else {
+                    // Check if the email belongs to the specified domain
+                    if (!trimEmail.endsWith("@autuni.ac.nz")) {
+                        email.setError("Invalid domain. Use your AUT student domain");
+                        email.requestFocus(); // Request focus to highlight the email field
+                        showLoading(false);
+                    }
                 }
-            }
-            // Validate phone format
-            try {
-                int i = Integer.parseInt(trimPhone);
-            } catch (NumberFormatException e) {
-                phone.setError("Phone number format is not correct");
-                phone.requestFocus(); // Request focus to highlight the phone field
-                showLoading(false);
-            }
-            // Validate password match
-            if (!trimPassword.equals(trimConfirmPassword)) {
-                // Passwords do not match
-                confirmPassword.setError("Passwords do not match");
-                confirmPassword.requestFocus(); // Request focus to highlight the confirm password field
-                showLoading(false);
-            } else {
-                // Passwords match, proceed with registration
-                userRegister(trimFirstName, trimEmail, trimPassword, trimPhone);
-            }
-        });
+                // Validate phone format
+                try {
+                    int i = Integer.parseInt(trimPhone);
+                } catch (NumberFormatException e) {
+                    phone.setError("Phone number format is not correct");
+                    phone.requestFocus(); // Request focus to highlight the phone field
+                    showLoading(false);
+                }
+                // Validate password match
+                if (!trimPassword.equals(trimConfirmPassword)) {
+                    // Passwords do not match
+                    confirmPassword.setError("Passwords do not match");
+                    confirmPassword.requestFocus(); // Request focus to highlight the confirm password field
+                    showLoading(false);
+                } else {
+                    if(firstName.getText().toString().equals("") || !Patterns.EMAIL_ADDRESS.matcher(trimEmail).matches() || !trimEmail.endsWith("@autuni.ac.nz")){
+                        throw new RuntimeException();
+                    }
+                    empty = false;
+                    // Passwords match, proceed with registration
+                    userRegister(trimFirstName, trimEmail, trimPassword, trimPhone);
+                }
+            });
+        } catch (Exception e){
+            Toast.makeText(SignUpActivity.this, "Empty Fields", Toast.LENGTH_LONG).show();
+        }
 
         acc_Creation_loginRedirect.setOnClickListener(v -> {
 
@@ -103,41 +119,45 @@ public class SignUpActivity extends AppCompatActivity {
 
     // Method to register a new user
     private void userRegister(String firstName, String email, final String password, String phone) {
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                // Registration successful
-                FirebaseUser currentUser = mAuth.getCurrentUser();
-                assert currentUser != null;
-                String email1 = currentUser.getEmail();
-                String uid = currentUser.getUid();
-                // Create user data hashmap
-                HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("email", email1);
-                hashMap.put("phone", phone);
-                hashMap.put("uid", uid);
-                hashMap.put("name", firstName);
-                hashMap.put("image", "https://firebasestorage.googleapis.com/v0/b/peerpalapp.appspot.com/o/profile_Images%2F1756.png?alt=media&token=3dd4d143-5635-4924-b598-c9138eb37e8c");
-                hashMap.put("degree", "No Degree");
-                hashMap.put("hobbies", hobbies);
-                hashMap.put("connections", connections);
-                // Add user data to Firestore
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                DocumentReference reference = db.collection("peers").document(uid);
-                reference.set(hashMap);
-                // Redirect to profile creation activity
-                Intent mainIntent = new Intent(SignUpActivity.this, ProfileCreation.class);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(mainIntent);
-                showLoading(false);
-                finish();
-            } else {
-                // Registration failed
-                Toast.makeText(SignUpActivity.this, "Error", Toast.LENGTH_LONG).show();
-            }
-        }).addOnFailureListener(e -> {
-            // Failure in user registration
-            Toast.makeText(SignUpActivity.this, "Error Occurred", Toast.LENGTH_LONG).show();
-        });
+        if (!empty) {
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    // Registration successful
+                    FirebaseUser currentUser = mAuth.getCurrentUser();
+                    assert currentUser != null;
+                    String email1 = currentUser.getEmail();
+                    String uid = currentUser.getUid();
+                    // Create user data hashmap
+                    HashMap<String, Object> hashMap = new HashMap<>();
+                    hashMap.put("email", email1);
+                    hashMap.put("phone", phone);
+                    hashMap.put("uid", uid);
+                    hashMap.put("name", firstName);
+                    hashMap.put("image", "https://firebasestorage.googleapis.com/v0/b/peerpalapp.appspot.com/o/profile_Images%2F1756.png?alt=media&token=3dd4d143-5635-4924-b598-c9138eb37e8c");
+                    hashMap.put("degree", "No Degree");
+                    hashMap.put("hobbies", hobbies);
+                    hashMap.put("connections", connections);
+                    // Add user data to Firestore
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    DocumentReference reference = db.collection("peers").document(uid);
+                    reference.set(hashMap);
+                    // Redirect to profile creation activity
+                    Intent mainIntent = new Intent(SignUpActivity.this, ProfileCreation.class);
+                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(mainIntent);
+                    showLoading(false);
+                    finish();
+                } else {
+                    // Registration failed
+                    Toast.makeText(SignUpActivity.this, "Error", Toast.LENGTH_LONG).show();
+                }
+            }).addOnFailureListener(e -> {
+                // Failure in user registration
+                Toast.makeText(SignUpActivity.this, "Error Occurred", Toast.LENGTH_LONG).show();
+            });
+        } else{
+            Toast.makeText(SignUpActivity.this, "Please enter all the fields", Toast.LENGTH_LONG).show();
+        }
     }
 
     // Function to toggle loading wheel on/off
