@@ -14,6 +14,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 public class review extends AppCompatActivity {
 
@@ -41,6 +46,7 @@ public class review extends AppCompatActivity {
 
         Submit_button = findViewById(R.id.submit_rating);
         RatingStars = findViewById(R.id.Star_rating);
+        Feedback = findViewById(R.id.feedback_text);
 
         RatingStars.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -57,14 +63,35 @@ public class review extends AppCompatActivity {
                 Intent mainIntent = new Intent(review.this, MainActivity.class);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(mainIntent);
+                String message = String.valueOf(Feedback.getText());
+                float rating = RatingStars.getRating();
 
-                // Add email with information here!
-
+                //Store in firebase
+                UploadRating(rating, message);
                 String respond = "Thanks for rating!";
                 Toast.makeText(review.this, respond, Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
+
+
+
+
+
+
+    }
+
+    private void UploadRating( float rating, String feedback)
+    {
+        // Create user data hashmap
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("Feedback", feedback);
+        hashMap.put("Rating", rating);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference reference = db.collection("feedback").document();
+        reference.set(hashMap);
+        finish();
 
 
     }

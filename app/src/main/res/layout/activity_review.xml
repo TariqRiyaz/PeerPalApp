@@ -13,13 +13,14 @@
         android:id="@+id/Star_rating"
         android:layout_width="240dp"
         android:layout_height="43dp"
+        android:layout_marginTop="50dp"
         android:progressBackgroundTint="@color/cardview_dark_background"
         android:progressTint="@color/white"
         android:rating="2.5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="258dp" />
+        app:layout_constraintTop_toBottomOf="@+id/Rate_title" />
 
     <Button
         android:id="@+id/submit_rating"
@@ -38,25 +39,23 @@
         app:layout_constraintTop_toBottomOf="@+id/Star_rating"
         app:layout_constraintVertical_bias="0.772" />
 
+
     <TextView
 
-        android:textAlignment="center"
         android:id="@+id/Rate_title"
         android:layout_width="273dp"
         android:layout_height="70dp"
+        android:layout_marginTop="56dp"
         android:text="Rate us!"
+        android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/Star_rating"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.189" />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/textInputEditText"
+        android:id="@+id/feedback_text"
         android:layout_width="366dp"
         android:layout_height="128dp"
         android:layout_marginBottom="64dp"
@@ -75,7 +74,7 @@
         android:layout_height="45dp"
         android:layout_marginBottom="10dp"
         android:text="Enter Feedback"
-        app:layout_constraintBottom_toTopOf="@+id/textInputEditText"
+        app:layout_constraintBottom_toTopOf="@+id/feedback_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textColor="@color/white"
