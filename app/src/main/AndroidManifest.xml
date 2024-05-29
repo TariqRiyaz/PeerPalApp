@@ -6,8 +6,7 @@
         android:name="android.hardware.telephony"
         android:required="true" />
 
-
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -22,6 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PeerPalApp"
         tools:targetApi="31">
+        <activity
+            android:name=".NotificationActivity"
+            android:exported="false" />
         <activity
             android:name=".review"
             android:exported="false" />

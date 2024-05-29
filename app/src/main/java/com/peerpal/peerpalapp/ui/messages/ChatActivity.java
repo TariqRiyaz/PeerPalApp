@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -133,6 +134,8 @@ public class ChatActivity extends AppCompatActivity {
             if(message.isEmpty())
                 return;
             sendMessageToUSer(message);
+
+
         }));
 
         // Set up RecyclerView for chat messages
@@ -215,6 +218,16 @@ public class ChatActivity extends AppCompatActivity {
                         PeersClass currentUser = task.getResult().toObject(PeersClass.class);
 
                         try{
+
+                            ///Work around here!
+                            NotificationCompat.Builder builder = new NotificationCompat.Builder(ChatActivity.this)
+                                    .setContentTitle(currentUser.getPeersName())
+                                    .setContentText(message)
+                                    .setAutoCancel(false);
+
+
+                            Intent intent = new Intent()
+
                             JSONObject jsonObject = new JSONObject();
 
                             JSONObject notificationObj = new JSONObject();
@@ -226,9 +239,7 @@ public class ChatActivity extends AppCompatActivity {
 
                             jsonObject.put("notification", notificationObj);
                             jsonObject.put("data", dataObj);
-                            //jsonObject.put("to", otherUser.getFcmToken());
 
-                            callApi(jsonObject);
 
                         }catch (Exception error)
                         {
@@ -243,6 +254,8 @@ public class ChatActivity extends AppCompatActivity {
                  });
 
      }
+
+
 
      void callApi(JSONObject jsonObject)
      {
