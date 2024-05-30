@@ -57,6 +57,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("androidx.core:core-splashscreen:1.0.0")
     implementation ("com.google.firebase:firebase-messaging:23.0.0")
+    implementation ("com.google.firebase:firebase-messaging:22.0.0")
     implementation ("com.squareup.picasso:picasso:2.8")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation ("androidx.cardview:cardview:1.0.0")
@@ -72,4 +73,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
 }

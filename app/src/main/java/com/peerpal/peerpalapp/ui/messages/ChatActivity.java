@@ -1,9 +1,12 @@
 package com.peerpal.peerpalapp.ui.messages;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -30,6 +33,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.peerpal.peerpalapp.NotificationService;
 import com.peerpal.peerpalapp.R;
 import com.peerpal.peerpalapp.ui.peers.PeersClass;
 import com.squareup.picasso.Picasso;
@@ -72,6 +76,8 @@ public class ChatActivity extends AppCompatActivity {
         // Set up the layout
         setContentView(R.layout.activity_chat);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+
 
         //Add setter methods here
         //otherUser =
@@ -217,43 +223,33 @@ public class ChatActivity extends AppCompatActivity {
 
                         PeersClass currentUser = task.getResult().toObject(PeersClass.class);
 
-                        try{
-
-                            ///Work around here!
-                            NotificationCompat.Builder builder = new NotificationCompat.Builder(ChatActivity.this)
-                                    .setContentTitle(currentUser.getPeersName())
-                                    .setContentText(message)
-                                    .setAutoCancel(false);
-
-
-                            Intent intent = new Intent()
-
-                            JSONObject jsonObject = new JSONObject();
-
-                            JSONObject notificationObj = new JSONObject();
-                            notificationObj.put("title", currentUser.getPeersName());
-                            notificationObj.put("body", message);
-
-                            JSONObject dataObj = new JSONObject();
-                            dataObj.put("uid", currentUser.getPeersUID());
-
-                            jsonObject.put("notification", notificationObj);
-                            jsonObject.put("data", dataObj);
-
-
-                        }catch (Exception error)
-                        {
-
-
-                        }
-
-
+                        NotificationService ns = new NotificationService(currentUser.getPeersName(), message);
+                        ns.sendNotification(currentUser.getPeersName(), message);
+                        
                     }
 
 
                  });
 
      }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "MyChannel";
+            String description = "Channel for FCM notifications";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("MY_CHANNEL_ID", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+
+
+
+
 
 
 
