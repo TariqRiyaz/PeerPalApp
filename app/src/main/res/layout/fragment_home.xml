@@ -15,7 +15,7 @@
         android:textStyle="bold"
         android:textSize="36sp"
         android:padding="20dp"
-        android:textColor="@color/my_primary"
+        android:textColor="@color/Red"
         android:layout_centerHorizontal="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
