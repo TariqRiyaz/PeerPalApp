@@ -1,5 +1,6 @@
+
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ -<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -42,7 +43,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:text="Sign In"
                 android:textAlignment="center"
                 android:textColor="@color/Red"
                 android:textSize="30dp"
@@ -55,7 +56,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/red_border"
-                android:hint="Student Email"
+                android:hint="Student Email...."
                 android:padding="10dp"
                 android:textColor="@color/black" />
 
@@ -65,7 +66,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/red_border"
-                android:hint="Password"
+                android:hint="Password...."
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:textColor="@color/black" />
@@ -75,21 +76,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
-                android:text="Login"
+                android:text="LOGIN"
                 android:textSize="20dp" />
 
-            <TextView
-                android:id="@+id/login_signup_redirect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:padding="10dp"
-                android:text="New Peerpal user? Sign up"
-                android:textColor="@color/Red"
-                android:textSize="18dp" />
         </LinearLayout>
 
 
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/login_signup_redirect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="New Peerpal user? Sign up"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        tools:layout_editor_absoluteX="89dp"
+        tools:layout_editor_absoluteY="475dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
