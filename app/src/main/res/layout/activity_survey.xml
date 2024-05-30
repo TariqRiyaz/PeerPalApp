@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#AE2431"
+    tools:context=".Survey">
+
+
+    <Button
+        android:id="@+id/submit_survey"
+        android:layout_width="202dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/my_primary"
+        android:text=" submit survey"
+        android:textColor="@color/my_secondary"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/Survey_title"
+        android:layout_width="209dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:text="Survey"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.371"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/movie_text"
+        android:layout_width="380dp"
+        android:layout_height="119dp"
+        android:layout_marginBottom="40dp"
+        android:background="@color/white"
+        android:hint="Enter favorite movie/series"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/submit_survey"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.645"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/movie_title"
+        android:layout_width="336dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="8dp"
+        android:text="What is your favourite Movie/Series?"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/movie_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.224"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/food_text"
+        android:layout_width="380dp"
+        android:layout_height="119dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/white"
+        android:hint="Enter food"
+        android:textColor="@color/black"
+
+        app:layout_constraintBottom_toTopOf="@+id/movie_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.645"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/food_title"
+        android:layout_width="349dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="8dp"
+        android:text="What's the weirdest food you've tried? "
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/food_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.179"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/power_text"
+        android:layout_width="380dp"
+        android:layout_height="119dp"
+        android:layout_marginBottom="24dp"
+        android:background="@color/white"
+        android:hint="Enter superpower"
+
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/food_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.741"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/power_title"
+        android:layout_width="387dp"
+        android:layout_height="26dp"
+        android:layout_marginBottom="5dp"
+        android:text="If you could have any superpower, what would it be?"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/power_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Survey_title"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/back_home"
+        android:layout_width="58dp"
+        android:layout_height="56dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="4dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/back_arrow_24"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

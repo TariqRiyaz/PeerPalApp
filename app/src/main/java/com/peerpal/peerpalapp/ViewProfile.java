@@ -7,10 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +48,9 @@ import java.util.Objects;
 
 // Activity responsible for displaying user profile and displaying edit and logout options
 public class ViewProfile extends AppCompatActivity {
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +96,7 @@ public class ViewProfile extends AppCompatActivity {
         Button editProfileButton = findViewById(R.id.editprofileButton);
         Button logoutButton = findViewById(R.id.logoutButton);
         Button deleteAccountButton = findViewById(R.id.deleteAccountButton);
+
 
         // Set click listeners for buttons
         editProfileButton.setOnClickListener(v -> {
@@ -197,5 +203,10 @@ public class ViewProfile extends AppCompatActivity {
             }
         };
         this.getOnBackPressedDispatcher().addCallback(this, callback);
+
+
+
     }
+
+
 }

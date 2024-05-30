@@ -12,22 +12,22 @@
         android:id="@+id/deleteAccountButton"
         android:layout_width="294dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="32dp"
-        android:textColor="@color/my_primary"
+        android:layout_marginBottom="24dp"
         android:text="Delete Account"
+        android:textColor="@color/my_primary"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="294dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="104dp"
-        android:textColor="@color/my_primary"
+        android:layout_marginBottom="88dp"
         android:text="@string/log_out"
+        android:textColor="@color/my_primary"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,10 +38,10 @@
         android:id="@+id/editprofileButton"
         android:layout_width="294dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="176dp"
+        android:layout_marginBottom="152dp"
         android:backgroundTint="@color/my_primary"
-        android:textColor="@color/my_secondary"
         android:text="@string/edit_profile"
+        android:textColor="@color/my_secondary"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,7 +53,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginStart="130dp"
-        android:layout_marginTop="102dp"
+        android:layout_marginTop="95dp"
         android:layout_marginEnd="131dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -99,7 +99,7 @@
         android:layout_width="208dp"
         android:layout_height="67dp"
         android:layout_marginStart="101dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="102dp"
         android:text="@string/name"
         android:textAlignment="center"
@@ -109,4 +109,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/peersImage" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
