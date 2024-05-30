@@ -15,7 +15,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.peerpal.peerpalapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.peerpal.peerpalapp.ui.home.HomeFragment;
 import com.peerpal.peerpalapp.ui.messages.MessagesFragment;
 import com.peerpal.peerpalapp.ui.peers.PeersFragment;
@@ -55,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         menuButton = findViewById(R.id.main_menu);
         reviewButton = findViewById(R.id.review_button);
+        surveyButton = findViewById(R.id.survey_button);
 
 
 
@@ -99,22 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Set default selected item in bottom navigation view
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
-
-
-       //getFCMToken();
-    }
-
-    void getFCMToken() {
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-
-            if (task.isSuccessful()) {
-                String token = task.getResult();
-                 Log.i("My token", token);
-                //FirebaseFirestore.getInstance().collection("peers").document(FirebaseAuth.getInstance().getUid()).update("fcmtoken", token);
-
-            }
-        });
-
     }
 
 }

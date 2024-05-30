@@ -9,6 +9,7 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -36,8 +37,8 @@ public class Survey extends AppCompatActivity {
 
     ImageButton BackButton;
 
-    public Survey(PeersClass currentuser) {
-        this.peersClass = currentuser;
+    public Survey() {
+
     }
 
     @Override
@@ -95,8 +96,17 @@ public class Survey extends AppCompatActivity {
 
         });
 
-
-
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Redirect back to main activity when back button is pressed
+                Intent mainIntent = new Intent(Survey.this, MainActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mainIntent);
+                finish();
+            }
+        };
+        this.getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
 

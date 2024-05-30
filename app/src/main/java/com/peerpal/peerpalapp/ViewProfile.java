@@ -203,10 +203,5 @@ public class ViewProfile extends AppCompatActivity {
             }
         };
         this.getOnBackPressedDispatcher().addCallback(this, callback);
-
-
-
     }
-
-
 }
