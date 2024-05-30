@@ -20,7 +20,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Rate_title" />
+        app:layout_constraintTop_toBottomOf="@+id/Survey_title" />
 
     <Button
         android:id="@+id/submit_rating"
@@ -40,17 +40,33 @@
         app:layout_constraintVertical_bias="0.772" />
 
 
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="65dp"
+        android:layout_height="75dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/back_arrow_24"
+        app:layout_constraintEnd_toStartOf="@+id/Survey_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
     <TextView
 
-        android:id="@+id/Rate_title"
+        android:id="@+id/Survey_title"
         android:layout_width="273dp"
         android:layout_height="70dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="52dp"
         android:text="Rate us!"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.724"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

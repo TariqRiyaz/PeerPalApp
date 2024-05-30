@@ -7,11 +7,11 @@
     tools:context=".MainActivity">
 
     <RelativeLayout
+        android:id="@+id/main_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/my_secondary"
-        android:padding="10dp"
-        android:id="@+id/main_toolbar">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/textView"
@@ -24,29 +24,45 @@
             android:textSize="22sp"
             android:textStyle="bold" />
 
+
         <ImageButton
+            android:id="@+id/main_menu"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@drawable/icon_settings"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="18dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/white"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:id="@+id/main_menu"/>
-
+            android:src="@drawable/icon_settings"
+            app:tint="@color/white" />
 
         <ImageButton
             android:id="@+id/review_button"
             android:layout_width="46dp"
             android:layout_height="34dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="214dp"
-            android:layout_marginEnd="54dp"
+            android:layout_marginStart="204dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="73dp"
             android:layout_toEndOf="@+id/textView"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/rating_icon"
             app:tint="@color/white" />
+
+        <ImageButton
+            android:id="@+id/survey_button"
+            android:layout_width="48dp"
+            android:layout_height="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="142dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/textView"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/survey_button"
+            app:tint="@color/white" />
+
 
     </RelativeLayout>
 

@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     ImageButton menuButton;
 
+    ImageButton surveyButton;
     ImageButton reviewButton;
 
     // Fragments
@@ -74,7 +75,12 @@ public class MainActivity extends AppCompatActivity {
             finish();
         });
 
-
+        surveyButton.setOnClickListener(v -> {
+            Intent mainIntent = new Intent(MainActivity.this, Survey.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(mainIntent);
+            finish();
+        });
 
         // Set listener for bottom navigation view
         bottomNavigationView.setOnItemSelectedListener(item -> {
