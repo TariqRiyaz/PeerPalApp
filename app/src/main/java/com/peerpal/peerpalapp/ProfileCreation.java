@@ -79,6 +79,8 @@ public class ProfileCreation extends AppCompatActivity {
         hobbyButtons.add(findViewById(R.id.HobbyButtonEight));
         hobbyButtons.add(findViewById(R.id.HobbyButtonNine));
         hobbyButtons.add(findViewById(R.id.HobbyButtonTen));
+        hobbyButtons.add(findViewById(R.id.HobbyButtonEleven));
+        hobbyButtons.add(findViewById(R.id.HobbyButtonTwelve));
         degree = findViewById(R.id.profile_creation_degree);
         imageProfileEdit = findViewById(R.id.imageViewEdit);
         saveProfile = findViewById(R.id.saveProfileBtn);
