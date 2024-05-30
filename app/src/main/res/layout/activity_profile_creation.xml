@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ae2431">
+    android:background="#00FFFFFF"
+    tools:context=".ProfileCreation">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
@@ -25,40 +25,192 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
-            android:scaleType="fitCenter"/>
-
+            android:scaleType="fitCenter" />
     </androidx.cardview.widget.CardView>
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/app_name"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
 
     <EditText
         android:id="@+id/profile_creation_degree"
         android:layout_width="323dp"
-        android:layout_height="50dp"
-        android:background="@drawable/edit_text_rounded_corner"
-        android:hint="Degree...."
+        android:layout_height="67dp"
+        android:background="@drawable/red_border"
+        android:hint="Degree"
         android:padding="5dp"
         android:textColor="@color/white"
-        android:textColorHint="#000000"
+        android:textColorHint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.32"/>
+        app:layout_constraintVertical_bias="0.32" />
+
+    <Button
+        android:id="@+id/HobbyButtonThree"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:onClick="onHobbyClicked"
+        android:padding="15dp"
+        android:text="Sports"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.577" />
+
+    <Button
+        android:id="@+id/HobbyButtonFive"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:onClick="onHobbyClicked"
+        android:padding="15dp"
+        android:text="Photography"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.932"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.577" />
+
+    <Button
+        android:id="@+id/HobbyButtonSix"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:onClick="onHobbyClicked"
+        android:padding="15dp"
+        android:text="Travelling"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.054"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.661" />
+
+    <Button
+        android:id="@+id/HobbyButtonNine"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:onClick="onHobbyClicked"
+        android:padding="15dp"
+        android:text="Hiking"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.054"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.577" />
+
+    <Button
+        android:id="@+id/HobbyButtonOne"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:onClick="onHobbyClicked"
+        android:padding="15dp"
+        android:text="Gaming"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.054"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.492" />
+
+    <Button
+        android:id="@+id/HobbyButtonTen"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:onClick="onHobbyClicked"
+        android:padding="15dp"
+        android:text="Foodie"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.746" />
+
+    <Button
+        android:id="@+id/HobbyButtonEleven"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:onClick="onHobbyClicked"
+        android:padding="15dp"
+        android:text="Cooking"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.054"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.746" />
+
+    <Button
+        android:id="@+id/HobbyButtonTwelve"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:onClick="onHobbyClicked"
+        android:padding="15dp"
+        android:text="Anime"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.932"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.746" />
+
+    <Button
+        android:id="@+id/HobbyButtonTwo"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:onClick="onHobbyClicked"
+        android:padding="15dp"
+        android:text="Art"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.932"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.492" />
+
+    <Button
+        android:id="@+id/HobbyButtonEight"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:onClick="onHobbyClicked"
+        android:padding="15dp"
+        android:text="Gardening"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.932"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.661" />
+
+    <Button
+        android:id="@+id/HobbyButtonSeven"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:onClick="onHobbyClicked"
+        android:padding="15dp"
+        android:text="Painting"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.661" />
+
+    <Button
+        android:id="@+id/HobbyButtonFour"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:onClick="onHobbyClicked"
+        android:padding="15dp"
+        android:text="Reading"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.492" />
 
     <TextView
         android:id="@+id/hobbyInterestText"
@@ -66,27 +218,37 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="Hobbies and Interests"
-        android:textColor="#fff"
+        android:textColor="@color/Red"
         android:textSize="25dp"
         android:textStyle="bold"
-        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_creation_degree"/>
+        app:layout_constraintTop_toBottomOf="@+id/profile_creation_degree" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/saveProfileBtn"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/edit_text_rounded_corner"
-        android:text="Save profile"
+    <Button
+        android:id="@+id/update_image_button"
+        android:layout_width="59dp"
+        android:layout_height="50dp"
+        android:text="+"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialCardView2" />
+        app:layout_constraintHorizontal_bias="0.068"
+        app:layout_constraintStart_toEndOf="@+id/cardView2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.212" />
+
+    <Button
+        android:id="@+id/saveProfileBtn"
+        android:layout_width="359dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="96dp"
+        android:text="Save profile"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -100,205 +262,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/materialCardView2"
-        android:layout_width="match_parent"
-        android:layout_marginTop="24dp"
-        app:cardBackgroundColor="@color/white"
-        android:layout_margin="20dp"
-        android:elevation="10dp"
-        app:cardCornerRadius="20dp"
-        app:strokeColor="#ae2431"
-        app:strokeWidth="2dp"
-        app:cardElevation="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/hobbyInterestText"
-        android:layout_height="wrap_content">
-
-        <!-- Buttons moved inside MaterialCardView -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="243dp"
-            android:layout_marginTop="10dp">
-
-            <Button
-                android:id="@+id/HobbyButtonOne"
-                android:layout_width="95dp"
-                android:layout_height="63dp"
-                android:backgroundTint="#EC547E"
-                android:onClick="onHobbyClicked"
-                android:padding="15dp"
-                android:text="Gaming"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.09"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/HobbyButtonTwo"
-                android:layout_width="104dp"
-                android:layout_height="61dp"
-                android:backgroundTint="#66D8EA"
-                android:onClick="onHobbyClicked"
-                android:padding="15dp"
-                android:text="Art"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.94"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/HobbyButtonThree"
-                android:layout_width="wrap_content"
-                android:layout_height="57dp"
-                android:backgroundTint="#16A085"
-                android:onClick="onHobbyClicked"
-                android:padding="15dp"
-                android:text="Sports"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/HobbyButtonFour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#F1C40F"
-                android:onClick="onHobbyClicked"
-                android:padding="15dp"
-                android:text="Reading"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/HobbyButtonThree" />
-
-            <Button
-                android:id="@+id/HobbyButtonFive"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#D50000"
-                android:onClick="onHobbyClicked"
-                android:padding="15dp"
-                android:text="Photography"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.938"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/HobbyButtonTwo" />
-
-            <Button
-                android:id="@+id/HobbyButtonSix"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#4CAF50"
-                android:onClick="onHobbyClicked"
-                android:padding="15dp"
-                android:text="Travelling"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.089"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/HobbyButtonOne" />
-
-            <Button
-                android:id="@+id/HobbyButtonSeven"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:backgroundTint="#FF1744"
-                android:onClick="onHobbyClicked"
-                android:padding="15dp"
-                android:text="Painting"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/HobbyButtonFour" />
-
-            <Button
-                android:id="@+id/HobbyButtonEight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#82B1FF"
-                android:onClick="onHobbyClicked"
-                android:padding="15dp"
-                android:text="Gardening"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.916"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/HobbyButtonFive" />
-
-
-            <Button
-                android:id="@+id/HobbyButtonNine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#2962FF"
-                android:onClick="onHobbyClicked"
-                android:padding="15dp"
-                android:text="Hiking"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.088"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/HobbyButtonSix" />
-
-            <Button
-                android:id="@+id/HobbyButtonTen"
-                android:layout_width="95dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="#76FF03"
-                android:onClick="onHobbyClicked"
-                android:padding="15dp"
-                android:text="Foodie"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.501"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/HobbyButtonSeven" />
-
-            <Button
-                android:id="@+id/HobbyButtonEleven"
-                android:layout_width="95dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:backgroundTint="#F933FF"
-                android:onClick="onHobbyClicked"
-                android:padding="15dp"
-                android:text="Cooking"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.09"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/HobbyButtonSeven" />
-
-            <Button
-                android:id="@+id/HobbyButtonTwelve"
-                android:layout_width="95dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:backgroundTint="#A368E5"
-                android:onClick="onHobbyClicked"
-                android:padding="15dp"
-                android:text="Anime"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.916"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/HobbyButtonSeven" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-    <Button
-        android:id="@+id/update_image_button"
-        android:layout_width="59dp"
-        android:layout_height="50dp"
-        android:text="+"
-        android:textSize="20dp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.068"
-        app:layout_constraintStart_toEndOf="@+id/cardView2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.212"/>
-
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

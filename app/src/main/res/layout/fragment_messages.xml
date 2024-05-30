@@ -13,15 +13,6 @@
         android:padding="10dp"
         android:visibility="gone" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="See more"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="254dp" />
-
     <TextView
         android:id="@+id/messagesPlaceholder"
         android:layout_width="270dp"

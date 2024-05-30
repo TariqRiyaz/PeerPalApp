@@ -8,4 +8,5 @@
     <color name="my_tertiary">#92000E</color>
     <color name="gray">#D3D3D3</color>
     <color name="disabled">#9FFFFFFF</color>
+    <color name="common_border_color">#AC2431</color>
 </resources>
