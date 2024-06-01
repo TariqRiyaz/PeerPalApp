@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
     String currentUserId;
     String chatroomId;
     ImageButton deleteConnectionButton;
+
 
     // Constructor
     public RecentChatRecyclerAdapter(@NonNull FirestoreRecyclerOptions<ChatRoomModel> options, Context context) {
@@ -96,6 +98,21 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
                     intent.putExtra("peerPhone", allUID.get(4));
                     context.startActivity(intent);
                 });
+                // Set click listener for pinning/unpinning chats
+                holder.pinChatButtonValue.setOnClickListener(v -> {
+                    boolean isPinned = !model.isPinned(); // Toggle pin state
+                    FirebaseFirestore.getInstance().collection("chatrooms")
+                            .document(model.getChatRoomId())
+                            .update("isPinned", isPinned)
+                            .addOnCompleteListener(task1 -> {
+                                if (task1.isSuccessful()) {
+                                    Toast.makeText(context, isPinned ? "Chat pinned" : "Chat unpinned", Toast.LENGTH_SHORT).show();
+                                    notifyDataSetChanged();
+                                } else {
+                                    Toast.makeText(context, "Failed to update pin state", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                });
             }
         });
     }
@@ -126,6 +143,8 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
         ImageView profilePic;
         ImageButton deleteConnectionButton;
 
+        ImageButton pinChatButtonValue;
+
         public ChatroomModelViewHolder(@NonNull View itemView) {
             super(itemView);
             // Initialize views
@@ -134,6 +153,7 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
             lastMessageTime = itemView.findViewById(R.id.last_message_time_text);
             profilePic = itemView.findViewById(R.id.profile_pic_image_view);
             deleteConnectionButton = itemView.findViewById(R.id.deleteConnectionButton);
+            pinChatButtonValue = itemView.findViewById(R.id.pinChatButton);
         }
     }
 

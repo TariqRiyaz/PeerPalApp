@@ -55,8 +55,9 @@ public class MessagesFragment extends Fragment {
         // Initialize Firebase authentication
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        assert user != null;
-        currentUserId = user.getUid();
+         if(user != null) {
+             currentUserId = user.getUid();
+         }
 
         // Initialize views
         recyclerView = view.findViewById(R.id.messageRecyclerView);
@@ -91,7 +92,10 @@ public class MessagesFragment extends Fragment {
 
         // Configure options for the FirestoreRecyclerAdapter
         FirestoreRecyclerOptions<ChatRoomModel> options = new FirestoreRecyclerOptions.Builder<ChatRoomModel>()
-                .setQuery(query, ChatRoomModel.class).build();
+                .setQuery(FirebaseFirestore.getInstance().collection("chatrooms")
+                        .orderBy("isPinned", Query.Direction.DESCENDING),ChatRoomModel.class)
+                .build();
+
 
         // Initialize and set up the adapter
         showLoading(false);
