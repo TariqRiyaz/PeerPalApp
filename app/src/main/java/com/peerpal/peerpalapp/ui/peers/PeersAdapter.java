@@ -206,6 +206,7 @@ public class PeersAdapter extends RecyclerView.Adapter<PeersViewHolder> {
                             chatroom.put("lastMessage", "");
                             chatroom.put("lastMessageSenderId", "");
                             chatroom.put("lastMessageTimeStamp", Timestamp.now());
+                            chatroom.put("isPinned", 0);
                             ArrayList<String> userIds = new ArrayList<>();
                             userIds.add(selfUID);
                             userIds.add(peerUID);

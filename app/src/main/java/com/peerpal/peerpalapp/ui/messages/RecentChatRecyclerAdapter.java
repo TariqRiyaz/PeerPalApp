@@ -1,18 +1,12 @@
 package com.peerpal.peerpalapp.ui.messages;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,43 +22,38 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.peerpal.peerpalapp.ProfileEdit;
 import com.peerpal.peerpalapp.R;
-import com.peerpal.peerpalapp.SplashScreen;
-import com.peerpal.peerpalapp.ViewProfile;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Document;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-// Adapter for recentchatrecycler
+// Adapter for recent chat recycler
 public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoomModel, RecentChatRecyclerAdapter.ChatroomModelViewHolder> {
     Context context;
     FirebaseAuth firebaseAuth;
     String currentUserId;
-    String chatroomId;
-    ImageButton deleteConnectionButton;
-
+    MessagesFragment fragment;
 
     // Constructor
-    public RecentChatRecyclerAdapter(@NonNull FirestoreRecyclerOptions<ChatRoomModel> options, Context context) {
+    public RecentChatRecyclerAdapter(@NonNull FirestoreRecyclerOptions<ChatRoomModel> options, Context context, MessagesFragment fragment) {
         super(options);
         this.context = context;
+        this.fragment = fragment;
     }
 
     @Override
     protected void onBindViewHolder(@NonNull ChatroomModelViewHolder holder, int position, @NonNull ChatRoomModel model) {
+        // Initialize views
+        holder.usernameText.setText(""); // Clear previous text
+        holder.pinChatButtonValue.setImageResource(model.getIsPinned() == 1 ? R.drawable.pin_filled_icon : R.drawable.pin_hollow_icon);
+
         firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        chatroomId = model.getChatRoomId();
-        deleteConnectionButton = holder.deleteConnectionButton;
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        currentUserId = Objects.requireNonNull(user).getUid();
 
         ArrayList<String> allUID = new ArrayList<>(model.getUserIds()); // Copying user IDs to an ArrayList
 
@@ -73,10 +62,9 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
             if(task.isSuccessful()){
                 MessageUserModel otherUserModel = task.getResult().toObject(MessageUserModel.class);
                 if (otherUserModel != null) {
-                    currentUserId = otherUserModel.getUid();
-                    String OtheruserImage = otherUserModel.getImage();
-                    if (!OtheruserImage.isEmpty()) {
-                        Picasso.get().load(OtheruserImage).into(holder.profilePic);
+                    String otherUserImage = otherUserModel.getImage();
+                    if (!otherUserImage.isEmpty()) {
+                        Picasso.get().load(otherUserImage).into(holder.profilePic);
                     }
                     holder.usernameText.setText(otherUserModel.getName());
                     // Add other user's name and image URL to the list for passing to ChatActivity
@@ -98,23 +86,40 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
                     intent.putExtra("peerPhone", allUID.get(4));
                     context.startActivity(intent);
                 });
-                // Set click listener for pinning/unpinning chats
-                holder.pinChatButtonValue.setOnClickListener(v -> {
-                    int isPinned = 1; // Toggle pin state
-                    FirebaseFirestore.getInstance().collection("chatrooms")
-                            .document(model.getChatRoomId())
-                            .update("isPinned", isPinned)
-                            .addOnCompleteListener(task1 -> {
-                                if (task1.isSuccessful()) {
-                                    Toast.makeText(context, "Chat pinned", Toast.LENGTH_SHORT).show();
-                                    notifyDataSetChanged();
-                                } else {
-                                    Toast.makeText(context, "Failed to update pin state", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                });
             }
         });
+
+        // Set click listener for pinning/unpinning chats
+        holder.pinChatButtonValue.setOnClickListener(v -> {
+            DocumentReference docRef = FirebaseFirestore.getInstance().collection("chatrooms").document(model.getChatRoomId());
+            docRef.get().addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot.exists()) {
+                    // Get the current pin state
+                    Long pinValue = documentSnapshot.getLong("isPinned");
+                    if (pinValue != null) {
+                        // Toggle the pin state
+                        int newPinValue = pinValue == 1 ? 0 : 1;
+                        // Update Firestore with the new pin state
+                        docRef.update("isPinned", newPinValue)
+                                .addOnSuccessListener(aVoid -> {
+                                    // Update the UI based on the new pin state
+                                    updatePinIcon(holder.pinChatButtonValue, newPinValue);
+                                    Toast.makeText(context, "Chat " + (newPinValue == 1 ? "pinned" : "unpinned"), Toast.LENGTH_SHORT).show();
+                                    fragment.onChatroomUpdated();
+                                })
+                                .addOnFailureListener(e -> Toast.makeText(context, "Failed to update pin state", Toast.LENGTH_SHORT).show());
+                    }
+                }
+            });
+        });
+    }
+
+    private void updatePinIcon(ImageButton pinButton, int pinValue) {
+        if (pinValue == 1) {
+            pinButton.setImageResource(R.drawable.pin_filled_icon);
+        } else {
+            pinButton.setImageResource(R.drawable.pin_hollow_icon);
+        }
     }
 
     @NonNull
@@ -142,7 +147,6 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
         TextView lastMessageTime;
         ImageView profilePic;
         ImageButton deleteConnectionButton;
-
         ImageButton pinChatButtonValue;
 
         public ChatroomModelViewHolder(@NonNull View itemView) {
@@ -160,62 +164,13 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
     // Method to get a DocumentReference to the other user in the chat room
     private DocumentReference getOtherUserFromChatroom(List<String> userIds){
         firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
         assert user != null;
         currentUserId = user.getUid();
 
         // Check which user ID is not the current user's ID
         String otherUserId = userIds.get(0).equals(currentUserId) ? userIds.get(1) : userIds.get(0);
         Log.d("otherUserId", otherUserId);
-
-        // Sets button to delete user connection and chatroom
-        deleteConnectionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Alerts user to confirm deletion of connection
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-                builder.setTitle("Confirmation");
-                builder.setMessage("Are you sure you want to delete connection?");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Removing peer connection from connections list in Firestore
-                        String existingUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        DocumentReference peerRef = db.collection("peers").document(existingUser);
-                        peerRef.get().addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot doc = task.getResult();
-                                ArrayList<String> connectionArray = ((ArrayList<String>) Objects.requireNonNull(doc.get("connections")));
-                                connectionArray.remove(otherUserId);
-                                peerRef.update("connections", connectionArray);
-                            }
-                        });
-
-                        //Removing chatroom from chatrooms collection
-                        DocumentReference chatroomRef = db.collection("chatrooms").document(chatroomId);
-                        chatroomRef.get().addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                chatroomRef.delete();
-                            }
-                        });
-
-                        //Updates chatroom recycler view
-                        notifyDataSetChanged();
-                    }
-                });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
 
         // Return DocumentReference to the other user
         return allUserCollectionReference().document(otherUserId);
@@ -226,3 +181,4 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
         return FirebaseFirestore.getInstance().collection("peers");
     }
 }
+

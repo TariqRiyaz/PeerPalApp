@@ -15,8 +15,7 @@ public class ChatRoomModel {
     String lastMessageSenderId;
     String lastMessage;
     ImageButton deleteConnectionButton;
-
-    int isPinned;
+    long isPinned;
 
     // Default constructor (required by Firestore)
     public ChatRoomModel() {
@@ -92,6 +91,6 @@ public class ChatRoomModel {
         this.deleteConnectionButton = deleteConnectionButton;
     }
 
-    public int isPinned() { return isPinned; }
-    public void setPinned(int pinned) { isPinned = pinned; }
+    public long getIsPinned() { return isPinned; }
+    public void setIsPinned(int pinned) { isPinned = pinned; }
 }

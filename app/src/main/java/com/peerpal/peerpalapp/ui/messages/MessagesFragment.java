@@ -12,10 +12,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -86,40 +88,41 @@ public class MessagesFragment extends Fragment {
         });
     }
 
-    void setupRecyclerView(){
-        // Query to retrieve all chatrooms where the current user is a member
-        Query query = allChatroomCollectionReference().whereArrayContains("userIds",currentUserId);
+    void setupRecyclerView() {
+        Query query = allChatroomCollectionReference()
+                .whereArrayContains("userIds", currentUserId)
+                .orderBy("isPinned", Query.Direction.DESCENDING);
 
-        // Configure options for the FirestoreRecyclerAdapter
         FirestoreRecyclerOptions<ChatRoomModel> options = new FirestoreRecyclerOptions.Builder<ChatRoomModel>()
-                .setQuery(FirebaseFirestore.getInstance().collection("chatrooms")
-                        .orderBy("isPinned", Query.Direction.DESCENDING),ChatRoomModel.class)
+                .setQuery(query, ChatRoomModel.class)
                 .build();
 
+        adapter = new RecentChatRecyclerAdapter(options, getContext(), this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
 
-        // Initialize and set up the adapter
+        // Hide loading progress bar and show recycler view
         showLoading(false);
-        adapter = new RecentChatRecyclerAdapter(options, getContext());
+        showRecyclerView();
 
-        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                super.onItemRangeInserted(positionStart, itemCount);
-                updateUIBasedOnData();
+        // Add a snapshot listener to the query
+        query.addSnapshotListener((snapshots, error) -> {
+            if (error != null) {
+                Log.e(TAG, "Error listening for chatroom updates: ", error);
+                return;
             }
 
-            @Override
-            public void onItemRangeRemoved(int positionStart, int itemCount) {
-                super.onItemRangeRemoved(positionStart, itemCount);
-                updateUIBasedOnData();
+            if (snapshots != null && !snapshots.isEmpty()) {
+                // Update the RecyclerView with the new data
+                adapter.notifyDataSetChanged();
             }
         });
 
-        recyclerView.setVisibility(View.VISIBLE);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
-        messagePlaceholder.setVisibility(View.GONE);
         adapter.startListening();
+    }
+
+    public void onChatroomUpdated() {
+        setupRecyclerView();
     }
 
     void updateUIBasedOnData() {
