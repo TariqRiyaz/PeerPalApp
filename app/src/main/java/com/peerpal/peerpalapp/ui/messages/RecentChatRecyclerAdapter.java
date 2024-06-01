@@ -100,13 +100,13 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
                 });
                 // Set click listener for pinning/unpinning chats
                 holder.pinChatButtonValue.setOnClickListener(v -> {
-                    boolean isPinned = !model.isPinned(); // Toggle pin state
+                    int isPinned = 1; // Toggle pin state
                     FirebaseFirestore.getInstance().collection("chatrooms")
                             .document(model.getChatRoomId())
                             .update("isPinned", isPinned)
                             .addOnCompleteListener(task1 -> {
                                 if (task1.isSuccessful()) {
-                                    Toast.makeText(context, isPinned ? "Chat pinned" : "Chat unpinned", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Chat pinned", Toast.LENGTH_SHORT).show();
                                     notifyDataSetChanged();
                                 } else {
                                     Toast.makeText(context, "Failed to update pin state", Toast.LENGTH_SHORT).show();
