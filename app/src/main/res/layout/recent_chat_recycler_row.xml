@@ -55,6 +55,13 @@
     </LinearLayout>
 
     <ImageButton
+        android:id="@+id/pinChatButton"
+        android:layout_width="37dp"
+        android:layout_height="31dp"
+        android:background="@color/Red"
+        android:src="@drawable/baseline_push_pin_24" />
+
+    <ImageButton
         android:id="@+id/deleteConnectionButton"
         android:layout_width="24dp"
         android:layout_height="match_parent"
