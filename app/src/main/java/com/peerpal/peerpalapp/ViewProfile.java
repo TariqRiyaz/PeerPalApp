@@ -49,8 +49,6 @@ import java.util.Objects;
 // Activity responsible for displaying user profile and displaying edit and logout options
 public class ViewProfile extends AppCompatActivity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -20,7 +20,7 @@
         android:theme="@style/Theme.PeerPalApp"
         tools:targetApi="31" >
         <activity
-            android:name=".VerifyuserActivity"
+            android:name=".VerifyUserActivity"
             android:exported="true"
             android:theme="@style/Theme.PeerPalApp" >
         </activity>
@@ -47,7 +47,7 @@
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".Login"
+            android:name=".LoginActivity"
             android:exported="true" />
         <activity
             android:name=".ViewProfile"
@@ -56,10 +56,10 @@
             android:name=".SignUpActivity"
             android:exported="true" />
         <activity
-            android:name=".Survey"
+            android:name=".SurveyActivity"
             android:exported="true" />
         <activity
-            android:name=".review"
+            android:name=".ReviewActivity"
             android:exported="true" />
     </application>
 

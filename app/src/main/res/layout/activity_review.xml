@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#AE2431"
-    tools:context=".review">
+    tools:context=".ReviewActivity">
 
 
     <RatingBar
         android:id="@+id/Star_rating"
         android:layout_width="240dp"
         android:layout_height="43dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:progressBackgroundTint="@color/cardview_dark_background"
         android:progressTint="@color/white"
         android:rating="2.5"
@@ -23,13 +23,13 @@
         app:layout_constraintTop_toBottomOf="@+id/Survey_title" />
 
     <Button
-        android:id="@+id/submit_rating"
+        android:id="@+id/Submit"
         android:layout_width="159dp"
         android:layout_height="51dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="120dp"
         android:backgroundTint="@color/my_primary"
-        android:text=" submit rate"
+        android:text="Submit"
         android:textColor="@color/my_secondary"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,20 +37,20 @@
         app:layout_constraintHorizontal_bias="0.456"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Star_rating"
-        app:layout_constraintVertical_bias="0.772" />
-
+        app:layout_constraintVertical_bias="0.706" />
 
     <ImageButton
         android:id="@+id/back_button"
-        android:layout_width="65dp"
-        android:layout_height="75dp"
+        android:layout_width="51dp"
+        android:layout_height="53dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="4dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/back_arrow_24"
         app:layout_constraintEnd_toStartOf="@+id/Survey_title"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/white" />
@@ -60,13 +60,12 @@
         android:id="@+id/Survey_title"
         android:layout_width="273dp"
         android:layout_height="70dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="128dp"
         android:text="Rate us!"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.724"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,11 +73,11 @@
         android:id="@+id/feedback_text"
         android:layout_width="366dp"
         android:layout_height="128dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="60dp"
         android:background="@color/white"
         android:hint="Enter review here"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/submit_rating"
+        app:layout_constraintBottom_toTopOf="@+id/Submit"
         app:layout_constraintEnd_toEndOf="parent"
 
         app:layout_constraintHorizontal_bias="0.488"
@@ -86,16 +85,17 @@
 
     <TextView
         android:id="@+id/feedback_title"
-        android:layout_width="354dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="350dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="24dp"
         android:text="Enter Feedback"
-        app:layout_constraintBottom_toTopOf="@+id/feedback_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="25dp"
-        android:textAlignment="center"/>
+        app:layout_constraintBottom_toTopOf="@+id/feedback_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

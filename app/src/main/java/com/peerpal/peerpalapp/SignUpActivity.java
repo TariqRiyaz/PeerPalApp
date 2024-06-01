@@ -2,7 +2,6 @@ package com.peerpal.peerpalapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -124,7 +123,7 @@ public class SignUpActivity extends AppCompatActivity {
         acc_Creation_loginRedirect.setOnClickListener(v -> {
 
             // Redirect to login activity
-            startActivity(new Intent(SignUpActivity.this, Login.class));
+            startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
         });
     }
 
@@ -153,7 +152,7 @@ public class SignUpActivity extends AppCompatActivity {
                     DocumentReference reference = db.collection("peers").document(uid);
                     reference.set(hashMap);
                     // Redirect to profile creation activity
-                    Intent mainIntent = new Intent(SignUpActivity.this, ProfileCreation.class);
+                    Intent mainIntent = new Intent(SignUpActivity.this, VerifyUserActivity.class);
                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
                     showLoading(false);

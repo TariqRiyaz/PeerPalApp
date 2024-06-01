@@ -2,18 +2,10 @@ package com.peerpal.peerpalapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.util.Log;
 import android.widget.ImageButton;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.peerpal.peerpalapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.peerpal.peerpalapp.ui.home.HomeFragment;
 import com.peerpal.peerpalapp.ui.messages.MessagesFragment;
@@ -25,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     // UI elements
     BottomNavigationView bottomNavigationView;
     ImageButton menuButton;
-
     ImageButton surveyButton;
     ImageButton reviewButton;
 
@@ -39,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_main); // Set the layout for this activity
 
         // Initialize fragments
@@ -47,16 +37,11 @@ public class MainActivity extends AppCompatActivity {
         peersFragment = new PeersFragment();
         messagesFragment = new MessagesFragment();
 
-
-
-
         // Initialize UI elements
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         menuButton = findViewById(R.id.main_menu);
         reviewButton = findViewById(R.id.review_button);
         surveyButton = findViewById(R.id.survey_button);
-
-
 
         // Set onClickListener for menu button
         menuButton.setOnClickListener(v -> {
@@ -67,16 +52,15 @@ public class MainActivity extends AppCompatActivity {
             finish();
         });
 
-
         reviewButton.setOnClickListener(v -> {
-            Intent mainIntent = new Intent(MainActivity.this, review.class);
+            Intent mainIntent = new Intent(MainActivity.this, ReviewActivity.class);
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(mainIntent);
             finish();
         });
 
         surveyButton.setOnClickListener(v -> {
-            Intent mainIntent = new Intent(MainActivity.this, Survey.class);
+            Intent mainIntent = new Intent(MainActivity.this, SurveyActivity.class);
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(mainIntent);
             finish();
@@ -100,5 +84,4 @@ public class MainActivity extends AppCompatActivity {
         // Set default selected item in bottom navigation view
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
     }
-
 }

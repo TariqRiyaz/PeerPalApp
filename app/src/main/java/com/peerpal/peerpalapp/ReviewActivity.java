@@ -18,81 +18,67 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.peerpal.peerpalapp.ui.peers.PeersClass;
 
 import java.util.HashMap;
 
-public class Survey extends AppCompatActivity {
-
+public class ReviewActivity extends AppCompatActivity {
 
     Button Submit_button;
-
-    TextInputEditText food_text;
-
-    TextInputEditText superpowers_text;
-
-    TextInputEditText movie_text;
-
-    PeersClass peersClass;
-
+    RatingBar RatingStars;
+    TextInputEditText Feedback;
     ImageButton BackButton;
-
-    public Survey() {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_survey);
+        setContentView(R.layout.activity_review);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        Submit_button = findViewById(R.id.Submit);
+        RatingStars = findViewById(R.id.Star_rating);
+        Feedback = findViewById(R.id.feedback_text);
 
-        Submit_button = findViewById(R.id.submit_survey);
-        food_text  = findViewById(R.id.food_text);
-        superpowers_text  = findViewById(R.id.power_text);
-        movie_text = findViewById(R.id.movie_text);
-        BackButton = findViewById(R.id.back_home);
+        BackButton = findViewById(R.id.back_button);
 
-
-        Submit_button.setOnClickListener(new View.OnClickListener() {
+        RatingStars.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
-            public void onClick(View v) {
-
-                Intent mainIntent = new Intent(Survey.this, MainActivity.class);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(mainIntent);
-
-                String superpower = String.valueOf(superpowers_text.getText());
-                String food = String.valueOf(food_text.getText());
-                String movie = String.valueOf(movie_text.getText());
-
-
-
-
-                //Store in firebase
-                UploadSurvey(food, movie,superpower);
-                String respond = "Thanks you!";
-                Toast.makeText(Survey.this, respond, Toast.LENGTH_SHORT).show();
-                finish();
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                float rate = rating;
             }
 
         });
 
+        Submit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mainIntent = new Intent(ReviewActivity.this, MainActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mainIntent);
+                String message = String.valueOf(Feedback.getText());
+                float rating = RatingStars.getRating();
+
+                //Store in firebase
+                UploadRating(rating, message);
+                String respond = "Thanks for rating!";
+                Toast.makeText(ReviewActivity.this, respond, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+
+
         BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mainIntent = new Intent(Survey.this, MainActivity.class);
+                Intent mainIntent = new Intent(ReviewActivity.this, MainActivity.class);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(mainIntent);
                 finish();
             }
-
 
         });
 
@@ -100,7 +86,7 @@ public class Survey extends AppCompatActivity {
             @Override
             public void handleOnBackPressed() {
                 // Redirect back to main activity when back button is pressed
-                Intent mainIntent = new Intent(Survey.this, MainActivity.class);
+                Intent mainIntent = new Intent(ReviewActivity.this, MainActivity.class);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(mainIntent);
                 finish();
@@ -109,25 +95,15 @@ public class Survey extends AppCompatActivity {
         this.getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
-
-    private void UploadSurvey(String food, String movie, String superpower)
-    {
+    private void UploadRating(float rating, String feedback){
         // Create user data hashmap
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("Food", food);
-        hashMap.put("Movie", movie);
-        hashMap.put("Superpower", superpower);
-
+        hashMap.put("Feedback", feedback);
+        hashMap.put("Rating", rating);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference reference = db.collection("survey").document();
+        DocumentReference reference = db.collection("feedback").document();
         reference.set(hashMap);
         finish();
-
-
     }
-
-
-
-
 }

@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#AE2431"
-    tools:context=".Login">
+    tools:context=".LoginActivity">
 
     <Button
         android:id="@+id/deleteAccountButton"
         android:layout_width="294dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="72dp"
         android:text="Delete Account"
         android:textColor="@color/my_primary"
         android:textSize="20dp"
@@ -25,7 +25,7 @@
         android:id="@+id/logoutButton"
         android:layout_width="294dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="88dp"
+        android:layout_marginBottom="128dp"
         android:text="@string/log_out"
         android:textColor="@color/my_primary"
         android:textSize="20dp"
@@ -38,7 +38,7 @@
         android:id="@+id/editprofileButton"
         android:layout_width="294dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="152dp"
+        android:layout_marginBottom="184dp"
         android:backgroundTint="@color/my_primary"
         android:text="@string/edit_profile"
         android:textColor="@color/my_secondary"
@@ -47,17 +47,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/peersImage"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="150dp"
+        android:layout_gravity="center"
         android:layout_marginStart="130dp"
         android:layout_marginTop="95dp"
         android:layout_marginEnd="131dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
@@ -75,6 +80,7 @@
         android:textSize="24dp"
         app:layout_constraintBottom_toTopOf="@+id/peersEmail"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/peersName" />
 

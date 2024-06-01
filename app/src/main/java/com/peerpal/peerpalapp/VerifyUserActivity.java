@@ -12,25 +12,20 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class VerifyuserActivity extends AppCompatActivity {
+public class VerifyUserActivity extends AppCompatActivity {
 
     FirebaseAuth fAuth;
     FirebaseUser user;
     Button resendCode;
     Button verifyBtn;
     ProgressBar progressBar;
-
     String userId;
-
     TextView verificationMsg;
 
     @Override
@@ -44,7 +39,6 @@ public class VerifyuserActivity extends AppCompatActivity {
         resendCode = findViewById(R.id.resendBtn);
         verifyBtn = findViewById(R.id.checkverifyBtn);
         progressBar = findViewById(R.id.progressBar);
-
         user = fAuth.getCurrentUser();
 
         verifyBtn.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +48,7 @@ public class VerifyuserActivity extends AppCompatActivity {
                 if(!user.isEmailVerified()){
                     verificationMsg.setText("Not verfied, Please try again!");
                 } else if (user.isEmailVerified()) {
-                    Intent mainIntent = new Intent(VerifyuserActivity.this, ProfileCreation.class);
+                    Intent mainIntent = new Intent(VerifyUserActivity.this, ProfileCreation.class);
                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
                     showLoading(false);
@@ -71,7 +65,7 @@ public class VerifyuserActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(v.getContext(), "Verification Email Has been sent", Toast.LENGTH_LONG).show();
-                        Intent mainIntent = new Intent(VerifyuserActivity.this, VerifyuserActivity.class);
+                        Intent mainIntent = new Intent(VerifyUserActivity.this, VerifyUserActivity.class);
                         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(mainIntent);
                         showLoading(false);

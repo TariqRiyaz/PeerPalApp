@@ -2,7 +2,6 @@ package com.peerpal.peerpalapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,17 +9,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.OAuthCredential;
-import com.google.firebase.auth.OAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -28,7 +20,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 // Activity for user login
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     private EditText email, password;
     private FirebaseAuth firebaseAuth;
 
@@ -38,8 +30,6 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this); // Enable edge-to-edge display
         setContentView(R.layout.activity_login); // Set the layout for this activity
-
-
 
         // Initialize layout items
         email = findViewById(R.id.login_Email);
@@ -73,7 +63,7 @@ public class Login extends AppCompatActivity {
         // Set onClickListener for signup text
         signupText.setOnClickListener(v -> {
             // Redirect to sign-up activity
-            startActivity(new Intent(Login.this, SignUpActivity.class));
+            startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
         });
     }
 
@@ -101,19 +91,19 @@ public class Login extends AppCompatActivity {
                     reference.child(uid).setValue(userData);
                 }
                 // Display success message
-                Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
                 // Redirect to main activity
-                Intent mainIntent = new Intent(Login.this, MainActivity.class);
+                Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(mainIntent);
                 finish();
             } else {
                 // Display failure message
-                Toast.makeText(Login.this, "Login Failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(e -> {
             // Display error message
-            Toast.makeText(Login.this, "Error Occurred", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "Error Occurred", Toast.LENGTH_LONG).show();
         });
     }
 }

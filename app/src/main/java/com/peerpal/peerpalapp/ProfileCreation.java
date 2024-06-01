@@ -67,7 +67,6 @@ public class ProfileCreation extends AppCompatActivity {
         selectedHobbies = new ArrayList<>();
 
         // Initialize hobby buttons
-        hobbyButtons.add(findViewById(R.id.HobbyButtonTwelve));
         hobbyButtons.add(findViewById(R.id.HobbyButtonOne));
         hobbyButtons.add(findViewById(R.id.HobbyButtonTwo));
         hobbyButtons.add(findViewById(R.id.HobbyButtonThree));
@@ -79,6 +78,7 @@ public class ProfileCreation extends AppCompatActivity {
         hobbyButtons.add(findViewById(R.id.HobbyButtonNine));
         hobbyButtons.add(findViewById(R.id.HobbyButtonTen));
         hobbyButtons.add(findViewById(R.id.HobbyButtonEleven));
+        hobbyButtons.add(findViewById(R.id.HobbyButtonTwelve));
 
         degree = findViewById(R.id.profile_creation_degree);
         imageProfileEdit = findViewById(R.id.imageViewEdit);
@@ -136,7 +136,7 @@ public class ProfileCreation extends AppCompatActivity {
         if (selectedHobbies.contains(hobby)) {
             // Deselect the hobby
             selectedHobbies.remove(hobby);
-            //button.setBackgroundResource(android.R.drawable.btn_default); // Reset button background
+            button.setBackgroundResource(android.R.drawable.btn_default); // Reset button background
         } else {
             // Check if maximum hobbies selected
             if (selectedHobbies.size() < 3) {

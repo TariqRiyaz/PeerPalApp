@@ -7,16 +7,12 @@ import android.os.Handler;
 
 import android.view.animation.Animation;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.peerpal.peerpalapp.ui.messages.ChatActivity;
 import com.peerpal.peerpalapp.ui.peers.PeersClass;
@@ -26,7 +22,6 @@ import com.peerpal.peerpalapp.ui.peers.PeersClass;
 public class SplashScreen extends AppCompatActivity {
     FirebaseUser currentUser;
     private FirebaseAuth mAuth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +35,10 @@ public class SplashScreen extends AppCompatActivity {
         fadeIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-
             }
 
             @Override
@@ -54,7 +47,6 @@ public class SplashScreen extends AppCompatActivity {
                 finish();
             }
         });
-
 
         // Initialize FirebaseAuth instance
         mAuth = FirebaseAuth.getInstance();
@@ -76,33 +68,26 @@ public class SplashScreen extends AppCompatActivity {
                             mainIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(mainIntent);
 
-
                             Intent intent = new Intent(this, ChatActivity.class);
                             intent.putExtra("peersName",peer.getPeersName());
                             intent.putExtra("peersUID",peer.getPeersUID());
-                            //intent.putExtra("fcmToken",peer.getFcmToken());
 
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
-
-
                         }
-
                     });
-
         }
 
         else
         {
-
             // Delay execution for 1 second to display splash screen
             new Handler().postDelayed(() -> {
                 // Check if a user is logged in
                 FirebaseUser user = mAuth.getCurrentUser();
                 if (user == null) {
                     // If no user is logged in, redirect to the login activity
-                    Intent intent = new Intent(SplashScreen.this, Login.class);
+                    Intent intent = new Intent(SplashScreen.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
