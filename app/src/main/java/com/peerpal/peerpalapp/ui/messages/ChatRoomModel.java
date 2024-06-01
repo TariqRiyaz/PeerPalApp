@@ -16,14 +16,14 @@ public class ChatRoomModel {
     String lastMessage;
     ImageButton deleteConnectionButton;
 
-    boolean isPinned;
+    int isPinned;
 
     // Default constructor (required by Firestore)
     public ChatRoomModel() {
     }
 
     // Parameterized constructor
-    public ChatRoomModel(String chatRoomId, List<String> userIds, Timestamp lastMessageTimeStamp, String lastMessageSenderId, ImageButton deleteConnectionButton, boolean isPinned) {
+    public ChatRoomModel(String chatRoomId, List<String> userIds, Timestamp lastMessageTimeStamp, String lastMessageSenderId, ImageButton deleteConnectionButton, int isPinned) {
         this.chatRoomId = chatRoomId;
         this.userIds = userIds;
         this.lastMessageTimeStamp = lastMessageTimeStamp;
@@ -92,6 +92,6 @@ public class ChatRoomModel {
         this.deleteConnectionButton = deleteConnectionButton;
     }
 
-    public boolean isPinned() { return isPinned; }
-    public void setPinned(boolean pinned) { isPinned = pinned; }
+    public int isPinned() { return isPinned; }
+    public void setPinned(int pinned) { isPinned = pinned; }
 }
