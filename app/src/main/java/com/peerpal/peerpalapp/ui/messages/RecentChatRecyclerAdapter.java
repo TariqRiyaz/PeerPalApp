@@ -1,7 +1,9 @@
 package com.peerpal.peerpalapp.ui.messages;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.peerpal.peerpalapp.R;
 import com.squareup.picasso.Picasso;
@@ -54,6 +57,7 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         currentUserId = Objects.requireNonNull(user).getUid();
+        String chatroomId = model.getChatRoomId();
 
         ArrayList<String> allUID = new ArrayList<>(model.getUserIds()); // Copying user IDs to an ArrayList
 
@@ -111,6 +115,54 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
                     }
                 }
             });
+        });
+
+        // Set click listener for deleting chats
+        holder.deleteConnectionButton.setOnClickListener(v -> {
+            // Alerts user to confirm deletion of connection
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+            builder.setTitle("Confirmation");
+            builder.setMessage("Are you sure you want to delete connection?");
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                    // Removing peer connection from connections list in Firestore
+                    String existingUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    DocumentReference peerRef = db.collection("peers").document(existingUser);
+                    peerRef.get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot doc = task.getResult();
+                            if (doc.exists()) {
+                                ArrayList<String> connectionArray = (ArrayList<String>) doc.get("connections");
+                                if (connectionArray != null) {
+                                    connectionArray.remove(model.getUserIds().get(1)); // Remove the other user from connections
+                                    peerRef.update("connections", connectionArray)
+                                            .addOnSuccessListener(aVoid -> Log.d("Firestore", "Connection removed successfully"))
+                                            .addOnFailureListener(e -> Log.e("Firestore", "Error removing connection", e));
+                                    fragment.onChatroomUpdated();
+                                }
+                            }
+                        }
+                    });
+
+                    // Removing chatroom from chatrooms collection
+                    db.collection("chatrooms").document(chatroomId).delete()
+                            .addOnSuccessListener(aVoid -> Toast.makeText(context, "Chat deleted", Toast.LENGTH_SHORT).show())
+                            .addOnFailureListener(e -> Toast.makeText(context, "Failed to delete chat", Toast.LENGTH_SHORT).show());
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
     }
 
@@ -181,4 +233,3 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatRoom
         return FirebaseFirestore.getInstance().collection("peers");
     }
 }
-
